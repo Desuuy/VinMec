@@ -1,0 +1,51 @@
+@{
+    ViewData["Title"] = "Thông tin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+<link rel="stylesheet" href="~/css/Article.css" asp-append-version="true">
+
+
+<div class="cover_list_news">
+    <div class="name_cate_cover animcc">Bài viết</div>
+    <img src="~/images/bg_article.jpg" alt="Cấp cứu">
+</div>
+
+<div class="container">
+    
+    <div class="bread-flow">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@ViewBag.ListBV[0][1]</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="content title-content_arti">
+        <h2>@ViewBag.ListBV[0][1]</h2>
+        @{
+            var url_raw = ViewBag.ListBV[0][4];
+            var url_embed = url_raw.Contains("watch?v=") ? url_raw.Replace("watch?v=", "embed/") : url_raw;
+        }
+        <div class="center">
+            <iframe width="400px" height="210px"
+                    src="@url_embed"
+                    title="YouTube video" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+        </div>
+        <div class="ck ck-editor__main" role="presentation">
+            <div class="article-content">
+                @Html.Raw(ViewBag.ListBV[0][2])
+            </div>
+        </div>
+           
+    </div>
+</div>
+
+
+
+

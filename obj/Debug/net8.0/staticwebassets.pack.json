@@ -1,0 +1,605 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/obj/Debug/net8.0/scopedcss/projectbundle/DoAnCNPM.bundle.scp.css",
+      "PackagePath": "staticwebassets/DoAnCNPM.bundle.scp.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Hinh/0f94d40525d6f952e2d73f53882d7bf2.jpg",
+      "PackagePath": "staticwebassets/Hinh/0f94d40525d6f952e2d73f53882d7bf2.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Hinh/2fdaf94208f54f4113d745b9a660696e.jpg",
+      "PackagePath": "staticwebassets/Hinh/2fdaf94208f54f4113d745b9a660696e.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Hinh/BMW 4.jpg",
+      "PackagePath": "staticwebassets/Hinh/BMW 4.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Hinh/BMWi3.jpg",
+      "PackagePath": "staticwebassets/Hinh/BMWi3.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Hinh/bg_dn.jpg",
+      "PackagePath": "staticwebassets/Hinh/bg_dn.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Hinh/doctor-bg.jpg",
+      "PackagePath": "staticwebassets/Hinh/doctor-bg.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Hinh/img.jpg",
+      "PackagePath": "staticwebassets/Hinh/img.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Hinh/logovov.png",
+      "PackagePath": "staticwebassets/Hinh/logovov.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Hinh/tải xuống.jpg",
+      "PackagePath": "staticwebassets/Hinh/tải xuống.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Hinh/z5646905496353_33d4a5e90d7627bedd9b23d52445d177.jpg",
+      "PackagePath": "staticwebassets/Hinh/z5646905496353_33d4a5e90d7627bedd9b23d52445d177.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Hinh/z5900732958900_8eae448dbe4952662409cd5e783581e6.jpg",
+      "PackagePath": "staticwebassets/Hinh/z5900732958900_8eae448dbe4952662409cd5e783581e6.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/0f94d40525d6f952e2d73f53882d7bf2.jpg",
+      "PackagePath": "staticwebassets/Uploads/0f94d40525d6f952e2d73f53882d7bf2.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/1.png",
+      "PackagePath": "staticwebassets/Uploads/1.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/16660640893012.jpg",
+      "PackagePath": "staticwebassets/Uploads/16660640893012.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/227.jpg",
+      "PackagePath": "staticwebassets/Uploads/227.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/2fdaf94208f54f4113d745b9a660696e.jpg",
+      "PackagePath": "staticwebassets/Uploads/2fdaf94208f54f4113d745b9a660696e.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/3.jpg",
+      "PackagePath": "staticwebassets/Uploads/3.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/BV-PK-Phap-Viet-3.jpg",
+      "PackagePath": "staticwebassets/Uploads/BV-PK-Phap-Viet-3.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/Logo_BV_Bach_Mai.jpg",
+      "PackagePath": "staticwebassets/Uploads/Logo_BV_Bach_Mai.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/Screenshot 2024-09-29 194036.png",
+      "PackagePath": "staticwebassets/Uploads/Screenshot 2024-09-29 194036.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/Screenshot 2024-09-29 194432.png",
+      "PackagePath": "staticwebassets/Uploads/Screenshot 2024-09-29 194432.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/bac-Phuong-1.jpg",
+      "PackagePath": "staticwebassets/Uploads/bac-Phuong-1.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/benhvienchoray_20200511070958.jpg",
+      "PackagePath": "staticwebassets/Uploads/benhvienchoray_20200511070958.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/bg_dn.jpg",
+      "PackagePath": "staticwebassets/Uploads/bg_dn.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/chuyen-khoa-tim-mach.jpg",
+      "PackagePath": "staticwebassets/Uploads/chuyen-khoa-tim-mach.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/duong-viet-bac-detail.png",
+      "PackagePath": "staticwebassets/Uploads/duong-viet-bac-detail.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/hoi-suc-cap-cuu-1.jpg",
+      "PackagePath": "staticwebassets/Uploads/hoi-suc-cap-cuu-1.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/ic-fb.png",
+      "PackagePath": "staticwebassets/Uploads/ic-fb.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/ic-ytb 2.png",
+      "PackagePath": "staticwebassets/Uploads/ic-ytb 2.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/images (1).png",
+      "PackagePath": "staticwebassets/Uploads/images (1).png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/images.jpg",
+      "PackagePath": "staticwebassets/Uploads/images.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/images.png",
+      "PackagePath": "staticwebassets/Uploads/images.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/info-doc.JPG",
+      "PackagePath": "staticwebassets/Uploads/info-doc.JPG"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/o-1.jpg",
+      "PackagePath": "staticwebassets/Uploads/o-1.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/o.jpg",
+      "PackagePath": "staticwebassets/Uploads/o.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/quany.png",
+      "PackagePath": "staticwebassets/Uploads/quany.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/raccoon_o.jpeg",
+      "PackagePath": "staticwebassets/Uploads/raccoon_o.jpeg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/sieu-am-tuyen-giap.jpg",
+      "PackagePath": "staticwebassets/Uploads/sieu-am-tuyen-giap.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/toa-nha-bv.jpg",
+      "PackagePath": "staticwebassets/Uploads/toa-nha-bv.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/trolybacsi2.jpg",
+      "PackagePath": "staticwebassets/Uploads/trolybacsi2.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/trolybacsi3.jpg",
+      "PackagePath": "staticwebassets/Uploads/trolybacsi3.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/Uploads/tudu.png",
+      "PackagePath": "staticwebassets/Uploads/tudu.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/css/Article.css",
+      "PackagePath": "staticwebassets/css/Article.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/css/Dangky.css",
+      "PackagePath": "staticwebassets/css/Dangky.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/css/DnBs.css",
+      "PackagePath": "staticwebassets/css/DnBs.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/css/HenLichKham.css",
+      "PackagePath": "staticwebassets/css/HenLichKham.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/css/HomeBs.css",
+      "PackagePath": "staticwebassets/css/HomeBs.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/css/Personal.css",
+      "PackagePath": "staticwebassets/css/Personal.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/css/home.css",
+      "PackagePath": "staticwebassets/css/home.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/css/hosobn.css",
+      "PackagePath": "staticwebassets/css/hosobn.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/css/site.css",
+      "PackagePath": "staticwebassets/css/site.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/css/styles.css",
+      "PackagePath": "staticwebassets/css/styles.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/angle-left.png",
+      "PackagePath": "staticwebassets/images/angle-left.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/angle-right.png",
+      "PackagePath": "staticwebassets/images/angle-right.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/bg-next-home.png",
+      "PackagePath": "staticwebassets/images/bg-next-home.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/bg_article.jpg",
+      "PackagePath": "staticwebassets/images/bg_article.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/bg_blue_home.jpg",
+      "PackagePath": "staticwebassets/images/bg_blue_home.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/bg_login.jpg",
+      "PackagePath": "staticwebassets/images/bg_login.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/bia_person.jpg",
+      "PackagePath": "staticwebassets/images/bia_person.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/calader.png",
+      "PackagePath": "staticwebassets/images/calader.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/call.png",
+      "PackagePath": "staticwebassets/images/call.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/doctor-bg.jpg",
+      "PackagePath": "staticwebassets/images/doctor-bg.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/doctor.png",
+      "PackagePath": "staticwebassets/images/doctor.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/doctor_female.png",
+      "PackagePath": "staticwebassets/images/doctor_female.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/favicon.ico",
+      "PackagePath": "staticwebassets/images/favicon.ico"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/hospital1.jpeg",
+      "PackagePath": "staticwebassets/images/hospital1.jpeg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/ic-fb.png",
+      "PackagePath": "staticwebassets/images/ic-fb.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/ic-ytb.png",
+      "PackagePath": "staticwebassets/images/ic-ytb.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/ic_avatar.png",
+      "PackagePath": "staticwebassets/images/ic_avatar.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/ic_bell.png",
+      "PackagePath": "staticwebassets/images/ic_bell.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/ic_search.png",
+      "PackagePath": "staticwebassets/images/ic_search.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/logo-vnpay.png",
+      "PackagePath": "staticwebassets/images/logo-vnpay.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/logo_doctor_new.png",
+      "PackagePath": "staticwebassets/images/logo_doctor_new.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/logo_footer.png",
+      "PackagePath": "staticwebassets/images/logo_footer.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/logo_vov.png",
+      "PackagePath": "staticwebassets/images/logo_vov.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/logo_vov1.png",
+      "PackagePath": "staticwebassets/images/logo_vov1.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/silde1.png",
+      "PackagePath": "staticwebassets/images/silde1.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/silde2.jpg",
+      "PackagePath": "staticwebassets/images/silde2.jpg"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/silde3.png",
+      "PackagePath": "staticwebassets/images/silde3.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/silde4.png",
+      "PackagePath": "staticwebassets/images/silde4.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/silde5.png",
+      "PackagePath": "staticwebassets/images/silde5.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/silde6.png",
+      "PackagePath": "staticwebassets/images/silde6.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/whyus_hear.png",
+      "PackagePath": "staticwebassets/images/whyus_hear.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/whyus_heart.png",
+      "PackagePath": "staticwebassets/images/whyus_heart.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/images/whyus_protect.png",
+      "PackagePath": "staticwebassets/images/whyus_protect.png"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/js/hosobn.js",
+      "PackagePath": "staticwebassets/js/hosobn.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/js/script.js",
+      "PackagePath": "staticwebassets/js/script.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/js/site.js",
+      "PackagePath": "staticwebassets/js/site.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/LICENSE",
+      "PackagePath": "staticwebassets/lib/bootstrap"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.min.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.js.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.min.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/js/bootstrap.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.js.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.min.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.min.js.map"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt",
+      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/LICENSE.txt"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/jquery-validation/LICENSE.md",
+      "PackagePath": "staticwebassets/lib/jquery-validation/LICENSE.md"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/jquery-validation/dist/additional-methods.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/additional-methods.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/jquery-validation/dist/additional-methods.min.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/additional-methods.min.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/jquery.validate.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/jquery.validate.min.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/jquery/LICENSE.txt",
+      "PackagePath": "staticwebassets/lib/jquery/LICENSE.txt"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/jquery/dist/jquery.js",
+      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/jquery/dist/jquery.min.js",
+      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.js"
+    },
+    {
+      "Id": "/Users/luongdat/DAPM-BSVOV/wwwroot/lib/jquery/dist/jquery.min.map",
+      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.DoAnCNPM.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.DoAnCNPM.props",
+      "PackagePath": "build\\DoAnCNPM.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.DoAnCNPM.props",
+      "PackagePath": "buildMultiTargeting\\DoAnCNPM.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.DoAnCNPM.props",
+      "PackagePath": "buildTransitive\\DoAnCNPM.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

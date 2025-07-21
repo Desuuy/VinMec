@@ -1,0 +1,193 @@
+@{
+    ViewData["Title"] = "Thông Báo";
+    Layout = "~/Views/Shared/Bs_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/HomeBs.css" asp-append-version="true" />
+<style>
+    /* Styling improvements for table */
+    .table {
+        margin-top: 20px;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .table th, .table td {
+        text-align: left;
+        padding: 12px;
+    }
+
+    .table th {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .table tr:hover {
+        background-color: #d9edf7;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        font-size: 14px;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        color: #fff;
+    }
+
+    /* Styling for the modal */
+    .modal {
+        display: none; /* Initial hidden state */
+        position: fixed; /* Fix the modal to the screen */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1050; /* Ensure modal is on top */
+        background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        padding: 20px;
+        border-radius: 8px;
+        background-color: white;
+        max-width: 500px;
+        width: 100%;
+    }
+
+    .modal-header {
+        background-color: #007bff;
+        color: white;
+        font-size: 18px;
+        padding: 10px 15px;
+        border-radius: 5px 5px 0 0;
+    }
+
+    .modal-footer {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .close {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+    }
+
+</style>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Danh Sách Thông Báo</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Tiêu Đề</th>
+                <th>Thời Gian</th>
+                <th>Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.ThongBaos != null && ViewBag.ThongBaos.Count > 0)
+            {
+                foreach (var tb in ViewBag.ThongBaos)
+                {
+                    <tr>
+                        <td>@tb[0]</td>
+                        <td>@tb[1]</td>
+                        <td>@Convert.ToDateTime(tb[3]).ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td>
+                            <button 
+                                class="btn btn-primary btn-sm btn-detail" 
+                                data-id="@tb[0]" 
+                                data-title="@tb[1]" 
+                                data-content="@tb[2]">
+                                Xem Chi Tiết
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-center text-muted">Không có thông báo nào.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="detailModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalTitleLabel">Chi Tiết Thông Báo</h5>
+            <button type="button" class="close" id="closeModal" aria-label="Close">
+                &times;
+            </button>
+        </div>
+        <div class="modal-body">
+            <p><strong>Tiêu Đề:</strong> <span id="modalTitle"></span></p>
+            <p><strong>Nội Dung:</strong></p>
+            <p id="modalContent"></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="closeBtn">Đóng</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Gắn sự kiện cho nút "Xem Chi Tiết"
+        $(document).on('click', '.btn-detail', function () {
+            // Lấy dữ liệu từ các thuộc tính data
+            const title = $(this).data('title');
+            const content = $(this).data('content');
+
+            // Kiểm tra dữ liệu trước khi hiển thị
+            if (!title || !content) {
+                alert("Thông tin thông báo không đầy đủ!");
+                return;
+            }
+
+            // Hiển thị thông tin trong modal
+            $('#modalTitle').text(title);
+            $('#modalContent').text(content);
+
+            // Hiển thị modal (đưa modal vào chế độ hiển thị)
+            $('#detailModal').fadeIn();
+        });
+
+        // Đóng modal khi nhấn nút "Đóng" hoặc "X"
+        $('#closeModal, #closeBtn').click(function () {
+            $('#detailModal').fadeOut();
+        });
+
+        // Đóng modal khi nhấn bên ngoài modal
+        $(window).click(function (event) {
+            if ($(event.target).is('#detailModal')) {
+                $('#detailModal').fadeOut();
+            }
+        });
+    });
+</script>

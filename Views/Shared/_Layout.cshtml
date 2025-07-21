@@ -1,0 +1,333 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0068ab">
+    <title>VinMec Bác sĩ</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/DoAnCNPM.styles.css" asp-append-version="true" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.4.1/css/glide.core.min.css">
+    <link href="~/images/favicon.ico" type="image/x-icon" rel="icon" />
+</head>
+
+
+<body>
+    <header>
+        <nav class="navbar fisrt-nav">
+            <div class="container-fluid">
+                <div class="fm-fisrt-nav">
+                    <a href="~/Bacsis/Index" class="text-white point">
+                        Dành cho bác sĩ
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom "
+            style="padding-bottom: 0;">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <img src="~/Hinh/logo_2bd10ad933.svg" style="width: 200px; height: 120px; cursor: pointer;"
+                        title="Trang chủ" />
+                </a>
+                @using Microsoft.AspNetCore.Http
+
+                <div id="nav-right">
+                    @* ------ Search-------- *@
+                    <div class="item-right group">
+                        <img src="~/images/ic_search.png" class="ic-search" />
+                        <input type="text" name="q" id="search-input" value="" placeholder="Tìm kiếm..."
+                            autocomplete="off">
+                    </div>
+                    <div class="drop-nc">
+                        @if (ViewBag.TaiKhoan != null)
+                        {
+                            <img class="item-right scale" src="~/images/ic_bell.png" style="width: 50px;"
+                                title="Thông báo" />
+                            <div class="container-nc">
+                                <div class="card cart">
+                                    <label class="title">THÔNG BÁO</label>
+                                    <div class="steps">
+                                        @foreach (var a in ViewBag.ListTB)
+                                        {
+                                            <div class="step">
+                                                <div class="movein-noti">
+                                                    <span>@a[1]</span>
+                                                    <p>@a[2]</p>
+                                                    <span class="fm-time">@a[3]</span>
+                                                </div>
+                                                <hr>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="h-separator"></div>
+                    <div class="fm-nav-item">
+                        @if (ViewBag.TaiKhoan != null)
+                        {
+                            <div class="fm-nav-item">
+                                <a class="item-right scale" asp-controller="Home" asp-action="PersonalPage">
+                                    <img src="~/images/ic_avatar.png" style="width: 50px;" title="Trang cá nhân" />
+                                </a>
+                                <div class="drop-menu">
+                                    <div class="drop-content" style="padding: 0;">
+                                        <ul>
+                                            <li>
+                                                <a asp-controller="Home" asp-action="PersonalPage">
+                                                    Trang cá nhân
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-controller="Home" asp-action="Logout">
+                                                    Đăng xuất
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="fm-nav-item">
+                                <a class="item-right scale">
+                                    <img src="~/images/ic_avatar.png" style="width: 50px;" title="Trang cá nhân" />
+                                </a>
+                                <div class="drop-menu">
+                                    <div class="drop-content" style="padding: 0;">
+                                        <ul>
+                                            <li>
+                                                <a asp-controller="Home" asp-action="Login">
+                                                    Đăng nhập
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-controller="Home" asp-action="Register">
+                                                    Đăng ký
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                    style="background-color: #1e8ed3;">
+                    <span class="navbar-toggler-icon" style="background-color: #1e8ed3;"></span>
+                </button>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-sm" style="padding-bottom: 0;">
+            <div class="container">
+                <div class="navbar-collapse collapse d-sm-inline-flex">
+                    <ul class="navbar-nav flex-grow-1 justify-content-around" style="margin: auto 50px">
+                        <li class="fm-nav-item">
+                            <div>
+                                <a class="nav-link hover-underline" href="~/Home/ListArticleLoaiBV?MaLBV=3">Cấp cứu</a>
+                            </div>
+                        </li>
+                        <li class="fm-nav-item ">
+                            <div>
+                                <a class="nav-link hover-underline ic-drop">
+                                    Chuyên khoa
+                                    <span class="caret"></span>
+                                </a>
+                            </div>
+                            <div class="drop-menu">
+                                <div class="drop-content">
+                                    @{
+                                        // Ép kiểu dữ liệu của ViewBag.listKB thành List<List<string>>
+                                        int count = (int)Math.Ceiling(ViewBag.listKB.Count / 2.0);
+                                    }
+                                    <ul>
+                                        @for (var i = 0; i < count; i++)
+                                        {
+                                            <li>
+                                                <a href="~/Home/Article?MaBV=@int.Parse(ViewBag.listKB[i][0])"
+                                                    style="@(i == count - 1 ? "border-bottom:none;" : "")">
+                                                    @ViewBag.listKB[i][1]
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                    <ul>
+                                        @for (var i = count; i < ViewBag.listKB.Count; i++)
+                                        {
+                                            <li>
+                                                <a href="~/Home/Article?MaBV=@int.Parse(ViewBag.listKB[i][0])"
+                                                    style="@(i == ViewBag.listKB.Count - 1 ? "border-bottom:none;" : "")">
+                                                    @ViewBag.listKB[i][1]
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="fm-nav-item">
+                            <div>
+                                <a href="~/Home/ListArticleLoaiBV?MaLBV=2" class="nav-link hover-underline">Hướng dẫn sử
+                                    dụng</a>
+                            </div>
+                        </li>
+                        @if (ViewBag.TaiKhoan != null)
+                        {
+                            <li class="fm-nav-item">
+                                <div>
+                                    <a class="nav-link hover-underline ic-drop" style="color: #a12e35;">
+                                        Tài khoản
+                                        <span class="caret"></span>
+                                    </a>
+                                </div>
+
+                                <div class="drop-menu">
+                                    <div class="drop-content">
+                                        <ul>
+                                            <li>
+                                                <a asp-controller="Home" asp-action="PersonalPage">Thông tin cá nhân</a>
+                                            </li>
+                                            <li>
+                                                <a asp-controller="Home" asp-action="ExamineHistory">Lịch sử khám</a>
+                                            </li>
+                                            <li>
+                                                <a>Danh sách bác sĩ đang chờ </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        @if (ViewBag.TaiKhoan != null)
+                        {
+                            <li class="fm-nav-item">
+                                <div>
+                                    <a class="nav-link hover-underline ic-drop" style="color: #a12e35;">
+                                        Giao dịch
+                                        <span class="caret"></span>
+                                    </a>
+                                </div>
+                                <div class="drop-menu">
+                                    <div class="drop-content">
+                                        <ul>
+                                            <li>
+                                                <a asp-controller="Home" asp-action="AccountBank">Số dư và nạp tiền</a>
+                                            </li>
+                                            <li>
+                                                <a>Thống kê phí khám</a>
+                                            </li>
+                                            <li>
+                                                <a>Chuyển tiền</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        <li class="fm-nav-item">
+                            <a class="nav-link hover-underline" href="~/Home/ListArticleLoaiBV?MaLBV=1">Thông tin về
+                                VinMec</a>
+                        </li>
+                        <li class="fm-nav-item">
+                            <a class="nav-link hover-underline" href="~/Home/ListArticleLoaiBV?MaLBV=4">Chuyên trang sức
+                                khỏe</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="bg-web" style="margin-top: 0px;">
+        @RenderBody()
+    </div>
+
+    <footer class="fm-footer ">
+        <div class="container-sm contentfooter">
+            <div class="cols-5 item-footer">
+                <div class="text-footer">
+                    <h2>Hệ thống Vinmec</h2>
+                    <a asp-controller="Home" asp-action="Index">
+                        <img src="~/Hinh/logo_2bd10ad933.svg" style="width: 70%;" />
+                    </a>
+                    <div class="content cleafix">
+                        <p><span class="glyphicon glyphicon-map-marker"></span><span class="text">Bệnh viện hàng đầu Việt Nam
+                            <br>Vì con người Việt Nam</span></p>
+                        <p><span class="glyphicon glyphicon-earphone"></span><span class="text">
+                                Hotline: <a href="tel:19001289">1900 1289</a><br>
+                                Hoặc: <a href="tel:093 447 8989">093 333 1234</a>
+                            </span>
+                        </p>
+                        <p><span class="glyphicon glyphicon-globe"></span><span class="text">Website: <a
+                                    href="https://www.vinmec.com/vie" target="_blank">https://www.vinmec.com/vie</a></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-footer footer_1-item">
+                <h2>Dịch vụ</h2>
+                <ul class="no-list">
+
+                    <li class="menu-a">
+                        <a href="" rel="nofollow" aria-label="Chuyên khoa">Chuyên khoa</a>
+                    </li>
+                    <li class="menu-a">
+                        <a href="">Gói dịch vụ</a>
+                    </li>
+                    <li class="menu-a">
+                        <a href="">Bảo hiểm</a>
+                    </li>
+                    <li class="menu-a">
+                        <a href="">Đặt lịch hẹn</a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="footer_1-item">
+                <h2>Theo dõi chúng tôi</h2>
+                <ul class="no-list flex">
+                    <li class="p-10 pt-0">
+                        <a href="https://www.youtube.com/user/VinmecHospital" rel="nofollow" aria-label="Youtube">
+                            <img class="social-icon" src="~/images/ic-ytb.png" alt="Youtube">
+                        </a>
+                    </li>
+                    <li class="p-10 pt-0">
+                        <a href="https://www.facebook.com/Vinmec/" rel="nofollow" aria-label="Facebook">
+                            <img class="social-icon" src="~/images/ic-fb.png" alt="Facebook">
+                        </a>
+                    </li>
+                </ul>
+                
+                <h2 style="margin-top: 30px;">Đối tác liên kết</h2>
+                <div class="partner-logo">
+                    <a href="https://yhoccongdong.com/" target="_blank" rel="nofollow">
+                        <img src="~/Hinh/yhoccongdong.png" alt="YhocCongdong.com" class="partner-icon">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <footer class="border-top text-muted " style="line-height: 30px; background-color: #f3f7fb; font-size: 12px;">
+        <div class="container" style="text-align: center;">
+            Bản quyền &copy; Anh Huy - Bảo Long - Bảo (2025)
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

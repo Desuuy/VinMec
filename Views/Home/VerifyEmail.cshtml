@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Xác thực email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" style="margin: 20px 0;">@TempData["ErrorMessage"]</div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" style="margin: 20px 0;">@TempData["SuccessMessage"]</div>
+}
+<div class="wrapper">
+    <div class="container main">
+        <div class="form-login">
+            <div class="col-6 side-image">
+                <img src="~/images/bg_login.jpg">
+            </div>
+            <div class="col-6 right">
+                <div class="input-box">
+                    <h2>Xác thực email</h2>
+                    <p class="text-muted mb-4">Nhập mã xác thực đã gửi đến email của bạn.</p>
+                    <form class="needs-validation input-box" action="~/home/VerifyEmailProcess" method="post">
+                        <input type="hidden" name="email" value="@Context.Request.Query["email"]">
+                        <div class="input-field">
+                            <input type="text" class="input-info" id="otp" required name="otp" placeholder="123456" maxlength="6">
+                            <label for="otp">Mã xác thực</label>
+                            <div class="invalid-feedback">* Vui lòng nhập mã xác thực</div>
+                            <div class="valid-feedback">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <input type="submit" class="submit" value="Xác thực">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

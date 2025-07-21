@@ -1,0 +1,144 @@
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; // Use the shared layout
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin Chi Tiết Bài Viết</title>
+    <style>
+        /* Styling specific to the article details page */
+        .article-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-container header h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .article-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .article-content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+
+        /* Video section styling */
+        .related-video {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .related-video iframe {
+            width: 100%;
+            max-width: 560px;
+            height: 315px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-right: 10px; /* Space between buttons */
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Styling for the "Quay về danh sách" button */
+        .back-button {
+            background-color: #007bff; /* Blue background */
+        }
+
+        .back-button:hover {
+            background-color: #0069d9; /* Darker blue on hover */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        @if (ViewBag.list.Count > 0) {
+        <header>
+            <h1>@ViewBag.list[0][1]</h1>
+        </header>
+
+        <!-- Article Metadata -->
+        <div class="article-meta">
+            <span><strong>Mã Bài Viết:</strong> @ViewBag.list[0][0]</span>
+            <span><strong>Ngày đăng:</strong> @ViewBag.list[0][5]</span>
+            <span><strong>Lượt xem:</strong> @ViewBag.list[0][7]</span>
+            <span><strong>Chuyên mục:</strong>
+                @foreach (var lbv in ViewBag.listLBV) {
+                    if (lbv[0] == ViewBag.list[0][6])
+                    {
+                        <span>@lbv[0] - @lbv[1]</span> 
+                    }
+                }
+             </span>
+            <span><strong>Mã Khoa Bệnh:</strong>
+                @foreach (var kb in ViewBag.listKB) { 
+                    if (kb[0] == @ViewBag.list[0][3])
+                    {
+                        <span>@kb[0] - @kb[1]</span> 
+                    }
+                }
+             </span>
+        </div>
+
+        <!-- Article Content -->
+        <div class="article-content">
+            <span><strong>Nội dung:</strong>
+                <div>
+                    @ViewBag.list[0][2]
+                </div>
+             </span>
+        </div>
+
+        <!-- Related YouTube Video Section (if exists) -->
+        @if (!string.IsNullOrEmpty(ViewBag.list[0][4]))
+        {
+            <div class="related-video">
+                <h2>Video liên quan</h2>
+                <iframe src="https://www.youtube.com/embed/@ViewBag.list[0][4]" allowfullscreen></iframe>
+            </div>
+        }
+
+        <div class="button-container">
+            <button type="button" class="back-button" onclick="window.location.href='DMBaiViet'">Quay về danh sách</button>
+        </div>
+    }
+    else {
+        <p>Data is not available.</p>
+    }
+    </div>
+</body>
+</html>

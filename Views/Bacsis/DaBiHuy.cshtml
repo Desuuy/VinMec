@@ -1,0 +1,44 @@
+
+@{
+    ViewData["Title"] = "DaBiHuy";
+    Layout = "~/Views/Shared/Bs_Layout.cshtml";
+    <link rel="stylesheet" href="~/css/HomeBs.css" asp-append-version="true" />
+}
+<div class="section-card" style="max-width:400px; margin-bottom:32px; text-align:left; background-color:#E76F6F;">
+    <span style="font-size:1.1rem; color:##000000; font-weight:600;">Tổng lượt hủy:</span>
+    <span style="font-size:2rem; color:##000000; font-weight:700;">@ViewBag.SoLuongHuy</span>
+</div>
+<h2 style="text-align:left;">Lịch khám đã bị hủy</h2>
+@if (ViewBag.list == null || ViewBag.list.Count == 0)
+{
+    <p class="no-data-msg">Không có lịch khám bị hủy.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="stt-col">STT</th>
+                <th>Tên bệnh nhân</th>
+                <th>Thời gian đặt lịch</th>
+                <th>Giờ khám</th>
+                <th>Trạng thái</th>
+                <th>Mô tả bệnh</th>
+            </tr>
+        </thead>
+        <tbody>
+        @{ var stt = 0; }
+        @foreach (var row in ViewBag.list)
+        {
+            <tr>
+                <td class="stt-col">@(++stt)</td>
+                <td>@row[2]</td>
+                <td>@row[6]</td>
+                <td>@row[7]</td>
+                <td>Đã hủy</td>
+                <td>@row[15]</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

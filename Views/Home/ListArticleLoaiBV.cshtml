@@ -1,0 +1,27 @@
+
+@{
+    ViewData["Title"] = "Thông tin về VinMec";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/Article.css" asp-append-version="true">
+
+<div class="container list_Arti">
+    <div class="bread-flow">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Giới thiệu</li>
+            </ol>
+        </nav>
+    </div>
+    @if(ViewBag.ListLBV != null){
+        @foreach(var a in ViewBag.ListLBV){
+        <div class="title-arti">
+            <a href="~/Home/ArticleLoaiBV?MaBV=@a[0]">
+                @a[1]
+            </a>
+        </div>
+        }
+    }
+</div>

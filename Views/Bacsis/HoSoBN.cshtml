@@ -1,0 +1,116 @@
+@{
+    ViewData["Title"] = "HoSoBN";
+    Layout = "~/Views/Shared/Bs_Layout.cshtml";
+    <link rel="stylesheet" href="~/css/hosobn.css" asp-append-version="true" />
+}
+<div class="dashboard-container">
+    <!-- Phần tìm kiếm theo số điện thoại -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Nhập số điện thoại bệnh nhân" />
+        <button onclick="searchPatient()">Tìm kiếm</button>
+    </div>
+    <!-- Danh sách hồ sơ bệnh nhân -->
+    <div class="patient-list">
+        <h2>Danh Sách Hồ Sơ Bệnh Nhân</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã hồ sơ</th>
+                    <th>Mô Tả bệnh</th>
+                    <th>Tên Bệnh Nhân</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Địa Chỉ</th>
+                    <th>Giới Tính</th>
+                    <th>Ảnh cá nhân</th>
+                    <th>Ảnh Mô Tả bệnh</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="patientTableBody">
+                @foreach (var hs in ViewBag.list) {
+                    <tr>
+                        <td>@hs[0]</td>
+                        <td>@hs[1]</td>
+                        <td>@hs[3]</td>
+                        <td>@hs[5]</td>
+                        <td>@hs[6]</td>
+                        <td>@hs[7]</td>
+                        <td>
+                            <img src="~/Uploads/@hs[8]" style="height:150px;width:150px;" />
+                        </td>
+                        <td>
+                            <img src="~/Uploads/@hs[10]" style="height:150px;width:150px;" />
+                        </td>
+                        <td>
+                            <a href="~/Bacsis/XoaHs?id=@hs[0]" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">xóa</a>
+                            <button onclick="editPatient(@hs[0], '@hs[5]', '@hs[1]')">sửa</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal Sửa Hồ Sơ -->
+    <div id="editPatientFormModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="hideForm()">&times;</span>
+            <h3>Sửa Hồ Sơ Bệnh Nhân</h3>
+
+            <!-- Form sửa hồ sơ bệnh nhân -->
+            <form id="editPatientForm" asp-controller="Bacsis" asp-action="Suahoso" method="post">
+                <input type="hidden" id="patientId" name="patientId" />
+                
+                <label>Số Điện Thoại:</label>
+                <input type="text" id="editPatientPhone" name="patientPhone" readonly />
+                
+                <label>Mô Tả Bệnh:</label>
+                <textarea id="editPatientDescription" name="patientDescription"></textarea>
+                
+                <button type="submit">Cập Nhật</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <script src="~/js/hosobn.js"></script> <!-- Đường dẫn tới JavaScript -->
+
+    <script>
+        // Hàm tìm kiếm bệnh nhân theo số điện thoại
+        function searchPatient() {
+            // Lấy giá trị từ ô nhập liệu tìm kiếm
+            var searchInput = document.getElementById('searchInput').value.toLowerCase();
+
+            // Lấy tất cả các hàng trong bảng bệnh nhân
+            var rows = document.querySelectorAll('#patientTableBody tr');
+
+            // Lặp qua tất cả các hàng và kiểm tra số điện thoại
+            rows.forEach(function(row) {
+                var phoneCell = row.cells[3]; // Cột số điện thoại (index 3)
+                var phone = phoneCell.textContent || phoneCell.innerText;
+
+                // Kiểm tra nếu số điện thoại có chứa chuỗi tìm kiếm
+                if (phone.toLowerCase().includes(searchInput)) {
+                    row.style.display = ''; // Hiển thị hàng
+                } else {
+                    row.style.display = 'none'; // Ẩn hàng
+                }
+            });
+        }
+
+        // Hàm để mở form sửa bệnh nhân với dữ liệu đã có
+        function editPatient(id, phone, description) {
+            // Cập nhật tiêu đề form sửa
+            document.getElementById('editPatientFormModal').style.display = 'block';
+            
+            // Điền dữ liệu vào form sửa
+            document.getElementById('patientId').value = id;
+            document.getElementById('editPatientPhone').value = phone;
+            document.getElementById('editPatientDescription').value = description;
+        }
+
+        // Hàm để ẩn form
+        function hideForm() {
+            document.getElementById('editPatientFormModal').style.display = 'none';
+        }
+    </script>

@@ -1,0 +1,264 @@
+@{
+    Layout ="~/Views/Shared/_AdminLayout.cshtml"; // Sử dụng layout chung
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh mục Bài Viết</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tren {
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .duoi {
+            margin: 0 auto;
+            max-width: 1000px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Form styling */
+        input[type="text"], input[type="file"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            resize: vertical; /* Cho phép người dùng điều chỉnh chiều cao của textarea */
+        }
+
+        textarea {
+            height: 100px; /* Tăng chiều cao mặc định của textarea */
+        }
+
+        label {
+            font-weight: bold; /* In đậm cho label */
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px; /* Slightly larger font size */
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f7f7f7;
+        }
+
+        /* Delete button styling */
+        button.delete {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            
+        }
+
+        button.delete:hover {
+            background-color: #FF6969;
+        }
+
+        button.edit{
+            background-color: #FF6500;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            
+        }
+
+        button.edit:hover {
+            background-color: #FD8B51;
+        }
+
+        /* Image preview */
+        .image-preview {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="tren">
+        <h1>Danh mục Bài Viết</h1>
+        <form id="formBaiViet" action="~/Admin/ThemBaiViet" method="post" enctype="multipart/form-data">
+            <div style="margin-bottom: 15px;">
+                <label for="tieudebv"><strong>Tiêu Đề Bài Viết:</strong></label>
+                <input type="text" name="tieudebv" id="tieudebv" required />
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="noidungbv"><strong>Nội dung:</strong></label>
+                <textarea name="noidungbv"></textarea>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <label for="makb" style="margin-right: 10px;"><strong>Mã Khoa Bệnh:</strong></label>
+                <select name="makb" id="makb">
+                    <option value="NULL" selected>- Chọn Mã Khoa Bệnh -</option>
+                    @foreach (var kb in ViewBag.listKB) {
+                        <option value="@kb[0]"><b>@kb[0] -</b>@kb[1]</option>
+                    }
+                </select>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label for="linkytb"><strong>Link Youtube:</strong></label>
+                <input type="text" name="linkytb" id="linkytb" placeholder="Nhập link Youtube (nếu có)" />
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <label for="ngaydang" style="margin-right: 10px;"><strong>Ngày Đăng:</strong></label>
+                <input type="hidden" name="ngaydang" id="ngaydang" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <label for="malbv" style="margin-right: 10px;"><strong>Mã Loại Bài Viết:</strong></label>
+                    <select name="malbv" id="malbv">
+                        @foreach (var lbv in ViewBag.listLBV) {
+                            <option value="@lbv[0]"><b>@lbv[0]-</b>@lbv[1]</option>
+                        }
+                    </select>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <label for="luotxem" style="margin-right: 10px;"><strong>Lượt xem:</strong></label>
+                <input type="number" name="luotxem" id="luotxem" value="0" min="0" />
+            </div>
+            <div class="button-container">
+                <button type="submit">Thêm Bài Viết</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="duoi">
+        <h2>Danh Sách Bài Viết</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã Bài Viết</th>
+                    <th>Tiêu Đề Bài Viết</th>
+                    <th>Link Youtube</th>
+                    <th>Ngày Đăng</th>
+                    <th>Mã Loại Bài Viết</th>
+                    <th>Lượt Xem</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var bv in ViewBag.listBV) {
+                <tr>
+                    <td>@bv[0]</td>
+                    <td>
+                        <a href="~/Admin/ChiTietBaiViet?mabv=@bv[0]">
+                            @bv[1]
+                        </a>
+                    </td>
+                    <td>@bv[4]</td>
+                    <td>@bv[5]</td>
+                    <td>@bv[6]</td>
+                    <td>@bv[7]</td>
+                    <td>
+                        <form action="~/Admin/XoaBaiViet" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@bv[0]" />
+                            <button type="submit" class="delete">Xóa</button>
+                        </form>
+                        <br/> <br/>
+                        <form action="~/Admin/TimBaiViet?mabv=@bv[0]" style="display:inline;">
+                            <input type="hidden" name="mabv" value="@bv[0]" />
+                            <button type="submit" class="edit">Sửa</button>
+                        </form>
+                    </td>
+                    
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+        <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+        <script>
+            // Initialize CKEditor on the textarea
+            document.addEventListener("DOMContentLoaded", function() {
+                ClassicEditor
+                    .create(document.querySelector('textarea[name="noidungbv"]'))
+                    .catch(error => {
+                        console.error(error);
+                    });
+
+                // Set the "ngaydang" input to today's date
+                const ngayDangInput = document.getElementById('ngaydang');
+                const today = new Date().toISOString().split('T')[0];
+                ngayDangInput.value = today;
+            });
+        </script>
+</body>
+</html>

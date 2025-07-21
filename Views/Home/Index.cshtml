@@ -1,0 +1,306 @@
+﻿@{
+    ViewData["Title"] = "BacSi";
+    Layout = "~/Views/Shared/_Layoutbs.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+        <strong>Lỗi!</strong> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+        <strong>Thành công!</strong> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<section class="banner-homepage">
+    <div class="banner-slider" id="banner-slider">
+        <div class="cover_track glide__track" data-glide-el="track">
+            <div class="cover_glide__slides glide__slides">
+                <a class="cover_glide__slide glide__slide item">
+                    <img class="image-pc" src="~/images/silde1.png">
+                </a>
+                <a class="cover_glide__slide glide__slide item">
+                    <img class="image-pc" src="~/images/silde2.jpg">
+                </a>
+                <a class="cover_glide__slide glide__slide item">
+                    <img class="image-pc" src="~/images/silde3.png" >
+                </a>
+                <a class="cover_glide__slide glide__slide item">
+                    <img class="image-pc" src="~/images/silde4.png">
+                </a>
+                <a class="cover_glide__slide glide__slide item">
+                    <img class="image-pc" src="~/images/silde5.png"> 
+                </a>
+                <a class="cover_glide__slide glide__slide item">
+                    <img class="image-pc" src="~/images/silde6.png">      
+                </a>
+            </div>
+        </div>
+        <div class="cover_bullets glide__bullets" data-glide-el="controls[nav]">
+            <button class="glide__bullet" data-glide-dir="=0"></button>
+            <button class="glide__bullet" data-glide-dir="=1"></button>
+            <button class="glide__bullet" data-glide-dir="=2"></button>
+            <button class="glide__bullet" data-glide-dir="=3"></button>
+            <button class="glide__bullet" data-glide-dir="=4"></button>
+            <button class="glide__bullet" data-glide-dir="=5"></button>    
+        </div>
+    </div>
+
+    <div class="banner-content container">
+        <div class="container_body margin-auto inner-content">
+            <div class="text-banner anim">
+                <h1 class="title-banner anim">Chăm sóc bằng tài năng, y đức và sự thấu cảm</h1>
+                <div class="desc-banner anim">VinMec Bác sĩ cam kết về trách nhiệm xã hội và đóng góp tích cực vào sự phát triển bền vững của cộng đồng</div>
+                <a href="~/Home/ListArticleLoaiBV?MaLBV=1" id="home-banner-viewmore" class="viewmore-button anim">
+                    <span class="viewmore-text anim">
+                        Xem thêm
+                    </span>
+                </a>
+            </div>
+            <div class="cta-banner row animY">
+                <a class="col-4 cta-item" href="#"  style="text-decoration: none;">
+                    <div class="cta-icon">
+                        <img src="~/images/call.png" alt="Gọi tổng đài">
+                    </div>
+                    <div class="cta-info">
+                        <div class="cta-name">Gọi tổng đài</div>
+                        <div class="cta-desc">
+                        Hỏi về phương pháp điều trị và phương pháp của chúng tôi
+                        </div>
+                    </div>
+                </a>
+                <a class="col-4 cta-item" asp-controller="Home" asp-action="FillterDoctor" style="text-decoration: none;">
+                    <div class="cta-icon">
+                        <img src="~/images/calader.png" alt>
+                    </div>
+                    <div class="cta-info">
+                        <div class="cta-name">Đặt Lịch Hẹn</div>
+                        <div class="cta-desc">
+                        Đặt lịch hẹn với bệnh viện của chúng tôi
+                        </div>
+                    </div>
+                </a>
+                <a class="col-4 cta-item" asp-controller="Home" asp-action="FillterDoctor"  style="text-decoration: none;">
+                    <div class="cta-icon">
+                        <img src="~/images/doctor.png" alt>
+                    </div>
+                    <div class="cta-info">
+                        <div class="cta-name">Tìm bác sĩ</div>
+                        <div class="cta-desc">
+                        Chọn theo tên, chuyên môn và nhiều hơn thế
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <main role="main">
+        <div class="layout-content title-content">
+            <h2>
+                Tại sao nên chọn VinMec?
+            </h2>
+            <div class="content-1">
+                <img src="~/images/doctor_female.png" style="width: 465px;"/>
+                <div class="col-7">
+                    <div class="list-whyus row">
+                        <div class="col-6 item-whyus">
+                            <div class="item-icon">
+                                <img  src="~/images/whyus_hear.png" alt="Đội ngũ bác sĩ uy tín">
+                            </div>
+                            <h3 class="item-title">Đội ngũ bác sĩ uy tín</h3>
+                            <div class="item-desc">Vinmec bệnh viện quốc tế hàng đầu Việt Nam sở hữu đội ngũ bác sĩ giàu kinh nghiệm và uy tín, luôn tận tâm chăm sóc sức khỏe cho mọi bệnh nhân. Chúng tôi cam kết mang đến dịch vụ y tế chất lượng cao, phục vụ cộng đồng với tinh thần trách nhiệm và chuyên nghiệp.</div>
+                        </div>
+                        <div class="col-6 item-whyus">
+                            <div class="item-icon">
+                                <img src="~/images/whyus_protect.png" alt="Tư vấn y tế nhanh chóng">
+                            </div>
+                            <h3 class="item-title">Tư vấn y tế nhanh chóng</h3>
+                            <div class="item-desc">Dịch vụ tư vấn y tế trực tuyến của VinMec Bác sĩ 24 giúp bạn tiếp cận bác sĩ một cách nhanh chóng, tiết kiệm thời gian di chuyển. Chúng tôi luôn sẵn sàng lắng nghe và đưa ra lời khuyên y tế hữu ích ngay khi bạn cần.</div>
+                        </div>
+                        <div class="col-6 item-whyus">
+                            <div class="item-icon">
+                                <img  src="~/images/whyus_heart.png" alt="Dịch vụ trực tuyến tiện lợi">
+                            </div>
+                            <h3 class="item-title">Dịch vụ trực tuyến tiện lợi</h3>
+                            <div class="item-desc">VinMec Bác sĩ 24 mang đến dịch vụ y tế trực tuyến tiện lợi, giúp bạn dễ dàng đặt lịch hẹn, nhận tư vấn từ xa và theo dõi tình trạng sức khỏe qua hệ thống trực tuyến mọi lúc, mọi nơi.</div>
+                        </div>
+                        <div class="col-6 item-whyus">
+                            <div class="item-icon">
+                                <img  src="~/images/whyus_hear.png" alt="Công nghệ y tế tiên tiến">
+                            </div>
+                            <h3 class="item-title">Công nghệ y tế tiên tiến</h3>
+                            <div class="item-desc">Chúng tôi áp dụng các công nghệ y tế tiên tiến, đảm bảo mang đến trải nghiệm chăm sóc sức khỏe chất lượng và hiện đại, đáp ứng các tiêu chuẩn quốc tế trong khám và điều trị.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<section class="content-2">
+    <div class="container">
+        <div class="layout-content title-content">
+            <h2 class="title-line" style="text-align: center;">Danh sách các bệnh viện hàng đầu Việt Nam</h2>     
+            <div class="list-hospital" id="slide_hospotal" data-glide-el="track">
+                @foreach(var a in ViewBag.ListBV){
+                    <a href="#" class="item-hospital">
+                        <img src="~/Uploads/@a[2]"/> 
+                        <label>@a[1]</label>
+                    </a>
+                }
+            </div>        
+        </div>
+    </div>
+</section>
+
+ <section class="clinic-system content-3">
+    <div class="container margin-auto">
+        <div class="row">
+            <div class="col-6 clinic-large">
+                <div class="list-clinic-large">
+                    <div class="glide__track" data-glide-el="track">
+                        <div class="glide__slides">
+                            @foreach(var a in ViewBag.ListBS5){
+                                <a href="~/Home/DetailDoctor?MaBS=@a[0]" class="item glide__slide" title="Bấm vào để xem chi tiết">
+                                    <div class="card-doc-mainslide">
+                                        <img src="~/Uploads/@a[2]" />
+                                        <label>@a[1]</label>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                    <div class="glide__arrows" data-glide-el="controls">
+                        <button class="glide__arrow glide__arrow--left" data-glide-dir="<"></button>
+                        <button class="glide__arrow glide__arrow--right" data-glide-dir=">"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="sect-head title-content">
+                    <h2 class="title-line">Top các bác sĩ hàng đầu</h2>
+                    <div class="sect-desc">VinMec tự hào quy tụ đội ngũ bác sĩ hàng đầu với nhiều năm kinh nghiệm, chuyên môn cao, luôn tận tâm trong việc chăm sóc sức khỏe cho bệnh nhân và được các bệnh nhân thường xuyên lựa chọn.</div>
+                </div>
+                <div class="list-clinic-thumb">
+                    <div class="glide__track" data-glide-el="track">
+                        <div class="glide__slides">
+                            @foreach(var a in ViewBag.ListBS5){
+                                <figure class="item glide__slide img_slilde">
+                                    <img class="" src="~/Uploads/@a[2]">
+                                </figure>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt30">
+                <a asp-controller="Home" asp-action="ListDoctor" id="hospital-btn" class="viewmore-button">Xem thêm</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+ @* //-------- Script ---------// *@
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.4.1/glide.min.js"></script>
+    
+<script>
+    @* BANNER *@
+    document.addEventListener('DOMContentLoaded', function() {
+        var glide = new Glide('#banner-slider', {
+            type: 'carousel',
+            perView: 1,
+            autoplay: 4000, // Tự động chuyển ảnh sau mỗi 5 giây
+            hoverpause: true // Dừng tự động chuyển khi di chuột qua
+        }).mount();
+
+        // Cập nhật trạng thái active của nút điều khiển
+        glide.on(['mount.after', 'run'], function() {
+            document.querySelectorAll('.glide__bullet').forEach(function(bullet, index) {
+                if (index === glide.index) {
+                    bullet.classList.add('glide__bullet--active');
+                } else {
+                    bullet.classList.remove('glide__bullet--active');
+                }
+            });
+        });
+    });
+
+    @* SLIDE DOCTOR *@
+    document.addEventListener('DOMContentLoaded', function() {
+    const mainSlider = new Glide('.list-clinic-large', {
+        type: 'carousel',
+        startAt: 0,
+        perView: 1,
+        gap: 0,
+        autoplay: 3000,
+        
+    });
+
+    const thumbs = new Glide('.list-clinic-thumb', {
+        type: 'slider',
+        startAt: 1,
+        perView: 3,
+        gap: 20,
+        dragThreshold: false,
+        breakpoints: {
+            768: {
+                perView: 1
+            }
+        }
+    });
+
+    let autoplayInterval;
+
+    mainSlider.on('run.before', function(move) {
+        const currentIndex = mainSlider.index;
+    
+        thumbs.go('=' + (currentIndex + 2));
+        thumbs.update();
+    });
+
+    mainSlider.on('mount.after', startAutoplay);
+    mainSlider.on('destroy', stopAutoplay);
+
+    mainSlider.mount();
+    thumbs.mount();
+
+    // Dừng autoplay khi hover vào slider chính
+    function stopAutoplay() {
+        clearInterval(autoplayInterval);
+    }
+    function startAutoplay() {
+        autoplayInterval = setInterval(() => {
+            mainSlider.go('>');
+        }, 3000);
+    }
+
+    document.querySelector('.list-clinic-large').addEventListener('mouseenter', stopAutoplay);
+    document.querySelector('.list-clinic-large').addEventListener('mouseleave', startAutoplay); 
+
+
+    // Thêm sự kiện click cho các thumbnail
+    document.querySelectorAll('.list-clinic-thumb .glide__slide').forEach(function(slide, index) {
+        slide.addEventListener('click', function() {
+            stopAutoplay();
+            mainSlider.go('=' + index);
+            startAutoplay();
+        });
+    });
+});
+
+</script>

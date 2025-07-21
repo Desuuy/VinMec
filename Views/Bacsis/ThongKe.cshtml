@@ -1,0 +1,123 @@
+@{
+    ViewData["Title"] = "Thống kê";
+    Layout = "~/Views/Shared/Bs_Layout.cshtml";
+    var loaiBieuDo = ViewBag.loaiBieuDo as string ?? "line";
+    var nam = ViewBag.nam as string ?? DateTime.Now.Year.ToString();
+}
+<link rel="stylesheet" href="~/css/HomeBs.css" asp-append-version="true" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div style="width:80%; background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(2,136,209,0.10); padding:36px 32px 28px 32px;">
+    <h2 style="color:#0288d1; font-size:1.5rem; font-weight:700; margin-bottom:24px; text-align:left;">Thống Kê Cuộc Hẹn Khám</h2>
+    <div style="display:flex; gap:32px; margin-bottom:24px; flex-wrap:wrap;">
+        <div class="section-card" style="max-width:220px; min-width:120px; flex:1; text-align:left; background:#e3f2fd;">
+            <span style="font-size:1.1rem; color:#0288d1; font-weight:600;">Đã hoàn thành</span><br />
+            <span style="font-size:1.5rem; color:#01579b; font-weight:700;">@ViewBag.SoHoanThanh</span>
+        </div>
+        <div class="section-card" style="max-width:220px; min-width:120px; flex:1; text-align:left; background:#ffeaea;">
+            <span style="font-size:1.1rem; color:#e53935; font-weight:600;">Đã hủy</span><br />
+            <span style="font-size:1.5rem; color:#b71c1c; font-weight:700;">@ViewBag.SoHuy</span>
+        </div>
+        <div class="section-card" style="max-width:220px; min-width:120px; flex:1; text-align:left; background:#e0f7fa;">
+            <span style="font-size:1.1rem; color:#0288d1; font-weight:600;">Tổng tiền năm @ViewBag.nam</span><br />
+            <span style="font-size:1.5rem; color:#01579b; font-weight:700;">
+                @{ var tongTien = 0; int.TryParse(ViewBag.TongTien?.ToString(), out tongTien); var tongTienStr = tongTien.ToString("#,##0"); }
+                @tongTienStr <span style="font-size:1rem; color:#0288d1;">VNĐ</span>
+            </span>
+        </div>
+    </div>
+    <form method="get" action="@Url.Action("ThongKe", "Bacsis")" style="display:flex; gap:24px; flex-wrap:wrap; align-items:end; margin-bottom:24px;">
+        <div style="flex:1; min-width:120px;">
+            <label for="Nam" style="font-weight:600; color:#01579b;">Chọn Năm</label>
+            <input type="number" 
+                    class="form-control" 
+                    value="@nam" 
+                    id="Nam" 
+                    name="nam" 
+                    placeholder="Nhập Năm" 
+                    style="border-radius:8px;" 
+                    min="2000" max="@DateTime.Now.Year" 
+                    required />
+        </div>
+        <div style="flex:1; min-width:160px;">
+            <label for="loaiBieuDo" style="font-weight:600; color:#01579b;">Chọn loại biểu đồ</label>
+            <select id="loaiBieuDo" name="loaiBieuDo" class="form-control" style="border-radius:8px;">
+                <option value="line" selected="@(loaiBieuDo=="line" ? "selected" : null)">Biểu đồ đường</option>
+                <option value="bar" selected="@(loaiBieuDo=="bar" ? "selected" : null)">Biểu đồ cột</option>
+                <option value="pie" selected="@(loaiBieuDo=="pie" ? "selected" : null)">Biểu đồ tròn</option>
+            </select>
+        </div>
+        <div style="flex:0 0 120px; align-self:center;">
+            <button type="submit" class="btn btn-info" style="width:100%;">Thống Kê</button>
+        </div>
+    </form>
+    <div style="background:#f8fafc; border-radius:12px; padding:24px 12px; box-shadow:0 2px 8px rgba(2,136,209,0.04);">
+        <canvas id="chart"></canvas>
+        @if (ViewBag.list == null || ViewBag.list.Count == 0)
+        {
+            <p class="no-data-msg">Không có dữ liệu thống kê cho năm này.</p>
+        }
+    </div>
+</div>
+@if (ViewBag.list != null && ViewBag.list.Count > 0)
+{
+<script>
+    var data = @Html.Raw(Json.Serialize(ViewBag.list));
+    var allMonths = Array.from({length: 12}, (_, i) => i + 1);
+    var appointmentCounts = allMonths.map(function(month) {
+        var monthData = data.find(function(item) { return item[0] == month; });
+        return monthData ? monthData[1] : 0;
+    });
+    var ctx = document.getElementById('chart').getContext('2d');
+    var chartType = '@loaiBieuDo';
+    var chartData = {
+        labels: allMonths.map(function(month) { return 'Tháng ' + month; }),
+        datasets: [{
+            label: 'Số Lượng Cuộc Hẹn',
+            data: appointmentCounts,
+            backgroundColor: chartType === 'pie' ? [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(199, 199, 199, 0.2)',
+                'rgba(83, 102, 255, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)'
+            ] : 'rgba(54, 162, 235, 0.2)',
+            borderColor: chartType === 'pie' ? [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(199, 199, 199, 1)',
+                'rgba(83, 102, 255, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)'
+            ] : 'rgba(54, 162, 235, 1)',
+            borderWidth: 1,
+            fill: false,
+            tension: 0.3
+        }]
+    };
+    var chartOptions = {
+        responsive: true,
+        scales: chartType !== 'pie' ? {
+            y: { beginAtZero: true }
+        } : undefined
+    };
+    new Chart(ctx, {
+        type: chartType,
+        data: chartData,
+        options: chartOptions
+    });
+</script>
+} 

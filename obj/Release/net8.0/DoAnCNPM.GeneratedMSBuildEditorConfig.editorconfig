@@ -1,0 +1,247 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = DoAnCNPM
+build_property.RootNamespace = DoAnCNPM
+build_property.ProjectDir = /Users/luongdat/DAPM-BSVOV/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = /Users/luongdat/DAPM-BSVOV
+build_property._RazorSourceGeneratorDebug = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/AdminLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQWRtaW5Mb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/ChiTietBacSi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQ2hpVGlldEJhY1NpLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/ChiTietBaiViet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQ2hpVGlldEJhaVZpZXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/ChiTietBenhNhan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQ2hpVGlldEJlbmhOaGFuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/ChiTietDonDangKy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQ2hpVGlldERvbkRhbmdLeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/DanhGiaPhanHoi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vRGFuaEdpYVBoYW5Ib2kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/DMBaiViet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vRE1CYWlWaWV0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/DMBenhVien.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vRE1CZW5oVmllbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/DMChuyenNganh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vRE1DaHV5ZW5OZ2FuaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/DMKhoaBenh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vRE1LaG9hQmVuaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/DonDangKyBacSi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vRG9uRGFuZ0t5QmFjU2kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/DSThanhToan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vRFNUaGFuaFRvYW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/HoSoBacSi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vSG9Tb0JhY1NpLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/HoSoBenhNhan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vSG9Tb0JlbmhOaGFuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/LichKhamBenh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vTGljaEtoYW1CZW5oLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/SreachBacSi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vU3JlYWNoQmFjU2kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/SreachBenhNhan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vU3JlYWNoQmVuaE5oYW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/ThongBaoBV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vVGhvbmdCYW9CVi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/ThongKe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vVGhvbmdLZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/TimBaiViet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vVGltQmFpVmlldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/TimBenhVien.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vVGltQmVuaFZpZW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/TimChuyenNganh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vVGltQ2h1eWVuTmdhbmguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Admin/TimKhoaBenh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vVGltS2hvYUJlbmguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Bacsis/DaBiHuy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmFjc2lzL0RhQmlIdXkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Bacsis/DaHoanThanh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmFjc2lzL0RhSG9hblRoYW5oLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Bacsis/DangkyBs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmFjc2lzL0RhbmdreUJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Bacsis/DaXacNhan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmFjc2lzL0RhWGFjTmhhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Bacsis/DKTC.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmFjc2lzL0RLVEMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Bacsis/DoanhThu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmFjc2lzL0RvYW5oVGh1LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Bacsis/HomeBs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmFjc2lzL0hvbWVCcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Bacsis/HoSoBN.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmFjc2lzL0hvU29CTi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Bacsis/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmFjc2lzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Bacsis/LichHenKham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmFjc2lzL0xpY2hIZW5LaGFtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Bacsis/ThongBao.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmFjc2lzL1Rob25nQmFvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Home/AccountBank.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9BY2NvdW50QmFuay5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Home/Article.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9BcnRpY2xlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Home/ArticleLoaiBV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9BcnRpY2xlTG9haUJWLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Home/BookExamine.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Cb29rRXhhbWluZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Home/DetailDoctor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9EZXRhaWxEb2N0b3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Home/ExamineHistory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9FeGFtaW5lSGlzdG9yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Home/FillterDoctor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9GaWxsdGVyRG9jdG9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Home/FillterDoctorList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9GaWxsdGVyRG9jdG9yTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Home/ListArticleLoaiBV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9MaXN0QXJ0aWNsZUxvYWlCVi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Home/ListDoctor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9MaXN0RG9jdG9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Home/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Mb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Home/PersonalPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9QZXJzb25hbFBhZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Home/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9SZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Shared/Bs_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0JzX0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Shared/_AdminLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19BZG1pbkxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Shared/_Layoutbs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXRicy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Shared/_ThongBao.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19UaG9uZ0Jhby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/luongdat/DAPM-BSVOV/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-4kl30mgj31

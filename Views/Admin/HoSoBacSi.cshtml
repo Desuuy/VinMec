@@ -1,0 +1,271 @@
+@{
+    Layout ="~/Views/Shared/_AdminLayout.cshtml"; // Sử dụng layout chung
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ Bác Sĩ</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tren {
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .duoi {
+            margin: 0 auto;
+            max-width: 1000px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Form styling */
+        input[type="text"], input[type="file"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            resize: vertical; /* Cho phép người dùng điều chỉnh chiều cao của textarea */
+        }
+
+        textarea {
+            height: 100px; /* Tăng chiều cao mặc định của textarea */
+        }
+
+        label {
+            font-weight: bold; /* In đậm cho label */
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px; /* Slightly larger font size */
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f7f7f7;
+        }
+
+        /* Delete button styling */
+        button.delete {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            
+        }
+
+        button.delete:hover {
+            background-color: #FF6969;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .search-container input[type="text"] {
+            padding: 10px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 300px;
+            margin-right: 10px;
+        }
+        .search-container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Styling for status button */
+        button.status-button {
+            padding: 5px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            color: white;
+        }
+
+        /* Specific styling for 'Đã duyệt' button */
+        button.status-button.approved {
+            background-color: #00712D; /* Màu xanh lá cho trạng thái 'Đã duyệt' */
+        }
+
+        button.status-button.approved:hover {
+            background-color: #218838; /* Màu xanh lá đậm khi hover */
+        }
+
+        /* Image preview */
+        .image-preview {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="duoi">
+        <div class="search-container">
+            <form action="~/Admin/SreachBacSi" >
+                <input type="text" name="tenbs" placeholder="Tìm kiếm bác sĩ..."  />
+                <button type="submit">Tìm kiếm</button>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <div class="table-title">Hồ Sơ Bác Sĩ</div>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Mã Bác Sĩ</th>
+                        <th>Tên Bác Sĩ</th>
+                        <th>Chuyên Khoa</th>
+                        <th>Chuyên môn</th>
+                        <th>Giới tính</th>
+                        <th>Quá Trình Công Tác</th>
+                        <th>Trạng Thái</th>
+                        <th>Thao Tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var bs in ViewBag.list) {
+                    <tr>
+                        <td>@bs[0]</td>
+                        <td>
+                            <a href="~/Admin/ChiTietBacSi?id=@bs[33]">
+                                @bs[26]
+                            </a> 
+                        </td>
+                        <td>@bs[6]</td>
+                        <td>@bs[16]</td>
+                        <td>@bs[31]</td>
+                        <td>@bs[21]</td>
+                        <td>
+                            <button class="status-button approved">Đã duyệt</button>
+                        </td>
+
+                        <td>
+                            <form action="~/Admin/XoaBacSi" method="post" style="display:inline;">
+                                <input type="hidden" name="mabs" value="@bs[0]" />
+                                <button type="submit" class="delete">Xóa</button>
+                            </form>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+         <!-- Include partial view for notification -->
+        <partial name="_ThongBao" />
+
+        <script>
+            // Kiểm tra và hiển thị thông báo nếu có từ TempData
+            @if (TempData["Message"] != null)
+            {
+                <text>
+                showThongBao("@Html.Raw(TempData["Message"])", true);
+                </text>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <text>
+                showThongBao("@Html.Raw(TempData["Error"])", false);
+                </text>
+            }
+            document.getElementById('hinhanh').addEventListener('change', function (event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const imagePreview = document.getElementById('imagePreview');
+                        imagePreview.src = e.target.result;
+                        imagePreview.style.display = 'block'; // Hiển thị ảnh xem trước
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+        </script>
+    </div>
+</body>
+</html>

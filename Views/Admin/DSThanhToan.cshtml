@@ -1,0 +1,190 @@
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; // Sử dụng layout chung
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Thanh Toán</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content-container {
+            margin: 0 auto;
+            max-width: 1200px; /* Tăng chiều rộng container */
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng container */
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            min-height: 400px; /* Đảm bảo bảng dài tối thiểu */
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center; /* Giữ nội dung căn giữa */
+            border-bottom: 1px solid #ddd;
+            word-wrap: break-word; /* Đảm bảo chữ dài không bị tràn */
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f7f7f7;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Action buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button.edit {
+            background-color: #007bff;
+            color: white;
+        }
+
+        button.edit:hover {
+            background-color: #0056b3;
+        }
+
+        button.delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        button.delete:hover {
+            background-color: #c82333;
+        }
+
+        /* Add new button styling */
+        .add-button {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .add-button button {
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+        }
+
+        .add-button button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-container">
+        <h1>Danh Sách Thanh Toán</h1>
+
+        <!-- Payments Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã Thanh Toán</th>
+                    <th>Người Thanh Toán</th>
+                    <th>Số Tiền</th>
+                    <th>Thời Gian Thanh Toán</th>
+                    <th>Chi Trả Hẹn Khám</th>
+                    <th>Lý Do Hoàn Phí</th>
+                    <th>Ngày Hoàn Phí</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tt in ViewBag.litsTT)
+                {
+                    <tr id="paymentRow_@tt[0]">
+                        <td>@tt[0]</td> 
+                        <td>@tt[3]</td> 
+                        <td>@tt[2] VND</td> 
+                        <td>@tt[1]</td> 
+                        <td>@tt[4]</td> 
+                        <td>@tt[5]</td>
+                        <td>@tt[6]</td>
+                        <td>
+                            <div class="action-buttons">
+                                <form action="~/Admin/HoanPhiKham" method="post" style="display:inline;" onsubmit="return checkAmount('@tt[2]', '@tt[0]')">
+                                    <input type="hidden" name="mathanhtoan" value="@tt[0]" />
+                                    <button type="submit" class="edit" id="submitButton_@tt[0]">Hoàn phí khám</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Kiểm tra và hiển thị thông báo nếu có từ TempData
+        @if (TempData["Message"] != null)
+        {
+            <text>
+            alert("@Html.Raw(TempData["Message"])");
+            </text>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <text>
+            alert("@Html.Raw(TempData["Error"])");
+            </text>
+        }
+
+        // Function to check the amount before submitting the form
+        function checkAmount(amount, paymentId) {
+            // Parse the amount to remove non-numeric characters and check if it is zero
+            var numericAmount = parseFloat(amount.replace(' VND', '').replace(',', '').trim());
+            
+            if (numericAmount === 0) {
+                alert('Không có chi phí nào cần hoàn');
+                return false; // Prevent form submission
+            }
+            return true; // Proceed with form submission
+        }
+    </script>
+</body>
+</html>

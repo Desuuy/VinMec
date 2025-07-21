@@ -1,0 +1,146 @@
+@{
+    ViewData["Title"] = "Quản lý thông tin cá nhân";
+    Layout = "~/Views/Shared/Bs_Layout.cshtml";
+    var info = ViewBag.Info;
+    var gioiTinh = info?[7]?.ToString() ?? "";
+}
+<link rel="stylesheet" href="~/css/HomeBs.css" asp-append-version="true" />
+    <style>
+    .profile-form-card {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 32px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .profile-form-card img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(2, 136, 209, 0.2);
+        object-fit: cover;
+        margin-bottom: 12px;
+        background: #e3f2fd;
+    }
+
+    .profile-form-card .form-group label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .profile-form-card .form-control {
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-size: 0.95rem;
+    }
+
+    .profile-form-card select.form-control {
+        background-color: #fff;
+    }
+
+    .profile-form-card input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(0.5);
+    }
+
+    .profile-form-card button.btn {
+        padding: 8px 24px;
+        font-size: 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        min-width: 120px;
+        transition: background-color 0.3s ease;
+    }
+
+    .profile-form-card .btn-success {
+        background-color: #0288d1;
+        border: none;
+    }
+
+    .profile-form-card .btn-success:hover {
+        background-color: #0277bd;
+    }
+
+    .profile-form-card .btn-danger {
+        background-color: #e53935;
+        border: none;
+    }
+
+    .profile-form-card .btn-danger:hover {
+        background-color: #d32f2f;
+    }
+
+    
+</style>
+
+<div class="profile-form-card" style="padding-top: 0;">
+    <div style="display:flex; flex-direction:column; align-items:center; margin-bottom:24px;">
+        <img src="~/Uploads/@info[8]" alt="avatar" style="width:100px; height:150px; border-radius:5%; box-shadow:0 2px 8px #0288d133; object-fit:cover; margin-bottom:12px; background:#e3f2fd;">
+        <div style="font-size:1.4rem; font-weight:700; color:#0288d1;">@info?[1]</div>
+        <div style="color:#888; font-size:1rem; margin-bottom:4px;">@info?[3]</div>
+        <form asp-action="CapNhatCaNhan" asp-controller="Bacsis" method="post" enctype="multipart/form-data" style="margin-top:12px;">
+            <input type="file" name="AnhCaNhan" accept="image/*" class="form-control" style="margin-bottom:8px;" />
+            <button type="submit" class="btn btn-info">Cập nhật ảnh</button>
+        </form>
+    </div>
+    @if (info == null)
+    {
+        <p>Không tìm thấy thông tin cá nhân.</p>
+    }
+    else
+    {
+        <form asp-action="CapNhatCaNhan" asp-controller="Bacsis" method="post">
+            <div style="display:flex; flex-wrap:wrap; gap:24px;">
+                <div style="flex:1 1 220px; min-width:180px;">
+                    <div class="form-group mb-3">
+                        <label>Họ tên</label>
+                        <input type="text" name="TenND" class="form-control" value="@info[1]" required />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Số điện thoại</label>
+                        <input type="text" name="sdt" class="form-control" value="@info[4]" required />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Ngày sinh</label>
+                        <input type="date" name="NgaySinh" class="form-control" value="@((info[6] != null && info[6].ToString() != "") ? DateTime.Parse(info[6].ToString()).ToString("yyyy-MM-dd") : "")" required />
+                    </div>
+                </div>
+                <div style="flex:1 1 220px; min-width:180px;">
+                    <div class="form-group mb-3">
+                        <label>Email</label>
+                        <input type="email" name="Email" class="form-control" value="@info[3]" required />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Địa chỉ</label>
+                        <input type="text" name="DiaChi" class="form-control" value="@info[5]" required />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Giới tính</label>
+                        <select name="GioiTinh" class="form-control" required>
+                            <option value="Nam" selected="@(gioiTinh == "Nam" ? "selected" : null)">Nam</option>
+                            <option value="Nữ" selected="@(gioiTinh == "Nữ" ? "selected" : null)">Nữ</option>
+                            <option value="Khác" selected="@(gioiTinh == "Khác" ? "selected" : null)">Khác</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex; gap:16px; justify-content:center; margin-top:18px;">
+                <button type="submit" class="btn btn-success">Cập nhật</button>
+                <button type="button" class="btn btn-danger" onclick="confirmLogout()">Đăng xuất</button>
+            </div>
+        </form>
+        <form id="logoutForm" asp-action="DangXuat" asp-controller="Bacsis" method="post" style="display:none;"></form>
+        <script>
+            function confirmLogout() {
+                if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+                    document.getElementById('logoutForm').submit();
+                }
+            }
+        </script>
+    }
+</div> 

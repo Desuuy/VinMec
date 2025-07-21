@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - ADMIN VinMec</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
+    
+    <link rel="stylesheet" href="~/css/styles.css">
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <img src="/Hinh/logo_2bd10ad933.svg" asp-append-version="true" alt="Logo VinMec"/>
+            </div>
+            <ul class="menu">
+                <li>
+                    <a href="@Url.Action("DonDangKyBacSi", "Admin")" class="menu-item">
+                        <i class="fas fa-address-card"></i>
+                        Xác nhận đăng ký bác sĩ
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-file-medical"></i>
+                        Quản lý hồ sơ y tế
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("HoSoBenhNhan", "Admin")"><i class="fas fa-file-alt"></i> Hồ sơ bệnh nhân</a></li>
+                        <li><a href="@Url.Action("HoSoBacSi", "Admin")"><i class="fas fa-file-medical"></i> Hồ sơ bác sĩ</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-list"></i>
+                        Quản lý danh mục
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("DMBaiViet", "Admin")"><i class="fas fa-file-alt"></i> Danh mục bài viết</a></li>
+                        <li><a href="@Url.Action("DMChuyenNganh", "Admin")"><i class="fas fa-stethoscope"></i> Danh mục chuyên ngành</a></li>
+                        <li><a href="@Url.Action("DMKhoaBenh", "Admin")"><i class="fas fa-clinic-medical"></i> Danh mục khoa bệnh</a></li>
+                        <li><a href="@Url.Action("DMBenhVien", "Admin")"><i class="fas fa-clinic-medical"></i> Danh mục bệnh viện</a></li>
+                    </ul>
+                </li>
+                <li><a href="@Url.Action("LichKhamBenh", "Admin")"><i class="fas fa-calendar-alt"></i> Xem danh sách lịch khám</a></li>
+                <li><a href="@Url.Action("DanhGiaPhanHoi", "Admin")"><i class="fas fa-comments"></i> Đánh giá và phản hồi của bệnh nhân</a></li>
+                <li>
+                    <a href="@Url.Action("DSThanhToan", "Admin")" class="menu-item">
+                        <i class="fas fa-credit-card"></i>
+                        Quản lý thanh toán
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("ThongBaoBV", "Admin")" class="menu-item">
+                        <i class="fas fa-bell"></i>
+                        Quản lý thông báo
+                    </a>
+                </li>
+                <li><a href="@Url.Action("ThongKe", "Admin")"><i class="fas fa-chart-bar"></i> Thống kê</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuItems = document.querySelectorAll('.menu > li > a.menu-item');
+
+            menuItems.forEach(item => {
+                item.addEventListener('click', function (e) {
+                    const submenu = this.nextElementSibling;
+                    const arrowIcon = this.querySelector('.dropdown-arrow');
+
+                    // Hiển thị hoặc ẩn submenu (nếu có)
+                    if (submenu) {
+                        e.preventDefault();
+                        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                        arrowIcon.classList.toggle('rotate');
+                    }
+
+                    // Xóa lớp "active" khỏi tất cả các mục khác
+                    menuItems.forEach(menu => menu.classList.remove('active'));
+
+                    // Thêm lớp "active" vào mục hiện tại
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

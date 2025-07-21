@@ -1,0 +1,208 @@
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; // Sử dụng layout chung
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đơn Đăng Ký Bác Sĩ</title>
+    <style>
+        .doctor-registration-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .doctor-registration-container header h1 {
+            text-align: center;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .info-section:last-child {
+            border-bottom: none;
+        }
+
+        .info-section h2 {
+            color: #3498db;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .info-section strong {
+            color: #2c3e50;
+        }
+
+        .info-images img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .approve-button {
+            background-color: #28a745; /* Green */
+        }
+
+        .approve-button:hover {
+            background-color: #218838;
+        }
+
+        .reject-button {
+            background-color: #dc3545; /* Red */
+        }
+
+        .reject-button:hover {
+            background-color: #c82333;
+        }
+
+        .back-button {
+            background-color: #007bff; /* Blue */
+        }
+
+        .back-button:hover {
+            background-color: #0069d9;
+        }
+
+        .profile-image {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="doctor-registration-container">
+        <header>
+            <h1>Đơn Đăng Ký Bác Sĩ</h1>
+        </header>
+
+        @if (ViewBag.list.Count > 0) {
+        <!-- Thông tin cá nhân -->
+        <section class="info-section">
+            <h2>Thông Tin Cá Nhân</h2>
+            <ul>
+                <li><strong>Mã Bác Sĩ:</strong> @ViewBag.list[0][0]</li>
+                <li><strong>Họ và Tên:</strong> @ViewBag.list[0][26]</li>
+                <li><strong>Email:</strong> @ViewBag.list[0][27]</li>
+                <li><strong>Số Điện Thoại:</strong> @ViewBag.list[0][28]</li>
+                <li><strong>Địa Chỉ:</strong> @ViewBag.list[0][29]</li>
+                <li><strong>Ngày Sinh:</strong> @ViewBag.list[0][30]</li>
+                <li><strong>Giới Tính:</strong> @ViewBag.list[0][31]</li>
+            </ul>
+            <div class="info-images">
+                <h3>Ảnh Cá Nhân:</h3>
+                <img src="@Url.Content("~/Uploads/" + @ViewBag.list[0][32])" alt="Ảnh Cá Nhân" class="profile-image">
+            </div>
+        </section>
+
+
+        <!-- Ảnh -->
+        <section class="info-section">
+            <h2>Ảnh Giấy Tờ và Chứng Chỉ</h2>
+            <div class="info-images">
+                <h3>CCCD:</h3>
+                <div>
+                    <p><strong>CCCD Mặt Trước</strong></p>
+                    <img src="@Url.Content("~/Uploads/" + @ViewBag.list[0][4])" alt="CCCD Mặt Trước">
+                </div>
+                <div>
+                    <p><strong>CCCD Mặt Sau</strong></p>
+                    <img src="@Url.Content("~/Uploads/" + @ViewBag.list[0][5])" alt="CCCD Mặt Sau">
+                </div>
+
+                <h3>Chứng Chỉ:</h3>
+                <div>
+                    <p><strong>Chứng Chỉ Mặt Trước</strong></p>
+                    <img src="@Url.Content("~/Uploads/" + @ViewBag.list[0][12])" alt="Chứng Chỉ Mặt Trước">
+                </div>
+                <div>
+                    <p><strong>Chứng Chỉ Mặt Sau</strong></p>
+                    <img src="@Url.Content("~/Uploads/" + @ViewBag.list[0][13])" alt="Chứng Chỉ Mặt Sau">     
+                </div>
+            </div>
+        </section>
+
+        <!-- Thông tin chuyên môn -->
+        <section class="info-section">
+            <h2>Thông Tin Chuyên Môn</h2>
+            <ul>
+                <li><strong>Chuyên Khoa:</strong> @ViewBag.list[0][6]</li>
+                <li><strong>Năm Kinh Nghiệm:</strong> @ViewBag.list[0][7] năm</li>
+                <li><strong>Bệnh Viện:</strong> @ViewBag.list[0][8]</li>
+                <li><strong>Khoa Bệnh:</strong> @ViewBag.list[0][9]</li>
+                <li><strong>Giới Thiệu:</strong> @ViewBag.list[0][18]</li>
+                <li><strong>Các Bệnh Điều Trị:</strong> @ViewBag.list[0][19]</li>
+                <li><strong>Phí Khám:</strong> @ViewBag.list[0][25] VND</li>
+            </ul>
+        </section>
+
+        <!-- Học vấn -->
+        <section class="info-section">
+            <h2>Học Vấn và Bằng Cấp</h2>
+            <ul>
+                <li><strong>Học Vị:</strong> @ViewBag.list[0][14]</li>
+                <li><strong>Học Hàm:</strong> @ViewBag.list[0][15]</li>
+                <li><strong>Chuyên Môn:</strong> @ViewBag.list[0][16]</li>
+                <li><strong>Thông Tin Bằng Cấp:</strong> @ViewBag.list[0][17]</li>
+            </ul>
+        </section>
+        }
+        else {
+            <p>Không có thông tin bác sĩ được tìm thấy.</p>
+        }
+
+        <!-- Submit Buttons -->
+        <div class="button-container">
+            <form action="~/Admin/DuyetBacSi" method="post" style="display: inline;" >
+                <input type="hidden" name="mabs" value="@ViewBag.list[0][0]" />
+                <button type="submit" name="action" class="approve-button" value="accept">Duyệt</button>
+            </form>
+            <form action="~/Admin/HuyDonDangKy" method="post" style="display: inline;">
+                <input type="hidden" name="mabs" value="@ViewBag.list[0][0]" />
+                <button type="submit" name="action" class="reject-button" value="reject">Từ Chối</button>
+            </form>
+        </div>
+        <div class="button-container">
+            <button type="button" class="back-button" onclick="window.location.href='DonDangKyBacSi'">Quay về danh sách</button>
+        </div>
+    </div>
+</body>
+</html>

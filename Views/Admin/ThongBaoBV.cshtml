@@ -1,0 +1,214 @@
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; // Sử dụng layout chung
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Báo</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tren, .duoi {
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Form styling */
+        input[type="text"], input[type="datetime-local"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f7f7f7;
+        }
+
+        /* Delete button styling */
+        button.delete {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button.delete:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="tren">
+        <h1>Gửi Thông Báo</h1>
+        <form id="formThongBao" action="~/Admin/GuiThongBao" method="post">
+            <div>
+                <label for="tieudetb"><strong>Tiêu Đề:</strong></label>
+                <input type="text" name="tieudetb" id="tieudetb" required />
+            </div>
+            <div>
+                <label for="noidungtb"><strong>Nội Dung:</strong></label>
+                <textarea name="noidungtb" id="noidungtb" required></textarea>
+            </div>
+            <div>
+                <label for="thoigiantb"><strong>Thời Gian Thông Báo:</strong></label>
+                <input type="hidden" name="thoigiantb" id="thoigiantb" />
+            </div>
+            <div>
+                <label for="mand"><strong>Mã Người Dùng:</strong></label>
+                <select name="mand" id="mand">
+                    @foreach (var nd in ViewBag.listND) {
+                        <option value="@nd[0]"><b>@nd[0]-</b>@nd[1]</option>
+                    }
+                </select>
+            </div>
+            <div class="button-container">
+                <button type="submit">Gửi Thông Báo</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="duoi">
+        <h2>Danh Sách Thông Báo Đã Gửi</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã Thông Báo</th>
+                    <th>Tiêu Đề</th>
+                    <th>Nội Dung</th>
+                    <th>Thời Gian TB</th>
+                    <th>Mã Người Dùng</th>
+                    <th>Tên Người Dùng</th>
+                    <th>Trạng Thái Đọc</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tb in ViewBag.listTB) {
+                    <tr>
+                        <td>@tb[0]</td>
+                        <td>@tb[1]</td>
+                        <td>@tb[2]</td>
+                        <td>@tb[3]</td>
+                        <td>@tb[5]</td>
+                        <td>@tb[6]</td>
+                        <td>@tb[4]</td>
+                        <td>
+                            <form action="~/Admin/XoaThongBao" method="post" style="display:inline;">
+                                <input type="hidden" name="matb" value="@tb[0]" />
+                                <button type="submit" class="delete">Xóa</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Include partial view for notification -->
+    <partial name="_ThongBao" />
+
+    <script>
+        // Kiểm tra và hiển thị thông báo nếu có từ TempData
+        @if (TempData["Message"] != null)
+        {
+            <text>
+            showThongBao("@Html.Raw(TempData["Message"])", true);
+            </text>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <text>
+            showThongBao("@Html.Raw(TempData["Error"])", false);
+            </text>
+        }
+
+        // Hàm lấy thời gian hiện tại với định dạng đúng
+        function getCurrentDateTime() {
+            const now = new Date();
+            return now.toISOString().slice(0, 19); // yyyy-MM-ddTHH:mm:ss
+        }
+
+        // Đảm bảo gán giá trị trước khi gửi form
+        document.getElementById('formThongBao').addEventListener('submit', function () {
+            document.getElementById('thoigiantb').value = getCurrentDateTime();
+        });
+    </script>
+</body>
+</html>

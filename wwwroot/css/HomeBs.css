@@ -1,0 +1,381 @@
+/* Font đẹp, hiện đại */
+body {
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+    min-height: 100vh;
+}
+
+header {
+    background: linear-gradient(90deg, #0288d1 60%, #26c6da 100%);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 32px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 16px rgba(2,136,209,0.12);
+    letter-spacing: 0.5px;
+}
+header .logo img {
+    height: 56px;
+    margin-right: 16px;
+}
+header .logo span {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+header .user-info {
+    font-size: 1rem;
+    opacity: 0.95;
+}
+
+/* Sidebar gradient, icon, hover */
+.sidebar {
+    width: 250px;
+    background: linear-gradient(180deg, #0288d1 80%, #26c6da 100%);
+    color: white;
+    height: 100vh;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    z-index: 999;
+    box-shadow: 2px 0 12px rgba(2,136,209,0.08);
+    border-top-right-radius: 18px;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.sidebar ul li {
+    padding: 16px 28px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 1.08rem;
+    display: flex;
+    align-items: center;
+    transition: background 0.18s;
+}
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+.sidebar ul li a:hover {
+    background: rgba(255,255,255,0.13);
+    border-radius: 8px;
+    color: #ffe082;
+}
+
+.container-bs {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.97);
+    border-radius: 20px;
+    box-shadow: 0 4px 32px rgba(2,136,209,0.07);
+    min-height: 90vh;
+    padding: 0 0 0 0;
+    margin-top: 100px;
+}
+.sidebar {
+    flex: 0 0 20%;
+    max-width: 220px;
+    min-width: 180px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-radius: 20px 0 0 20px;
+    box-shadow: none;
+    height: auto;
+    position: static;
+    top: unset;
+    left: unset;
+}
+main {
+    flex: 1 1 80%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 40px 32px 32px 32px;
+    margin: 0;
+    background: transparent;
+    border-radius: 0 20px 20px 0;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main {
+    margin-left: 270px;
+    padding: 100px 0 32px 0;
+    width: 100%;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    min-height: 100vh;
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    box-shadow: 0 4px 32px rgba(2,136,209,0.07);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.section-card, .table-responsive, .table {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table {
+    max-width: 100%;
+    margin-top: 12px;
+    border: 1px solid #0288d1;
+}
+
+.section-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(2,136,209,0.08);
+    padding: 32px 24px 24px 24px;
+    margin-bottom: 36px;
+    transition: box-shadow 0.2s;
+}
+.section-card:hover {
+    box-shadow: 0 8px 32px rgba(2,136,209,0.13);
+}
+
+h2 {
+    color: #0288d1;
+    margin-top: 0;
+    margin-bottom: 18px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.table {
+    width: 100%;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(2,136,209,0.06);
+    overflow: hidden;
+    margin-bottom: 32px;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 1.04rem;
+    /* Thêm giới hạn chiều cao cho bảng */
+    max-height: 420px;
+    display: block;
+    overflow-y: auto;
+}
+.table thead, .table tbody {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+.table th, .table td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+    word-break: break-word;
+}
+.table th {
+    background: #e3f2fd;
+    color: #0288d1;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.2px;
+}
+.table tr:last-child td {
+    border-bottom: none;
+}
+.table tbody tr:hover {
+    background: #f1f8ff;
+    transition: background 0.2s;
+}
+.table td .icon {
+    margin-right: 6px;
+    font-size: 1.1em;
+    vertical-align: middle;
+}
+
+.btn-success {
+    background: #43a047;
+    color: #fff;
+    border: none;
+    box-shadow: 0 2px 8px rgba(67,160,71,0.08);
+}
+.btn-success:hover {
+    background: #2e7031;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(67,160,71,0.13);
+}
+
+.btn-danger {
+    background: #e53935;
+    color: #fff;
+    border: none;
+    box-shadow: 0 2px 8px rgba(229,57,53,0.08);
+}
+.btn-danger:hover {
+    background: #ab000d;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(229,57,53,0.13);
+}
+
+.btn-info {
+    background: #0288d1;
+    color: #fff;
+    border: none;
+    box-shadow: 0 2px 8px rgba(2,136,209,0.08);
+}
+.btn-info:hover {
+    background: #01579b;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(2,136,209,0.13);
+}
+
+.btn {
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 8px 20px;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    outline: none;
+    border: none;
+    box-shadow: 0 2px 8px rgba(2,136,209,0.08);
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 24px;
+}
+
+.table th.stt-col, .table td.stt-col {
+    width: 40px;
+    min-width: 40px;
+    max-width: 40px;
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+.form-control{
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #b0bec5;
+    font-size: 1rem;
+    width: 100%;
+    margin-top: 2px;
+    background: #f8fafc;
+    transition: border 0.2s;
+    
+}
+
+.no-data-msg {
+    text-align: center;
+    color: #888;
+    font-size: 1.15rem;
+    background: #fa9d99;
+    border-radius: 10px;
+    padding: 18px 0;
+    margin: 32px auto 32px auto;
+    width: 80%;
+    box-shadow: 0 2px 8px rgba(2,136,209,0.04);
+    font-weight: 500;
+}
+
+.profile-form-card {
+    max-width: 500px;
+    margin: 32px auto;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(2,136,209,0.10);
+    padding: 36px 32px 28px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+.profile-form-card h2 {
+    color: #0288d1;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    text-align: left;
+}
+.profile-form-card label {
+    font-weight: 600;
+    color: #01579b;
+    margin-bottom: 6px;
+}
+.profile-form-card .form-group {
+    margin-bottom: 18px;
+}
+.profile-form-card input,
+.profile-form-card select {
+    border-radius: 8px;
+    border: 1px solid #b0bec5;
+    padding: 10px 12px;
+    font-size: 1rem;
+    width: 100%;
+    margin-top: 2px;
+    background: #f8fafc;
+    transition: border 0.2s;
+}
+.profile-form-card input:focus,
+.profile-form-card select:focus {
+    border: 1.5px solid #0288d1;
+    outline: none;
+    background: #fff;
+}
+.profile-form-card .btn {
+    width: 48%;
+    font-size: 1.08rem;
+    padding: 10px 0;
+    margin-top: 8px;
+}
+.profile-form-card .btn-danger {
+    margin-left: 4%;
+}
+@media (max-width: 600px) {
+    .profile-form-card {
+        padding: 16px 4vw 12px 4vw;
+    }
+    .profile-form-card h2 {
+        font-size: 1.1rem;
+    }
+    .profile-form-card .btn {
+        font-size: 1rem;
+        padding: 8px 0;
+    }
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    main {
+        max-width: 98vw;
+    }
+    .section-card, .table-responsive, .table {
+        width: 98%;
+    }
+}

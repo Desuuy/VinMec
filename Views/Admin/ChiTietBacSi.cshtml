@@ -1,0 +1,200 @@
+@{
+    Layout ="~/Views/Shared/_AdminLayout.cshtml"; // Sử dụng layout chung
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin Chi Tiết Bác Sĩ</title>
+    <style>
+        /* CSS dành riêng cho trang chi tiết bác sĩ */
+
+        .doctor-detail-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .doctor-detail-container header h1 {
+            text-align: center;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+
+        .doctor-detail-container .profile-section,
+        .doctor-detail-container .info-section {
+            margin-bottom: 30px;
+        }
+
+        /* Flex layout with more spacing for the profile section */
+        .doctor-detail-container .profile-section {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .doctor-detail-container .profile-section .profile-image {
+            margin-right: 30px; /* Increased spacing between image and info */
+            flex-shrink: 0; /* Ensures image doesn't shrink */
+        }
+
+        .doctor-detail-container .profile-section .profile-image img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #3498db;
+        }
+
+        .doctor-detail-container .profile-section ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 0;
+        }
+
+        /* Additional spacing for each list item in the info section */
+        .doctor-detail-container .profile-section li {
+            margin-bottom: 12px;
+        }
+
+        .doctor-detail-container .info-section h2 {
+            color: #3498db;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .doctor-detail-container .info-section li {
+            margin-bottom: 10px;
+        }
+
+        .doctor-detail-container .info-section strong {
+            color: #2c3e50;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Styling for the "Quay về danh sách" button */
+        .back-button {
+            background-color: #007bff; /* Blue background */
+        }
+
+        .back-button:hover {
+            background-color: #0069d9; /* Darker blue on hover */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="doctor-detail-container"> <!-- Lớp chính để bọc giao diện bác sĩ -->
+        <header>
+            <h1>Thông Tin Chi Tiết Bác Sĩ</h1>
+        </header>
+        @if (ViewBag.list.Count > 0) {
+        <!-- Thông tin cá nhân -->
+        <section class="profile-section">
+            <div class="profile-image">
+                <img src="@Url.Content("~/Uploads/" + @ViewBag.list[0][32])" alt="Ảnh cá nhân">
+            </div>
+            <ul>
+                <li><strong>Họ và tên:</strong> @ViewBag.list[0][26]</li>
+                <li><strong>Email:</strong> @ViewBag.list[0][27]</li>
+                <li><strong>Số điện thoại:</strong> @ViewBag.list[0][28]</li>
+                <li><strong>Địa chỉ:</strong> @ViewBag.list[0][29]</li>
+                <li><strong>Ngày sinh:</strong> @ViewBag.list[0][30]</li>
+                <li><strong>Giới tính:</strong> @ViewBag.list[0][31]</li>
+            </ul>
+        </section>
+
+        <section class="info-section">
+            <h2>Ảnh Giấy Tờ và Chứng Chỉ</h2>
+            <div class="info-images">
+                <h3>CCCD:</h3>
+                <div>
+                    <p><strong>CCCD Mặt Trước:</strong></p>
+                    <img src="@Url.Content("~/Uploads/" + @ViewBag.list[0][4])" alt="CCCD Mặt Trước" class="document-image">
+                </div>
+                <div>
+                    <p><strong>CCCD Mặt Sau:</strong></p>
+                    <img src="@Url.Content("~/Uploads/" + @ViewBag.list[0][5])" alt="CCCD Mặt Sau" class="document-image">
+                </div>
+
+                <h3>Chứng Chỉ:</h3>
+                <div>
+                    <p><strong>Chứng Chỉ Mặt Trước:</strong></p>
+                    <img src="@Url.Content("~/Uploads/" + @ViewBag.list[0][12])" alt="Chứng Chỉ Mặt Trước" class="document-image">
+                </div>
+                <div>
+                    <p><strong>Chứng Chỉ Mặt Sau:</strong></p>
+                    <img src="@Url.Content("~/Uploads/" + @ViewBag.list[0][13])" alt="Chứng Chỉ Mặt Sau" class="document-image">
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Thông tin chuyên môn và kinh nghiệm -->
+        <section class="info-section">
+            <h2>Chuyên Môn và Kinh Nghiệm</h2>
+            <ul>
+                <li><strong>Mã Bác Sĩ:</strong> @ViewBag.list[0][0]</li>
+                <li><strong>Chuyên Khoa:</strong> @ViewBag.list[0][6]</li>
+                <li><strong>Năm Kinh Nghiệm:</strong> @ViewBag.list[0][7] năm</li>
+                <li><strong>Giới Thiệu:</strong> @ViewBag.list[0][19]</li>
+                <li><strong>Các Bệnh Điều Trị:</strong> @ViewBag.list[0][20]</li>
+                <li><strong>Phí Khám:</strong> @ViewBag.list[0][25] VND</li>
+            </ul>
+        </section>
+
+        <!-- Học vấn -->
+        <section class="info-section">
+            <h2>Học Vấn</h2>
+            <ul>
+                <li><strong>Học Vị:</strong> @ViewBag.list[0][14]</li>
+                <li><strong>Học Hàm:</strong> @ViewBag.list[0][15]</li>
+                <li><strong>Chuyên Môn:</strong> @ViewBag.list[0][16]</li>
+                <li><strong>Thông Tin Bằng Cấp:</strong> @ViewBag.list[0][17]</li>
+                <li><strong>Chứng Chỉ Hành Nghề:</strong> @ViewBag.list[0][10]</li>
+            </ul>
+        </section>
+
+        <!-- Quá trình công tác và học tập -->
+        <section class="info-section">
+            <h2>Quá Trình Công Tác và Học Tập</h2>
+            <ul>
+                <li><strong>Quá Trình Học:</strong> @ViewBag.list[0][20]</li>
+                <li><strong>Quá Trình Công Tác:</strong> @ViewBag.list[0][21]</li>
+                <li><strong>Nghiên Cứu Khoa Học:</strong> @ViewBag.list[0][22]</li>
+                <li><strong>Giảng Dạy:</strong> @ViewBag.list[0][23]</li>
+                <li><strong>Hội Viên:</strong> @ViewBag.list[0][24]</li>
+            </ul>
+        </section>
+        }
+        else
+        {
+            <p>Không có Thông tin Bác Sĩ này.</p>
+        }
+    </div>
+    <div class="button-container">
+        <button type="button" class="back-button" onclick="window.location.href='HoSoBacSi'">Quay về danh sách</button>
+    </div>
+</body>
+</html>

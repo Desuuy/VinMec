@@ -1,0 +1,188 @@
+@{
+    Layout ="~/Views/Shared/_AdminLayout.cshtml"; // Sử dụng layout chung
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sửa Chuyên Ngành</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tren, .duoi {
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Form styling */
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        label {
+            font-weight: bold; /* In đậm cho label */
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-right: 10px; /* Space between buttons */
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Styling for the "Quay về danh sách" button */
+        .back-button {
+            background-color: #007bff; /* Blue background */
+        }
+
+        .back-button:hover {
+            background-color: #0069d9; /* Darker blue on hover */
+        }
+
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f7f7f7;
+        }
+
+        /* Delete button styling */
+        button.delete {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button.delete:hover {
+            background-color: #c82333;
+        }
+
+        /* Image preview */
+        .image-preview {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="tren">
+        <h1>Sửa Chuyên Ngành</h1>
+        <form id="formChuyenNganh" action="~/Admin/SuaChuyenNganh" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="macn" value="@ViewBag.list[0][0]" />
+            <div>
+                <label for="tencn"><strong>Tên Chuyên Ngành:</strong></label>
+                <input type="text" name="tencn" id="tencn" value="@ViewBag.list[0][1]" required />
+            </div>
+            <div>
+                <label for="hinhanh"><strong>Tải Hình Ảnh:</strong></label>
+                <input type="file" name="hinhanh" id="hinhanh" accept="image/*" onchange="updateFileName(event)">
+                <span id="fileName" style="margin-left: 10px; color: #c82333;" >Hình Ảnh trước đó: @ViewBag.list[0][2]</span>
+                <div>
+                    <img id="imagePreview" class="image-preview" alt="Preview" style="margin-top: 10px; max-width: 100px; display: none;" />
+                </div>
+            </div>
+            <div class="button-container">
+                <button type="submit">Sửa Chuyên Ngành</button>
+                <button type="button" class="back-button" onclick="window.location.href='DMChuyenNganh'">Quay về danh sách</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Include partial view for notification -->
+    <partial name="_ThongBao" />
+
+    <script>
+        // Kiểm tra và hiển thị thông báo nếu có từ TempData
+        @if (TempData["Message"] != null)
+        {
+            <text>
+            showThongBao("@Html.Raw(TempData["Message"])", true);
+            </text>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <text>
+            showThongBao("@Html.Raw(TempData["Error"])", false);
+            </text>
+        }
+        document.getElementById('hinhanh').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imagePreview = document.getElementById('imagePreview');
+                    imagePreview.src = e.target.result; // Hiển thị hình ảnh mới
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+    </script>
+</body>
+</html>

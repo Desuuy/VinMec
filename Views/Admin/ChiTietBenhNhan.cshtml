@@ -1,0 +1,181 @@
+@{
+    Layout ="~/Views/Shared/_AdminLayout.cshtml"; // Sử dụng layout chung
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin Chi Tiết Bệnh Nhân</title>
+    <style>
+        /* Đảm bảo rằng các kiểu CSS này chỉ áp dụng cho trang hồ sơ bệnh nhân */
+        .profile-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-container header h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .profile-container .profile {
+            display: flex;
+            margin-bottom: 30px;
+        }
+
+        .profile-container .profile-image {
+            flex: 1;
+            padding-right: 20px;
+            text-align: center;
+        }
+
+        .profile-container .profile-image img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #3498db;
+        }
+
+        .profile-container .profile-details {
+            flex: 2;
+        }
+
+        .profile-container .profile-details h2 {
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+
+        .profile-container .profile-details ul {
+            list-style: none;
+        }
+
+        .profile-container .profile-details li {
+            margin-bottom: 10px;
+        }
+
+        .profile-container .profile-details strong {
+            color: #2c3e50;
+        }
+
+        /* Thông tin mô tả bệnh */
+        .medical-info {
+            margin-top: 30px;
+        }
+
+        .medical-info h3 {
+            color: #2c3e50;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .medical-info .description {
+            font-size: 16px;
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+
+        .medical-info .disease-image {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .medical-info .disease-image img {
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 2px solid #3498db;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Styling for the "Quay về danh sách" button */
+        .back-button {
+            background-color: #007bff; /* Blue background */
+        }
+
+        .back-button:hover {
+            background-color: #0069d9; /* Darker blue on hover */
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="profile-container">  <!-- Đóng gói CSS chỉ cho trang hồ sơ bệnh nhân -->
+        <header>
+            <h1>Hồ Sơ Bệnh Nhân</h1>
+        </header>
+
+        @if (ViewBag.list.Count > 0) {
+        <section class="profile">
+            <div class="profile-image">
+                <img src="@Url.Content("~/Uploads/" + @ViewBag.list[0][7])" alt="Ảnh bệnh nhân">
+            </div>
+            <div class="profile-details">
+                <h2>Thông Tin Cá Nhân</h2>
+                <ul>
+                    <li><strong>Mã bệnh nhân:</strong> @ViewBag.list[0][0]</li>
+                    <li><strong>Mã hồ sơ:</strong> @ViewBag.list[0][10]</li>
+                    <li><strong>Họ và tên:</strong> @ViewBag.list[0][1]</li>
+                    <li><strong>Ngày sinh:</strong> @ViewBag.list[0][5]</li>
+                    <li><strong>Giới tính:</strong> @ViewBag.list[0][6]</li>
+                    <li><strong>Số điện thoại:</strong> @ViewBag.list[0][3]</li>
+                    <li><strong>Email:</strong> @ViewBag.list[0][2]</li>
+                    <li><strong>Địa chỉ:</strong> @ViewBag.list[0][4]</li>
+                    <li><strong>Số dư tài khoản:</strong> @ViewBag.list[0][8]</li>
+                </ul>
+            </div>
+        </section>
+        <!-- Thông tin mô tả bệnh -->
+        <div class="medical-info">
+            <h3>Mô Tả Bệnh</h3>
+            <p class="description">
+                @ViewBag.list[0][11]  <!-- Giả sử mô tả bệnh nằm trong phần tử này, bạn có thể thay đổi theo cấu trúc dữ liệu của mình -->
+            </p>
+
+            <!-- Hình ảnh bệnh nếu có -->
+            <div class="disease-image">
+                @if (!string.IsNullOrEmpty(ViewBag.list[0][10])) {
+                    <img src="@Url.Content("~/Uploads/" + @ViewBag.list[0][12])" alt="Hình ảnh bệnh" />
+                    }
+                else {
+                    <p>Không có hình ảnh bệnh.</p>
+                }
+            </div>
+        </div>
+        }
+        else
+        {
+            <p>Không có Thông tin bệnh Nhân này.</p>
+        }
+    </div>
+    <div class="button-container">
+        <button type="button" class="back-button" onclick="window.location.href='HoSoBenhNhan'">Quay về danh sách</button>
+    </div>
+       
+</body>
+</html>

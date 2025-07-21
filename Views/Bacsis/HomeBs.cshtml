@@ -1,0 +1,130 @@
+@{
+    ViewData["Title"] = "HomeBs";
+    Layout = "~/Views/Shared/Bs_Layout.cshtml";
+    <link rel="stylesheet" href="~/css/HomeBs.css" asp-append-version="true" />
+}
+@{
+    var tongThuNhap = 0;
+    if (ViewBag.luong != null && ViewBag.luong[0].Count > 9)
+    {
+        tongThuNhap = Convert.ToInt32(ViewBag.luong[0][9]);
+    }
+    var tongThuNhapStr = tongThuNhap.ToString("#,##0");
+    var tongChoKham = ViewBag.choXacNhan != null ? ((System.Collections.ICollection)ViewBag.choXacNhan).Count : 0;
+    var tongDangKham = ViewBag.daXacNhan != null ? ((System.Collections.ICollection)ViewBag.daXacNhan).Count : 0;
+}
+<div class="dashboard-container">
+    <div style="display:flex; gap:32px; margin-bottom:32px; flex-wrap:wrap;">
+        <div class="section-card" style="max-width:320px; min-width:220px; flex:1; text-align:left;">
+            <span style="font-size:1.1rem; color:#0288d1; font-weight:600;">Tổng chờ khám</span><br />
+            <span style="font-size:2rem; color:#01579b; font-weight:700;">@tongChoKham</span>
+        </div>
+        <div class="section-card" style="max-width:320px; min-width:220px; flex:1; text-align:left;">
+            <span style="font-size:1.1rem; color:#0288d1; font-weight:600;">Tổng đang khám</span><br />
+            <span style="font-size:2rem; color:#01579b; font-weight:700;">@tongDangKham</span>
+        </div>
+        <div class="section-card" style="max-width:320px; min-width:220px; flex:1; text-align:left;background-color:#F2A350;">
+            <span style="font-size:1.1rem; color:#F2E250; font-weight:600;">Tổng Thu nhập</span><br />
+            <span style="font-size:2.1rem; color:#F2E250; font-weight:700;">@tongThuNhapStr <span style="font-size:1.1rem; color:#F2E250;">VNĐ</span></span>
+        </div>
+    </div>
+    <h2 style="text-align:left;">Danh sách chờ khám</h2>
+    @if (ViewBag.choXacNhan == null || ViewBag.choXacNhan.Count == 0)
+    {
+        <p>Không có lịch hẹn chờ xác nhận.</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="stt-col">STT</th>
+                    <th>Tên bệnh nhân</th>
+                    <th>Thời gian đặt lịch</th>
+                    <th>Giờ khám</th>
+                    <th>Trạng thái</th>
+                    <th>Chi tiết</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+            @{ var sttChoXacNhan = 0; }
+            @foreach (var row in ViewBag.choXacNhan)
+            {
+                <tr>
+                    <td class="stt-col">@(++sttChoXacNhan)</td>
+                    <td>@row[2]</td>
+                    <td>@row[4]</td>
+                    <td>@row[5]</td>
+                    <td>Đang chờ khám</td>
+                    <td>
+                        <a class="btn btn-info" target="_blank" href="@Url.Action("ChiTietHoSoBN", "Bacsis", new { id = row[1] })">Hồ sơ</a>
+                    </td>
+                    <td style="min-width:160px;">
+                        <form asp-action="Updatecuochen" asp-controller="Bacsis" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@row[0]" />
+                            <input type="hidden" name="matt" value="2" /> <!-- Xác nhận -->
+                            <button type="submit" class="btn btn-success" style="margin-right:6px;">Khám</button>
+                        </form>
+                        <form asp-action="Updatecuochen" asp-controller="Bacsis" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@row[0]" />
+                            <input type="hidden" name="matt" value="3" /> <!-- Hủy -->
+                            <button type="submit" class="btn btn-danger">Hủy</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+
+    <h2 style="text-align:left;">Lịch khám</h2>
+    @if (ViewBag.daXacNhan == null || ViewBag.daXacNhan.Count == 0)
+    {
+        <p class="no-data-msg">Không có lịch khám.</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="stt-col">STT</th>
+                    <th>Tên bệnh nhân</th>
+                    <th>Thời gian đặt lịch</th>
+                    <th>Trạng thái</th>
+                    <th>Chi tiết</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+            @{ var sttDaXacNhan = 0; }
+            @foreach (var row in ViewBag.daXacNhan)
+            {
+                <tr>
+                    <td class="stt-col">@(++sttDaXacNhan)</td>
+                    <td>@row[2]</td>
+                    <td>@row[6]</td>
+                    <td>Đang khám</td>
+                    <td>
+                        <a class="btn btn-info" target="_blank" href="@Url.Action("ChiTietHoSoBN", "Bacsis", new { id = row[9] })">Hồ sơ</a>
+                    </td>
+                    <td style="min-width:160px;">
+                        <form asp-action="UpdatecuochenTT" asp-controller="Bacsis" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@row[0]" />
+                            <input type="hidden" name="matt" value="4" /> <!-- Đã hoàn thành -->
+                            <button type="submit" class="btn btn-success" style="margin-right:6px;">Hoàn thành</button>
+                        </form>
+                        <form asp-action="Updatecuochen" asp-controller="Bacsis" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@row[0]" />
+                            <input type="hidden" name="matt" value="3" /> <!-- Hủy -->
+                            <button type="submit" class="btn btn-danger">Hủy</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>
+
+

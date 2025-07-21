@@ -1,0 +1,63 @@
+
+@{
+    ViewData["Title"] = "DaHoanThanh";
+    Layout = "~/Views/Shared/Bs_Layout.cshtml";
+    <link rel="stylesheet" href="~/css/HomeBs.css" asp-append-version="true" />
+    var tongThuNhap = 0;
+    if (ViewBag.luong != null && ViewBag.luong[0].Count > 9)
+    {
+        tongThuNhap = Convert.ToInt32(ViewBag.luong[0][9]);
+    }
+    var tongThuNhapStr = tongThuNhap.ToString("#,##0");
+}
+<div style="display:flex; gap:32px; margin-bottom:32px; flex-wrap:wrap;">
+    <div class="section-card" style="max-width:320px; min-width:220px; flex:1; text-align:left;">
+        <span style="font-size:1.1rem; color:#0288d1; font-weight:600;">Số lượng lịch đã hoàn thành:</span>
+        <span style="font-size:2rem; color:#01579b; font-weight:700;">@ViewBag.SoLuongHoanThanh</span>
+    </div>
+    <div class="section-card" style="max-width:320px; min-width:220px; flex:1; text-align:left;background-color:#F2A350;">
+        <span style="font-size:1.1rem; color:#F2E250; font-weight:600;">Tổng Thu nhập</span><br />
+        <span style="font-size:2.1rem; color:#F2E250; font-weight:700;">@tongThuNhapStr <span style="font-size:1.1rem; color:#F2E250;">VNĐ</span></span>
+    </div>
+</div>
+<h2 style="text-align:left;">Lịch khám đã hoàn thành</h2>
+@if (ViewBag.list == null || ViewBag.list.Count == 0)
+{
+    <p class="no-data-msg">Không có lịch khám đã hoàn thành.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="stt-col">STT</th>
+                <th>Tên bệnh nhân</th>
+                <th>Thời gian đặt lịch</th>
+                <th>Giờ khám</th>
+                <th>Trạng thái</th>
+                <th>Chi tiết</th>
+                <th>Số tiền thanh toán</th>
+            </tr>
+        </thead>
+        <tbody>
+        @{ var stt = 0; }
+        @foreach (var row in ViewBag.list)
+        {
+            var soTien = 0;
+            if (row.Count > 14) { int.TryParse(row[14]?.ToString(), out soTien); }
+            var soTienStr = soTien.ToString("#,##0");
+            <tr>
+                <td class="stt-col">@(++stt)</td>
+                <td>@row[2]</td>
+                <td>@row[6]</td>
+                <td>@row[7]</td>
+                <td>Đã hoàn thành</td>
+                <td>
+                    <a class="btn btn-info" target="_blank" href="@Url.Action("ChiTietHoSoBN", "Bacsis", new { id = row[9] })">Hồ sơ</a>
+                </td>
+                <td>@soTienStr <span style="color:#0288d1;">VNĐ</span></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "Chi tiết hồ sơ bệnh nhân";
+    Layout = "~/Views/Shared/Bs_Layout.cshtml";
+    var hoSo = ViewBag.HoSo != null && ViewBag.HoSo.Count > 0 ? ViewBag.HoSo[0] : null;
+}
+<div class="section-card" style="max-width:600px; margin:32px auto;">
+    <h2 style="text-align:left;">Chi tiết hồ sơ bệnh nhân</h2>
+    @if (hoSo == null)
+    {
+        <p>Không tìm thấy hồ sơ bệnh nhân.</p>
+    }
+    else
+    {
+        <table class="table">
+            <tr><th>Họ tên</th><td>@hoSo[1]</td></tr>
+            <tr><th>Ngày sinh</th><td>@hoSo[2]</td></tr>
+            <tr><th>Giới tính</th><td>@hoSo[3]</td></tr>
+            <tr><th>Số điện thoại</th><td>@hoSo[4]</td></tr>
+            <tr><th>Địa chỉ</th><td>@hoSo[5]</td></tr>
+            <tr><th>Mô tả bệnh</th><td>@hoSo[6]</td></tr>
+            <tr><th>Ghi chú</th><td>@hoSo[7]</td></tr>
+        </table>
+    }
+</div> 

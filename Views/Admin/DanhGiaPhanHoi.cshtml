@@ -1,0 +1,210 @@
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; // Sử dụng layout chung
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đánh Giá và Phản Hồi</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .duoi {
+            margin: 0 auto;
+            max-width: 1000px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Filter button styling */
+        .filter-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-container button {
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-container button:hover,
+        .filter-container button.active {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f7f7f7;
+        }
+
+        .content-column {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Star rating styling */
+        .star-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .star {
+            color: #FFD700;
+            font-size: 18px;
+        }
+
+       button.delete {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: 2px solid #dc3545;
+        }
+
+        button.delete:hover {
+            background-color: #c82333;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="duoi">
+        <h2>Đánh Giá và Phản Hồi của Bệnh Nhân</h2>
+
+        <div class="filter-container">
+            <button class="filter-btn" data-stars="1">1 Sao</button>
+            <button class="filter-btn" data-stars="2">2 Sao</button>
+            <button class="filter-btn" data-stars="3">3 Sao</button>
+            <button class="filter-btn" data-stars="4">4 Sao</button>
+            <button class="filter-btn" data-stars="5">5 Sao</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã Đánh Giá</th>
+                    <th>Tên Bệnh Nhân</th>
+                    <th>Tên Bác Sĩ</th>
+                    <th>Thời Gian Hẹn</th>
+                    <th>Nội Dung Đánh Giá</th>
+                    <th>Ngày Đánh Giá</th>
+                    <th>Số Sao</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var dg in ViewBag.listDG) {
+                <tr>
+                    <td>@dg[0]</td>
+                    <td>@dg[1]</td>
+                    <td>@dg[2]</td>
+                    <td>@dg[3]</td>
+                    <td class="content-column" title="@dg[4]">@dg[4]</td>
+                    <td>@dg[5]</td>
+                    <td>
+                        <div class="star-container">
+                            @if (int.TryParse(dg[6]?.ToString(), out int starCount)) {
+                                @for (int i = 0; i < starCount; i++) {
+                                    <i class="fas fa-star star"></i>
+                                }
+                            } else {
+                                <span>Invalid data</span>
+                            }
+                        </div>
+                    </td>
+                    <td>
+                        <form action="~/Admin/" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@dg[0]" />
+                            <button type="submit" class="delete">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Include partial view for notification -->
+    <partial name="_ThongBao" />
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Lấy tất cả các nút lọc sao và các dòng của bảng
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const rows = document.querySelectorAll('tbody tr');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Bỏ class "active" khỏi tất cả các nút
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+
+                    // Thêm class "active" cho nút vừa được nhấn
+                    this.classList.add('active');
+
+                    // Lấy số sao để lọc từ thuộc tính data-stars của nút
+                    const stars = parseInt(this.getAttribute('data-stars'), 10);
+
+                    // Hiển thị/ẩn các dòng của bảng dựa trên số sao
+                    rows.forEach(row => {
+                        const starCount = row.querySelectorAll('.fa-star').length;
+                        row.style.display = starCount === stars ? '' : 'none';
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

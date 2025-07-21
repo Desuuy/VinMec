@@ -1,0 +1,49 @@
+
+@{
+    ViewData["Title"] = "DaXacNhan";
+      Layout = "~/Views/Shared/Bs_Layout.cshtml";
+      <link rel="stylesheet" href="~/css/HenLichKham.css" asp-append-version="true" />
+}
+<h2>Đã xác nhận </h2>
+<div class="container">
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Mã Cuộc Hẹn</th>
+            <th>Tên Người Dùng</th>
+            <th>SĐT</th>
+            <th>Trạng thái</th>
+            <th>Thời Gian Hẹn</th>
+            <th>Mô Tả Bệnh</th>
+            <th>Chức năng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in ViewBag.list)
+        {
+            <tr>
+                <td>@appointment[0]</td>
+                <td>@appointment[2]</td>
+                <td>@appointment[3]</td>
+                <td>@appointment[7]</td>
+                <td>@appointment[8]</td>
+                <td>@appointment[15]</td>
+                <td>
+                    <div class="button-container">
+                        <form action="~/Bacsis/UpdatecuochenTT" method="post">
+                            <input type="hidden" name="id" value="@appointment[0]"/>
+                            <input type="hidden" name="matt" value="4"/>
+                            <button type="submit">Hoàn thành</button>
+                        </form>                       
+                        <form action="~/Bacsis/Updatecuochen" method="post">
+                            <input type="hidden" name="id" value="@appointment[0]"/>
+                            <input type="hidden" name="matt" value="3"/>
+                            <button class="huy">Hủy</button>
+                        </form>   
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>

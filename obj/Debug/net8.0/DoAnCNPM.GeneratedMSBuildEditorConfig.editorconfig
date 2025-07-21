@@ -1,0 +1,277 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = DoAnCNPM
+build_property.RootNamespace = DoAnCNPM
+build_property.ProjectDir = C:\Users\anhhu\Downloads\Websiste_Healthcare_Booking_VoVBacSi-main\Websiste_Healthcare_Booking_VoVBacSi-main\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\anhhu\Downloads\Websiste_Healthcare_Booking_VoVBacSi-main\Websiste_Healthcare_Booking_VoVBacSi-main
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/AdminLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRtaW5Mb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/ChiTietBacSi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2hpVGlldEJhY1NpLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/ChiTietBaiViet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2hpVGlldEJhaVZpZXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/ChiTietBenhNhan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2hpVGlldEJlbmhOaGFuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/ChiTietDonDangKy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2hpVGlldERvbkRhbmdLeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/DanhGiaPhanHoi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFuaEdpYVBoYW5Ib2kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/DMBaiViet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRE1CYWlWaWV0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/DMBenhVien.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRE1CZW5oVmllbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/DMChuyenNganh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRE1DaHV5ZW5OZ2FuaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/DMKhoaBenh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRE1LaG9hQmVuaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/DonDangKyBacSi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRG9uRGFuZ0t5QmFjU2kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/DSThanhToan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRFNUaGFuaFRvYW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/HoSoBacSi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSG9Tb0JhY1NpLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/HoSoBenhNhan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSG9Tb0JlbmhOaGFuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/LichKhamBenh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGljaEtoYW1CZW5oLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/SreachBacSi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU3JlYWNoQmFjU2kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/SreachBenhNhan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU3JlYWNoQmVuaE5oYW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/ThongBaoBV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVGhvbmdCYW9CVi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/ThongKe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVGhvbmdLZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/TimBaiViet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVGltQmFpVmlldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/TimBenhVien.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVGltQmVuaFZpZW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/TimChuyenNganh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVGltQ2h1eWVuTmdhbmguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Admin/TimKhoaBenh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVGltS2hvYUJlbmguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/ChiTietHoSoBN.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXENoaVRpZXRIb1NvQk4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/DaBiHuy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXERhQmlIdXkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/DaHoanThanh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXERhSG9hblRoYW5oLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/DangkyBs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXERhbmdreUJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/DaXacNhan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXERhWGFjTmhhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/DKTC.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXERLVEMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/DoanhThu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXERvYW5oVGh1LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/HomeBs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXEhvbWVCcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/HoSoBN.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXEhvU29CTi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/LichHenKham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXExpY2hIZW5LaGFtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/QuanLyCaNhan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXFF1YW5MeUNhTmhhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/ThongBao.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXFRob25nQmFvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/ThongKe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXFRob25nS2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/AccountBank.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBY2NvdW50QmFuay5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/Article.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBcnRpY2xlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/ArticleLoaiBV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBcnRpY2xlTG9haUJWLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/BookExamine.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxCb29rRXhhbWluZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/DetailDoctor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEZXRhaWxEb2N0b3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/ExamineHistory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFeGFtaW5lSGlzdG9yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/FillterDoctor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxGaWxsdGVyRG9jdG9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/FillterDoctorList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxGaWxsdGVyRG9jdG9yTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/ListArticleLoaiBV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMaXN0QXJ0aWNsZUxvYWlCVi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/ListDoctor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMaXN0RG9jdG9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/PersonalPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQZXJzb25hbFBhZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZXNldFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/VerifyEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxWZXJpZnlFbWFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Shared/Bs_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEJzX0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Shared/_AdminLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZG1pbkxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Shared/_Layoutbs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRicy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Shared/_ThongBao.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9UaG9uZ0Jhby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-ppj8p029ig

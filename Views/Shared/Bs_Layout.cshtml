@@ -1,0 +1,96 @@
+@{
+    ViewData["Title"] = "Bs_Layout";
+    Layout = null;
+    <link rel="stylesheet" href="~/css/HenLichKham.css" asp-append-version="true" />
+    var tennd = Context.Session.GetString("tennd");
+    
+    // Lời chào theo thời gian
+    var hour = DateTime.Now.Hour;
+    string greeting;
+    if (hour >= 5 && hour < 12)
+    {
+        greeting = "Chào buổi sáng";
+    }
+    else if (hour >= 12 && hour < 18)
+    {
+        greeting = "Chào buổi chiều";
+    }
+    else if (hour >= 18 && hour < 22)
+    {
+        greeting = "Chào buổi tối";
+    }
+    else
+    {
+        greeting = "Chào đêm khuya";
+    }
+}
+
+<header>
+    <div class="logo">
+        <a href="@Url.Action("Index", "Home")">
+            <img src="/Hinh/logo_2bd10ad933.svg" asp-append-version="true" alt="Logo VinMec" style="width: 100px; height: auto;">
+        </a>
+      
+        <span>@greeting Bác Sĩ: @tennd</span>
+    </div>
+    <div class="time-display">
+        <span class="current-time">@DateTime.Now.ToString("hh:mm:ss tt")</span>
+        <span class="current-date">@DateTime.Now.ToString("dddd, dd MM yyyy")</span>
+    </div>
+    <div class="user-info">
+        <!-- Có thể thêm thông tin user khác ở đây nếu cần -->
+    </div>
+</header>
+
+<!-- Sidebar -->
+<div class="container-bs">
+    <aside class="sidebar">
+        <ul>
+            <li><a href="~/Bacsis/HomeBs">Dashboard</a></li>
+            <li><a href="@Url.Action("DaHoanThanh", "Bacsis")">Đã hoàn thành</a></li>
+            <li><a href="@Url.Action("DaBiHuy", "Bacsis")">Đã bị hủy</a></li>
+            <li><a href="@Url.Action("ThongBao", "Bacsis")">Thông báo</a></li>
+            <li><a href="@Url.Action("ThongKe", "Bacsis")?nam=@DateTime.Now.Year&loaiBieuDo=line">Thống kê</a></li>
+            <li><a href="@Url.Action("QuanLyCaNhan", "Bacsis")">Quản lý cá nhân</a></li>
+        </ul>
+    </aside>
+    <main>
+       @RenderBody()
+    </main>
+</div>
+
+<script>
+    // Cập nhật thời gian real-time
+    function updateTime() {
+        const now = new Date();
+        
+        // Format thời gian
+        const timeString = now.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        });
+        
+        // Format ngày tháng
+        const dateString = now.toLocaleDateString('vi-VN', {
+            weekday: 'long',
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+        
+        // Cập nhật DOM
+        const timeElement = document.querySelector('.current-time');
+        const dateElement = document.querySelector('.current-date');
+        
+        if (timeElement) timeElement.textContent = timeString;
+        if (dateElement) dateElement.textContent = dateString;
+    }
+    
+    // Cập nhật mỗi giây
+    setInterval(updateTime, 1000);
+    
+    // Cập nhật ngay khi trang load
+    document.addEventListener('DOMContentLoaded', updateTime);
+</script>

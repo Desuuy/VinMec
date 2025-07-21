@@ -1,0 +1,62 @@
+@{
+    ViewData["Title"] = "Đăng nhập bác sĩ";
+    Layout = null;
+    <link rel="stylesheet" href="~/css/DnBs.css" asp-append-version="true" />
+}
+
+<body>
+    <div class="container">
+        <!-- Left side with image -->
+        <div class="image-section">
+            <!-- Add image here if needed -->
+        </div>
+
+        <!-- Right side with login form -->
+        <div class="form-section">
+            <div class="form-container">
+                <img src="~/images/logo_doctor_new.png" alt="Vinmec Logo" class="logo">
+                <div class="tabs">
+                    <span class="active">Đăng nhập / Login</span>
+                    <span> <a href="~/Bacsis/DangKyBs" style="text-decoration: none;">Đăng ký / Register</a> </span>
+                </div>
+
+               
+
+                <form asp-controller="Bacsis" asp-action="KTBS" method="post">
+                    <input type="text" id="TenDn" name="TenDn" placeholder="Số điện thoại" required />
+
+                    <input type="password" id="password" name="password" placeholder="Mật khẩu / Password" required />
+
+                    <!-- Display error message if exists -->
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger" style="color: red;" role="alert">
+                            @TempData["ErrorMessage"]
+                        </div>
+                    }
+
+                    <div class="options">
+                        <label>
+                            <input type="checkbox"> Ghi nhớ tài khoản / Remember me
+                        </label>
+                        <a href="#" class="forgot-password">Quên mật khẩu / Forgot password</a>
+                    </div>
+
+                    
+                    <button type="submit" class="login-button">ĐĂNG NHẬP / LOGIN</button>
+
+                    <div class="or-section">
+                        <p>Hoặc đăng nhập bằng / Or login by</p>
+                        <button type="button" class="google-button">Google</button>
+                    </div>
+
+                    <p class="register-link">
+                        Chưa có tài khoản? <a href="~/Bacsis/DangKyBs">Đăng ký ngay</a> 
+                        </br>
+                        Didn't have account? <a href="#">Register</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>

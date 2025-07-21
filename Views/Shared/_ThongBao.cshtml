@@ -1,0 +1,32 @@
+<div id="thongBao" style="display: none; position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); 
+    width: 300px; background-color: #fff; border: 1px solid #ddd; border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
+    <div style="padding: 20px; text-align: center;">
+        <p id="message" style="font-size: 16px; margin-bottom: 20px;"></p>
+        <button id="closeButton" style="padding: 8px 16px; background-color: #007bff; color: #fff; 
+            border: none; border-radius: 5px; cursor: pointer;">
+            Đóng
+        </button>
+    </div>
+</div>
+
+<script>
+    // Hàm hiển thị thông báo
+    function showThongBao(message, isSuccess = true) {
+        const thongBao = document.getElementById('thongBao');
+        const messageText = document.getElementById('message');
+        const closeButton = document.getElementById('closeButton');
+
+        // Gán nội dung và màu sắc thông báo
+        messageText.textContent = message;
+        messageText.style.color = isSuccess ? 'green' : 'red';
+
+        // Hiển thị form thông báo
+        thongBao.style.display = 'block';
+
+        // Đóng form khi nhấn nút "Đóng"
+        closeButton.onclick = function () {
+            thongBao.style.display = 'none';
+        };
+    }
+</script>

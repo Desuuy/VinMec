@@ -1,0 +1,75 @@
+
+@{
+    ViewData["Title"] = "Lịch sử khám";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/Article.css" asp-append-version="true">
+
+
+<div class="container centerls">
+    <div class="bread-flow" style="margin-top: 10px;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Lịch sử khám</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="title-content_arti">
+        <h2>
+            LỊCH SỬ KHÁM
+        </h2>
+    </div>
+    <div class="table-lsk">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Tên bác sĩ</th>
+                    <th scope="col">STT khám</th>
+                    <th scope="col">Ghi chú bác sĩ</th>
+                    <th scope="col">Thanh toán</th>
+                    <th scope="col">Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int stt = 1;
+                }
+                @foreach(var a in ViewBag.ListLichKham){
+                    <tr>
+                        <th scope="row">@stt</th> 
+                        <td>@a[1]</td>
+                        <td>@a[2]</td>
+                        <td>@a[7]</td>
+                        <td>@a[5]</td>
+                        <td>
+                            @if(a[3] == "1")
+                            {
+                                <a class="btn btn-danger" href="~/Home/Cancel?maCHK=@a[0]" onclick="return validateForm();">
+                                    Hủy lịch
+                                </a>
+                            }
+                            else if(a[3] == "1"){
+
+                            }
+                            else{
+                                @a[4]
+                            }
+                        </td>
+                    </tr>
+                    stt = stt + 1;
+                }
+                
+            </tbody>
+        </table>        
+    </div>
+</div>
+
+<script>
+    function validateForm() {
+        return confirm('Bạn có chắc chắn muốn hủy lịch này không?');
+    }
+</script>

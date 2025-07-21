@@ -1,0 +1,236 @@
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; // Sử dụng layout chung
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Lịch Khám</title>
+    <style>
+        /* Kế thừa và tùy chỉnh style từ sườn mẫu */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .duoi {
+            margin: 0 auto;
+            max-width: 1000px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+
+        .filter-container {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Giảm khoảng cách giữa các phần tử */
+            justify-content: flex-start; /* Giữ nút lọc và các bộ lọc nằm cùng hàng */
+        }
+
+        .filter-item {
+            flex: none; /* Giữ kích thước của các thành phần không bị kéo dãn */
+        }
+
+        .filter-item select {
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: none;
+            background-color: #3D5300; /* Màu xanh dương cho nút lọc */
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            align-self: flex-end;
+        }
+
+        button:hover {
+            background-color: #ABBA7C; /* Màu xanh dương đậm khi hover */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f7f7f7;
+        }
+
+        /* Các lớp cho trạng thái */
+        .status-button {
+            padding: 5px 15px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+            width: auto;
+            display: inline-block;
+        }
+
+        .status-button.pending {
+            background-color: #ffc107; /* Màu vàng cho "Đang chờ xác nhận" */
+        }
+
+        .status-button.confirmed {
+            background-color: #00712D; /* Màu xanh lá cho "Đã xác nhận" */
+        }
+
+        .status-button.cancelled {
+            background-color: #dc3545; /* Màu đỏ cho "Đã hủy" */
+        }
+
+        .status-button.completed {
+            background-color: #007bff; /* Màu xanh dương cho "Ðã hoàn thành" */
+        }
+
+        .status-button:hover {
+            opacity: 0.9; /* Giảm độ sáng khi hover */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="duoi">
+        <h2>Danh Sách Lịch Khám</h2>
+        
+        <!-- Bộ lọc thời gian -->
+        <div class="filter-container">
+            <div class="filter-item">
+                <label for="year-filter">Năm:</label>
+                <select id="year-filter" name="year-filter">
+                    <option value="">Tất cả</option>
+                    @for (int year = 2023; year <= DateTime.Now.Year; year++)
+                    {
+                        <option value="@year">@year</option>
+                    }
+                </select>
+            </div>
+            <div class="filter-item">
+                <label for="month-filter">Tháng:</label>
+                <select id="month-filter" name="month-filter">
+                    <option value="">Tất cả</option>
+                    @for (int month = 1; month <= 12; month++)
+                    {
+                        <option value="@month">Tháng @month</option>
+                    }
+                </select>
+            </div>
+            <div class="filter-item">
+                <button id="apply-filter">Lọc</button>
+            </div>
+        </div>
+
+        <!-- Bảng danh sách lịch khám -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã Lịch Khám</th>
+                    <th>Tên Bệnh Nhân</th>
+                    <th>Tên Bác Sĩ</th>
+                    <th>Thời Gian Hẹn</th>
+                    <th>Thời Gian BD</th>
+                    <th>Thời Gian KT</th>
+                    <th>Trạng Thái</th>
+                    <th>Số tiền khám</th>
+                </tr>
+            </thead>
+            <tbody id="schedule-table-body">
+                @foreach (var lh in ViewBag.listLH) {
+                <tr>
+                    <td>@lh[0]</td>
+                    <td>@lh[1]</td>
+                    <td>@lh[3]</td>
+                    <td>@lh[5]</td>
+                    <td>@lh[6]</td>
+                    <td>@lh[7]</td>
+                    <td>
+                        <button class="status-button 
+                            @if (lh[4] == "Đang chờ xác nhận") { 
+                                @:pending 
+                            } else if (lh[4] == "Đã xác nhận") { 
+                                @:confirmed 
+                            } else if (lh[4] == "Đã hủy") { 
+                                @:cancelled 
+                            } else if (lh[4] == "Ðã hoàn thành") { 
+                                @:completed 
+                            }">
+                            @lh[4]
+                        </button>
+                    </td>
+                    <td>@lh[9]</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Áp dụng bộ lọc thời gian
+        document.getElementById('apply-filter').addEventListener('click', function () {
+            const year = document.getElementById('year-filter').value;
+            const month = document.getElementById('month-filter').value;
+
+            // Fetch dữ liệu từ máy chủ hoặc lọc trên frontend
+            const rows = document.querySelectorAll('#schedule-table-body tr');
+            rows.forEach(row => {
+                const timeCell = row.cells[3].innerText.trim(); // Cột "Thời Gian Hẹn"
+                const time = new Date(timeCell);
+
+                let showRow = true;
+                if (year && time.getFullYear() !== parseInt(year)) {
+                    showRow = false;
+                }
+                if (month && (time.getMonth() + 1) !== parseInt(month)) {
+                    showRow = false;
+                }
+
+                row.style.display = showRow ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

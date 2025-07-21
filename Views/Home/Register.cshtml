@@ -1,0 +1,147 @@
+@{
+    ViewData["Title"] = "Đăng ký";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/Article.css" asp-append-version="true">
+
+<div class="wrapper">
+    <div id="loginForm" class="container main">
+        <div class="form-login">
+            <div class="col-6 side-image">
+                <img src="~/images/bg_login.jpg">
+            </div>
+            <div class="col-6 right">
+                <div class="input-box">
+                   <h2>Đăng ký</h2>
+
+                   <form class="needs-validation input-box" novalidate id="registrationForm">
+                        <!-- Existing form fields -->
+                        <div class="input-field">
+                            <input type="tel" class="input-info" id="sdt" required="" name="sdt">
+                            <label for="sdt">Số điện thoại</label>
+                            <div class="invalid-feedback">* Vui lòng nhập số điện thoại hợp lệ </div>
+                            <div class="valid-feedback">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="input-field">
+                            <input type="text" class="input-info" id="username" required="" name="TenND">
+                            <label for="username">Tên người dùng</label>
+                            <div class="invalid-feedback">* Vui lòng nhập tên.</div>
+                            <div class="valid-feedback">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="input-field">
+                            <input type="email" class="input-info" id="email" required name="Email" placeholder="example@gmail.com">
+                            <label for="email">Email</label>
+                            <div class="invalid-feedback">* Vui lòng nhập email hợp lệ</div>
+                            <div class="valid-feedback">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="input-field">
+                            <input type="password" class="input-info" id="pass" required="" name="Password">
+                            <label for="pass">Mật khẩu</label>
+                            <div class="invalid-feedback">* Phải gồm (chữ hoa, chữ thường, số và ký tự đặc biệt).</div>
+                            <div class="valid-feedback">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="input-field">
+                            <input type="password" class="input-info" id="repass" required="">
+                            <label for="repass">Nhập lại mật khẩu</label>
+                            <div class="invalid-feedback">* Mật khẩu không khớp.</div>
+                            <div class="valid-feedback">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="input-field">
+                            <button type="submit" class="submit" >Đăng ký</button>
+                        </div>
+                    </form>
+                    <div class="signin">
+                        <span>
+                            Bạn đã có tài khoản? 
+                            <a asp-controller="Home" asp-action="Login">
+                                Đăng nhập
+                            </a>
+                        </span>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to submit registration
+    function submitRegistration() {
+        const formData = new FormData(document.getElementById('registrationForm'));
+
+        fetch('/Home/RegisterProcess', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                return response.json();
+            }
+        })
+        .then(data => {
+            if (data && data.success) {
+                alert('Đăng ký thành công!');
+                window.location.href = '/Home/Login';
+            } else if (data) {
+                alert(data.message || 'Đăng ký thất bại. Vui lòng thử lại.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra. Vui lòng thử lại sau hoặc liên hệ hỗ trợ.');
+        });
+    }
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const phoneInput = document.getElementById('sdt');
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('pass').value;
+            const repassword = document.getElementById('repass').value;
+
+            if (!phoneInput.value || !username || !email || !password || password !== repassword) {
+                alert('Vui lòng kiểm tra lại thông tin đăng ký.');
+                return;
+            }
+
+            submitRegistration();
+        });
+    });
+</script>

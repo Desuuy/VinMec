@@ -1,0 +1,222 @@
+@using System.Collections
+
+@{
+    ViewData["Title"] = "Đặt lịch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/Article.css" asp-append-version="true">
+
+
+<div class="cover_list_news">
+    <div class="name_cate_cover animcc">Đặt Lịch KHÁM</div>
+    <img src="~/images/bg_article.jpg" alt="Đặt lịch">
+</div>
+
+@{
+    var bn = ViewBag.UserInfo;
+    var bs = ViewBag.ListDBS[0];
+}
+<div class="container " id="loginForm">
+    
+    <div class="bread-flow">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="FillterDoctor">Tìm bác sĩ</a></li>
+                <li class="breadcrumb-item"><a href="~/Home/DetailDoctor?MaBS=@int.Parse(bs[0])">Thông tin bác sĩ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Đặt Lịch khám</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="sodu">
+        <h3 class="">
+            @{
+                // Định dạng số tiền đẹp hơn
+                var amount1 = Convert.ToInt32(ViewBag.UserInfo[9]);
+                var SoTienUser = amount1.ToString("#,##0");  
+            }
+            Số dư:
+            <span style="color: #fff003;">
+                @SoTienUser đ
+            </span>
+        </h3>
+    </div>  
+    <div class="form-booking ">
+        <form id="bookingForm" class="book-form" asp-controller="Home" asp-action="BookExamineProcess" method="post" enctype="multipart/form-data">
+            <div class="title-content_arti">
+                <h2>
+                    Chi tiết lịch hẹn
+                </h2>
+            </div>
+            <h4 class="mb-3">Thông tin bác sĩ</h4>
+            <div class="boder-ex">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="doctor" class="form-label">Bác sĩ</label>
+                        <input type="text" class="form-control" id="doctor" disabled value="@bs[2]">
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <label for="hospital" class="form-label ">Bệnh viện/phòng khám</label>
+                        <input type="text" class="form-control" id="hospital" disabled value="@bs[3]">
+                    </div>  
+                    <div class="col-md-4">
+                        <label for="department" class="form-label">Chuyên khoa</label>
+                        <input type="text" class="form-control" id="department" disabled value="@bs[4]">
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="mb-3">Thông tin khách hàng</h4>
+            <div class="boder-ex">
+                <div class="row mb-3 ">
+                    <div class="col-md-6">
+                        <label for="fullName" class="form-label required">Họ và tên</label>
+                        <input type="text" class="form-control" id="fullName" placeholder="Họ và tên" required value="@bn[1]">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required">Giới tính:</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="male" value="Nam" @(bn[7] == "Nam" ? "checked" : "")>
+                                <label class="form-check-label" for="male">Nam</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="female" value="Nữ" @(bn[7] == "Nữ" ? "checked" : "")>
+                                <label class="form-check-label" for="female">Nữ</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="phone" class="form-label required">Số điện thoại</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="Nhập số điện thoại" value="@bn[4]" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Nhập email" value="@bn[3]">
+                    </div>
+                </div>
+                @if (bn[6] != null)
+                {
+                    DateTime birthDate = DateTime.Parse(bn[6].ToString());
+                    var formattedDate = birthDate.ToString("yyyy-MM-dd"); // Định dạng yyyy-MM-dd
+
+                    <div class="mb-3">
+                        <label for="dob" class="form-label required">Ngày tháng năm sinh</label>
+                        <input type="date" class="form-control" id="dob" value="@formattedDate" required>
+                    </div>
+                }
+                else
+                {
+                    <div class="mb-3">
+                        <label for="dob" class="form-label required">Ngày tháng năm sinh</label>
+                        <input type="date" class="form-control" id="dob" required>
+                    </div>
+                }
+                
+
+                <div class="mb-3">
+                    <label for="reason" class="form-label required">Lý do khám</label>
+                    <textarea class="form-control" id="reason" rows="3" placeholder="Triệu chứng của bạn" name="MoTaBenh" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="dob" class="form-label required">Hình ảnh bệnh</label>
+                    <input type="file" class="form-control" id="dob" required name="HinhAnhBenhs" multiple>
+                </div>
+            </div>
+            <div class="mb-3 fee" style="text-align: end;">
+                @{
+                    // Định dạng số tiền đẹp hơn
+                    var amount = Convert.ToInt32(bs[5]);
+                    var SoTien = amount.ToString("#,##0");  
+                }
+                    <label for="department" class="form-label">Phí khám:</label>
+                    <span>@SoTien</span>
+                    <span>đ</span>
+                </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="termsAgreement" required>
+                <label class="form-check-label" for="termsAgreement">Tôi đã đọc và xác nhận <a href="#">Điều khoản dịch vụ</a> của Bệnh viện .</label>
+            </div>
+            <input type="text" value="@bs[0]" name="MaBS" style="display: none;">
+            <div id="insufficientFundsModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 20px; background-color: white; border: 1px solid #ccc; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 1000; min-width: 300px; border-radius: 8px;">
+                <h4 style="margin-bottom: 15px; color: #dc3545;">Thông báo</h4>
+                <p style="margin-bottom: 20px;">Bạn cần nạp thêm tiền để đặt khám</p>
+                <div style="display: flex; justify-content: space-between;">
+                    <button onclick="closeInsufficientFundsModal()" style="padding: 8px 15px; background-color: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Đóng</button>
+                    <a href="~/Home/AccountBank" style="padding: 8px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Nạp tiền</a>
+                </div>
+            </div>
+            <div class="center" >
+                <button type="button" class="btn-send-book" onclick="validateAndCheckBalance()">Đặt lịch khám</button>
+            </div>
+            
+        </form>
+        <!-- Modal -->
+        <div id="confirmationModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 20px; background-color: white; border: 1px solid #ccc; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 1000;">
+            <p>Xin vui lòng chờ bác sĩ xác nhận</p>
+            <button onclick="closeModal()">Close</button>
+        </div>
+
+        <!-- Overlay -->
+        <div id="modalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+
+    </div>
+   
+</div>
+
+<script>
+     window.onload = function() {
+        document.getElementById("loginForm").scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    };
+
+    function validateAndCheckBalance() {
+        const form = document.getElementById('bookingForm');
+        if (form.checkValidity()) {
+            // Lấy số tiền của người dùng và phí khám
+            const userBalance = @ViewBag.UserInfo[9];
+            const examFee = @bs[5];
+            
+            if (userBalance >= examFee) {
+                // Nếu đủ tiền thì hiện modal xác nhận và submit form
+                showModal();
+                setTimeout(function() {
+                    form.submit();
+                }, 2000);
+            } else {
+                // Nếu không đủ tiền thì hiện modal thông báo
+                showInsufficientFundsModal();
+            }
+        } else {
+            // Kích hoạt validation mặc định của form
+            form.reportValidity();
+        }
+    }
+
+    function showInsufficientFundsModal() {
+        document.getElementById('insufficientFundsModal').style.display = 'block';
+        document.getElementById('modalOverlay').style.display = 'block';
+    }
+
+    function closeInsufficientFundsModal() {
+        document.getElementById('insufficientFundsModal').style.display = 'none';
+        document.getElementById('modalOverlay').style.display = 'none';
+    }
+
+    function showModal() {
+        document.getElementById('confirmationModal').style.display = 'block';
+        document.getElementById('modalOverlay').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('confirmationModal').style.display = 'none';
+        document.getElementById('modalOverlay').style.display = 'none';
+    }
+
+</script>

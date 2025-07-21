@@ -1,0 +1,212 @@
+@{
+    Layout ="~/Views/Shared/_AdminLayout.cshtml"; // Sử dụng layout chung
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh mục Khoa Bệnh</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tren, .duoi {
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Form styling */
+        input[type="text"], input[type="file"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            resize: vertical; /* Cho phép người dùng điều chỉnh chiều cao của textarea */
+        }
+
+        textarea {
+            height: 100px; /* Tăng chiều cao mặc định của textarea */
+        }
+
+        label {
+            font-weight: bold; /* In đậm cho label */
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f7f7f7;
+        }
+
+        /* Delete button styling */
+        button.delete {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button.delete:hover {
+            background-color: #c82333;
+        }
+
+        button.edit{
+            background-color: #FF6500;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            
+        }
+
+        button.edit:hover {
+            background-color: #FD8B51;
+        }
+
+        /* Image preview */
+        .image-preview {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="tren">
+        <h1>Danh mục Khoa Bệnh</h1>
+        <form id="formKhoaBenh" action="~/Admin/ThemKhoaBenh" method="post" enctype="multipart/form-data">
+            <div>
+                <label for="tenkb"><strong>Tên Khoa Bệnh:</strong></label>
+                <input type="text" name="tenkb" id="tenkb" required />
+            </div>
+            <div>
+                <label for="mota"><strong>Mô Tả:</strong></label>
+                <textarea name="mota"></textarea>
+            </div>
+            <div class="button-container">
+                <button type="submit">Thêm Khoa Bệnh</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="duoi">
+        <h2>Danh Sách Khoa Bệnh</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã Khoa Bệnh</th>
+                    <th>Tên Khoa Bệnh</th>
+                    <th>Mô Tả</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var kb in ViewBag.listKB) {
+                <tr>
+                    <td>@kb[0]</td>
+                    <td>@kb[1]</td>
+                    <td>@kb[2]</td>
+                    <td>
+                        <form action="~/Admin/XoaKhoaBenh" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@kb[0]" />
+                            <button type="submit" class="delete">Xóa</button>
+                        </form>
+                        <br/> <br/>
+                        <form action="~/Admin/TimKhoaBenh?makb=@kb[0]" style="display:inline;">
+                            <input type="hidden" name="makb" value="@kb[0]" />
+                            <button type="submit" class="edit">Sửa</button>
+                        </form>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Include partial view for notification -->
+    <partial name="_ThongBao" />
+
+    <script>
+        // Kiểm tra và hiển thị thông báo nếu có từ TempData
+        @if (TempData["Message"] != null)
+        {
+            <text>
+            showThongBao("@Html.Raw(TempData["Message"])", true);
+            </text>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <text>
+            showThongBao("@Html.Raw(TempData["Error"])", false);
+            </text>
+        }
+    </script>
+</body>
+</html>

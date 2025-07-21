@@ -1,0 +1,425 @@
+/* Đặt style cơ bản cho trang */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f7;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    background-color: #0288d1;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    position: relative;
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+    gap: 80px; /* Tăng khoảng cách giữa logo và text */
+}
+
+header .logo img {
+    height: 50px;
+    margin-right: 0; /* Bỏ margin cũ */
+}
+
+header .logo span {
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 50px; /* Tăng margin bên trái cho text */
+}
+
+header .user-info {
+    display: flex;
+    align-items: center;
+}
+
+header .user-info img {
+    border-radius: 50%;
+    margin-left: 10px;
+    height: 40px;
+}
+
+/* Time Display Styles */
+.time-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.current-time {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    margin-bottom: 2px;
+}
+
+.current-date {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+}
+
+/* Style cho sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #0288d1;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    z-index: 999;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    display: block;
+    padding: 10px 0;
+}
+
+.sidebar ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Main content */
+main {
+    margin-left: 250px;
+    padding: 80px 20px 20px 20px;
+    width: calc(100% - 250px);  /* Điều chỉnh chiều rộng chính để không bị tràn qua sidebar */
+    transition: margin-left 0.3s;
+}
+
+/* Bảng dữ liệu */
+table {
+    width: 95%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #0288d1;
+    color: white;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Nút cơ bản */
+button {
+    background-color: #0288d1;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0277bd;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    main {
+        margin-left: 200px;
+        width: calc(100% - 200px);
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        padding-top: 15px;
+    }
+
+    main {
+        margin-left: 0;
+        padding-top: 80px; /* Bổ sung không gian cho header */
+    }
+}
+
+/* Tách hai nút */
+.button-container {
+    display: flex;
+    gap: 20px; /* Thêm khoảng cách giữa các nút */
+}
+
+/* Nút Hủy */
+button.huy {
+    background-color: red;
+}
+
+button.huy:hover {
+    background-color: darkred;
+}
+
+/* Lịch hẹn khám - Modern Design */
+.appointment-dashboard {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Header với tiêu đề */
+.appointment-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.appointment-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Appointment List Container */
+.appointment-list {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.appointment-list h2 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    margin: 0;
+    padding: 20px 25px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Table Styles */
+.appointment-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.appointment-list th {
+    background: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 600;
+    padding: 15px 12px;
+    text-align: left;
+    border-bottom: 2px solid #e9ecef;
+    font-size: 14px;
+}
+
+.appointment-list td {
+    padding: 12px;
+    border-bottom: 1px solid #e9ecef;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.appointment-list tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease;
+}
+
+/* Status Badges */
+.status-pending {
+    background: #ffc107;
+    color: #212529;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-confirmed {
+    background: #28a745;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-cancelled {
+    background: #dc3545;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-completed {
+    background: #17a2b8;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Action Buttons */
+.button-container {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.button-container form {
+    margin: 0;
+}
+
+.button-container button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-container button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.button-container button.huy {
+    background: #dc3545;
+}
+
+.button-container button.huy:hover {
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .appointment-dashboard {
+        padding: 15px;
+    }
+    
+    .appointment-header {
+        padding: 20px;
+    }
+    
+    .appointment-header h2 {
+        font-size: 24px;
+    }
+    
+    .appointment-list table {
+        font-size: 12px;
+    }
+    
+    .appointment-list th,
+    .appointment-list td {
+        padding: 8px 6px;
+    }
+    
+    .button-container {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .button-container button {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .appointment-header h2 {
+        font-size: 20px;
+    }
+    
+    .appointment-list th,
+    .appointment-list td {
+        padding: 6px 4px;
+        font-size: 11px;
+    }
+}
+
+/* Animation */
+.appointment-dashboard > * {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.appointment-dashboard > *:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
