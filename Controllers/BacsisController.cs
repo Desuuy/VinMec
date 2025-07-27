@@ -29,6 +29,7 @@ public class BacsisController : Controller
     DataModel db = new DataModel();
     public IActionResult Index()
     {
+
         return View();
     }
 
@@ -175,24 +176,210 @@ public class BacsisController : Controller
                 + giangDay + "', N'"
                 + hoiVienCongTac + "', 0 ,2 ;";
 
-            db.get(result);      
-            
-
+            db.get(result);
+            // Lấy MaND mới nhất theo email và sdt
+            var user = db.get($"SELECT TOP 1 MaND FROM NGUOIDUNG WHERE Email = '{email}' AND SDT = '{phone}' ORDER BY MaND DESC");
+            if (user != null && user.Count > 0)
+            {
+                int maND = int.Parse(((ArrayList)user[0])[0].ToString());
+                // Sinh OTP
+                Random random = new Random();
+                string otp = random.Next(100000, 999999).ToString();
+                // Xóa OTP cũ nếu có
+                db.get($"DELETE FROM RESET_TOKENS WHERE MaND = {maND}");
+                // Lưu OTP mới
+                db.get($"INSERT INTO RESET_TOKENS (MaND, Token, CreatedAt, ExpiresAt, IsUsed) VALUES ({maND}, '{otp}', GETDATE(), DATEADD(MINUTE, 15, GETDATE()), 0)");
+                // Gửi OTP qua email
+                string subject = "Mã xác thực đăng ký tài khoản bác sĩ";
+                string body = $"Mã xác thực đăng ký tài khoản bác sĩ của bạn là: {otp}. Mã có hiệu lực trong 15 phút.";
+                bool sent = DataModel.SendEmail(email, subject, body);
+                if (!sent)
+                {
+                    TempData["ErrorMessage"] = "Không gửi được email xác thực. Vui lòng thử lại sau.";
+                    return RedirectToAction("DangKyBs", "Bacsis");
+                }
+                TempData["SuccessMessage"] = $"Đã gửi mã xác thực đến email: {email}. Vui lòng kiểm tra hộp thư.";
+                TempData["Email"] = email;
+                return RedirectToAction("VerifyEmailBs", "Bacsis", new { email = email });
+            }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Có lỗi xảy ra khi thực hiện đăng ký bác sĩ.");
-            // Nếu có lỗi, giữ lại trang DangKyBs và thông báo lỗi
             return RedirectToAction("DangKyBs", "Bacsis");
-        }   
+        }
         return RedirectToAction("DKTC", "Bacsis");
-  
+    }
+
+    public IActionResult VerifyEmailBs(string email)
+    {
+        ViewBag.Email = email;
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult VerifyEmailBsProcess(string email, string otp)
+    {
+        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(otp))
+        {
+            TempData["ErrorMessage"] = "Vui lòng nhập đầy đủ thông tin.";
+            return RedirectToAction("VerifyEmailBs", new { email });
+        }
+        try
+        {
+            DataModel db = new DataModel();
+            var user = db.get($"SELECT TOP 1 MaND FROM NGUOIDUNG WHERE Email = '{email}' ORDER BY MaND DESC");
+            if (user == null || user.Count == 0)
+            {
+                TempData["ErrorMessage"] = "Email không tồn tại.";
+                return RedirectToAction("VerifyEmailBs", new { email });
+            }
+            int maND = int.Parse(((ArrayList)user[0])[0].ToString());
+            var tokenCheck = db.get($"SELECT 1 FROM RESET_TOKENS WHERE MaND = {maND} AND Token = '{otp}' AND IsUsed = 0 AND ExpiresAt > GETDATE()");
+            if (tokenCheck == null || tokenCheck.Count == 0)
+            {
+                TempData["ErrorMessage"] = "Mã xác thực không hợp lệ hoặc đã hết hạn.";
+                return RedirectToAction("VerifyEmailBs", new { email });
+            }
+            db.get($"UPDATE NGUOIDUNG SET IsEmailVerified = 1 WHERE MaND = {maND}");
+            db.get($"UPDATE RESET_TOKENS SET IsUsed = 1 WHERE MaND = {maND} AND Token = '{otp}'");
+            TempData["SuccessMessage"] = "Xác thực email thành công! Bạn có thể đăng nhập.";
+            return RedirectToAction("Index", "Bacsis");
+        }
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = "Có lỗi xảy ra: " + ex.Message;
+            return RedirectToAction("VerifyEmailBs", new { email });
+        }
+    }
+
+    public IActionResult ForgotPasswordBs()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult ForgotPasswordBsProcess(string email)
+    {
+        if (string.IsNullOrEmpty(email))
+        {
+            TempData["ErrorMessage"] = "Vui lòng nhập email.";
+            return RedirectToAction("ForgotPasswordBs", "Bacsis");
+        }
+        try
+        {
+            DataModel db = new DataModel();
+            var user = db.get($"SELECT MaND, TenND FROM NGUOIDUNG WHERE Email = '{email}'");
+            if (user == null || user.Count == 0)
+            {
+                TempData["ErrorMessage"] = "Email không tồn tại trong hệ thống.";
+                return RedirectToAction("ForgotPasswordBs", "Bacsis");
+            }
+            Random random = new Random();
+            string resetToken = random.Next(100000, 999999).ToString();
+            var userInfo = user[0] as ArrayList;
+            int maND = Convert.ToInt32(userInfo[0]);
+            db.get($"DELETE FROM RESET_TOKENS WHERE MaND = {maND}");
+            db.get($"INSERT INTO RESET_TOKENS (MaND, Token, CreatedAt, ExpiresAt, IsUsed) VALUES ({maND}, '{resetToken}', GETDATE(), DATEADD(MINUTE, 15, GETDATE()), 0)");
+            string subject = "Mã xác thực đặt lại mật khẩu bác sĩ";
+            string body = $"Mã xác thực đặt lại mật khẩu của bạn là: {resetToken}. Mã có hiệu lực trong 15 phút.";
+            bool sent = DataModel.SendEmail(email, subject, body);
+            if (!sent)
+            {
+                TempData["ErrorMessage"] = "Không gửi được email. Vui lòng thử lại sau.";
+                return RedirectToAction("ForgotPasswordBs", "Bacsis");
+            }
+            TempData["SuccessMessage"] = $"Đã gửi mã xác thực đến email: {email}. Vui lòng kiểm tra hộp thư.";
+            TempData["Email"] = email;
+            return RedirectToAction("ResetPasswordBs", "Bacsis");
+        }
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = "Có lỗi xảy ra: " + ex.Message;
+            return RedirectToAction("ForgotPasswordBs", "Bacsis");
+        }
+    }
+
+    public IActionResult ResetPasswordBs()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult ResetPasswordBsProcess(string email, string token, string newPassword, string confirmPassword)
+    {
+        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(token) || string.IsNullOrEmpty(newPassword) || string.IsNullOrEmpty(confirmPassword))
+        {
+            TempData["ErrorMessage"] = "Vui lòng nhập đầy đủ thông tin.";
+            return RedirectToAction("ResetPasswordBs", "Bacsis");
+        }
+        if (newPassword != confirmPassword)
+        {
+            TempData["ErrorMessage"] = "Mật khẩu xác nhận không khớp.";
+            return RedirectToAction("ResetPasswordBs", "Bacsis");
+        }
+        try
+        {
+            DataModel db = new DataModel();
+            var tokenCheck = db.get($"SELECT rt.MaND, rt.IsUsed, rt.ExpiresAt FROM RESET_TOKENS rt INNER JOIN NGUOIDUNG nd ON rt.MaND = nd.MaND WHERE nd.Email = '{email}' AND rt.Token = '{token}' AND rt.IsUsed = 0 AND rt.ExpiresAt > GETDATE()");
+            if (tokenCheck == null || tokenCheck.Count == 0)
+            {
+                TempData["ErrorMessage"] = "Mã xác thực không hợp lệ hoặc đã hết hạn.";
+                return RedirectToAction("ResetPasswordBs", "Bacsis");
+            }
+            var tokenInfo = tokenCheck[0] as ArrayList;
+            int maND = Convert.ToInt32(tokenInfo[0]);
+            db.get($"UPDATE NGUOIDUNG SET Password = '{newPassword}' WHERE MaND = {maND}");
+            db.get($"UPDATE RESET_TOKENS SET IsUsed = 1 WHERE MaND = {maND} AND Token = '{token}'");
+            TempData["SuccessMessage"] = "Đặt lại mật khẩu thành công! Vui lòng đăng nhập với mật khẩu mới.";
+            return RedirectToAction("Index", "Bacsis");
+        }
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = "Có lỗi xảy ra: " + ex.Message;
+            return RedirectToAction("ResetPasswordBs", "Bacsis");
+        }
     }
 
 
     public IActionResult HomeBs()
     {
         var userId = _session.GetString("userId");
+        
+        // Kiểm tra session timeout
+        if (string.IsNullOrEmpty(userId))
+        {
+            TempData["SessionTimeoutMessage"] = "Phiên làm việc đã hết hạn. Vui lòng đăng nhập lại.";
+            return RedirectToAction("Index", "Bacsis");
+        }
+
+        // Kiểm tra session timeout
+        var sessionTimeout = _session.GetString("SessionTimeout");
+        if (string.IsNullOrEmpty(sessionTimeout))
+        {
+            // Session mới, set timeout
+            _session.SetString("SessionTimeout", DateTime.Now.AddMinutes(30).ToString());
+        }
+        else
+        {
+            // Kiểm tra xem session có hết hạn chưa
+            if (DateTime.TryParse(sessionTimeout, out DateTime timeout))
+            {
+                if (DateTime.Now > timeout)
+                {
+                    // Session hết hạn
+                    _session.Clear();
+                    TempData["SessionTimeoutMessage"] = "Phiên làm việc đã hết hạn. Vui lòng đăng nhập lại.";
+                    return RedirectToAction("Index", "Bacsis");
+                }
+                else
+                {
+                    // Cập nhật timeout
+                    _session.SetString("SessionTimeout", DateTime.Now.AddMinutes(30).ToString());
+                }
+            }
+        }
+
         ArrayList idBS_sql = db.get("EXEC GetMaBSByUserId @UserId = " + userId);
 
         // Ép kiểu từng phần tử
@@ -206,6 +393,9 @@ public class BacsisController : Controller
     public IActionResult ThongKe(string nam, string loaiBieuDo = "line")
     {
         var userId = _session.GetString("userId");
+        
+        
+
         ViewBag.luong = db.get("exec sp_XemThongTinNguoiDung " + userId);
         ViewBag.list = db.get("EXEC ThongKeCuocHenTheoThang '" + userId + "','" + nam + "'");
         ViewBag.loaiBieuDo = loaiBieuDo;
@@ -220,17 +410,22 @@ public class BacsisController : Controller
         var listHuy = db.get("SELECT COUNT(*) FROM CUOCHENKHAM WHERE MaBS = '"+ idBS +"' AND MaTTCH = 3 AND YEAR(ThoiGianHen) = '"+ nam +"'");
         var tongTienList = db.get("SELECT ISNULL(SUM(SoTienTT), 0) FROM CUOCHENKHAM WHERE MaBS = '"+idBS+"' AND YEAR(ThoiGianHen) = '"+ nam +"'");
 
-        int soHoanThanh = 0, soHuy = 0, tongTienValue = 0;
+        var doanhThuList = db.get($"SELECT ISNULL(SUM(SoTienTT), 0) FROM CUOCHENKHAM WHERE MaBS = {idBS} AND MaTTCH = 4");
+
+        int soHoanThanh = 0, soHuy = 0, tongTienValue = 0, doanhthuValue = 0;
         if (listHT != null && listHT.Count > 0 && listHT[0] is System.Collections.IList rowHT)
             int.TryParse(rowHT[0]?.ToString(), out soHoanThanh);
         if (listHuy != null && listHuy.Count > 0 && listHuy[0] is System.Collections.IList rowHuy)
             int.TryParse(rowHuy[0]?.ToString(), out soHuy);
         if (tongTienList != null && tongTienList.Count > 0 && tongTienList[0] is System.Collections.IList rowTien)
             int.TryParse(rowTien[0]?.ToString(), out tongTienValue);
+        if (doanhThuList != null && doanhThuList.Count > 0 && doanhThuList[0] is System.Collections.IList rowDoanhThu)
+            int.TryParse(rowDoanhThu[0]?.ToString(), out doanhthuValue);
 
         ViewBag.SoHoanThanh = soHoanThanh;
         ViewBag.SoHuy = soHuy;
         ViewBag.TongTien = tongTienValue;
+        ViewBag.doanhthu = doanhthuValue;
         return View("ThongKe");
     }
 
@@ -388,6 +583,11 @@ public class BacsisController : Controller
         // Lấy thông tin chi tiết hồ sơ bệnh nhân theo id (id là MaHS)
         var hoSo = db.get($"SELECT h.MaHS, n.TenND, n.NgaySinh, n.GioiTinh, n.sdt, n.DiaChi, h.MoTaBenh, h.MaND FROM HOSO h JOIN NGUOIDUNG n ON h.MaND = n.MaND WHERE h.MaHS = {id}");
         ViewBag.HoSo = hoSo;
+        
+        // Lấy hình ảnh bệnh từ bảng HINHANHBENH
+        var hinhAnhBenh = db.get($"SELECT HinhAnhBenh FROM HINHANHBENH WHERE MaHS = {id}");
+        ViewBag.HinhAnhBenh = hinhAnhBenh;
+        
         return View();
     }
 

@@ -3,12 +3,30 @@
     Layout = "~/Views/Shared/Bs_Layout.cshtml";
     var loaiBieuDo = ViewBag.loaiBieuDo as string ?? "line";
     var nam = ViewBag.nam as string ?? DateTime.Now.Year.ToString();
+    var tongThuNhap = 0;
+    if (ViewBag.luong != null && ViewBag.luong[0].Count > 9)
+    {
+        tongThuNhap = Convert.ToInt32(ViewBag.luong[0][9]);
+    }
+    var tongThuNhapStr = tongThuNhap.ToString("#,##0");
+    var tongDoanhThu = ViewBag.doanhthu.ToString("#,##0");
 }
+
 <link rel="stylesheet" href="~/css/HomeBs.css" asp-append-version="true" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <div style="display:flex; gap:32px; margin-bottom:32px; flex-wrap:wrap;">
+        <div class="section-card" style="max-width:220px; min-width:120px; flex:1; text-align:left; background:#e3fcec; border:2px solid #43a047;">
+            <span style="font-size:1.1rem; color:#43a047; font-weight:600;">Tổng doanh thu</span><br />
+            <span style="font-size:1.5rem; color:#1b5e20; font-weight:700;">@tongDoanhThu <span style="font-size:1rem; color:#43a047;">VNĐ</span></span>
+        </div>
+        <div class="section-card" style="max-width:220px; min-width:120px; flex:1; text-align:left; background:#f2ffe6; border:2px solid #388e3c;">
+            <span style="font-size:1.1rem; color:#388e3c; font-weight:600;">Tổng thu nhập</span><br />
+            <span style="font-size:1.5rem; color:#2e7d32; font-weight:700;">@tongThuNhapStr <span style="font-size:1rem; color:#388e3c;">VNĐ</span></span>
+        </div>
+    </div>
 <div style="width:80%; background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(2,136,209,0.10); padding:36px 32px 28px 32px;">
-    <h2 style="color:#0288d1; font-size:1.5rem; font-weight:700; margin-bottom:24px; text-align:left;">Thống Kê Cuộc Hẹn Khám</h2>
+    <h2 style="color:#0288d1; font-size:1.5rem; font-weight:700; margin-bottom:24px; text-align:left;">Thống Kê Cuộc Hẹn Khám @ViewBag.nam</h2>
     <div style="display:flex; gap:32px; margin-bottom:24px; flex-wrap:wrap;">
         <div class="section-card" style="max-width:220px; min-width:120px; flex:1; text-align:left; background:#e3f2fd;">
             <span style="font-size:1.1rem; color:#0288d1; font-weight:600;">Đã hoàn thành</span><br />
@@ -19,7 +37,7 @@
             <span style="font-size:1.5rem; color:#b71c1c; font-weight:700;">@ViewBag.SoHuy</span>
         </div>
         <div class="section-card" style="max-width:220px; min-width:120px; flex:1; text-align:left; background:#e0f7fa;">
-            <span style="font-size:1.1rem; color:#0288d1; font-weight:600;">Tổng tiền năm @ViewBag.nam</span><br />
+            <span style="font-size:1.1rem; color:#0288d1; font-weight:600;">Tổng doanh thu</span><br />
             <span style="font-size:1.5rem; color:#01579b; font-weight:700;">
                 @{ var tongTien = 0; int.TryParse(ViewBag.TongTien?.ToString(), out tongTien); var tongTienStr = tongTien.ToString("#,##0"); }
                 @tongTienStr <span style="font-size:1rem; color:#0288d1;">VNĐ</span>

@@ -3,12 +3,13 @@
     Layout = "~/Views/Shared/Bs_Layout.cshtml";
     <link rel="stylesheet" href="~/css/hosobn.css" asp-append-version="true" />
 }
-<div class="dashboard-container">
+<body>
     <!-- Phần tìm kiếm theo số điện thoại -->
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="Nhập số điện thoại bệnh nhân" />
         <button onclick="searchPatient()">Tìm kiếm</button>
     </div>
+
     <!-- Danh sách hồ sơ bệnh nhân -->
     <div class="patient-list">
         <h2>Danh Sách Hồ Sơ Bệnh Nhân</h2>
@@ -71,7 +72,6 @@
             </form>
         </div>
     </div>
-</div>
 
     <script src="~/js/hosobn.js"></script> <!-- Đường dẫn tới JavaScript -->
 
@@ -114,3 +114,4 @@
             document.getElementById('editPatientFormModal').style.display = 'none';
         }
     </script>
+</body>

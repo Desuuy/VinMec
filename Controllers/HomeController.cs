@@ -114,7 +114,7 @@ public class HomeController : Controller
             var userInfo = arrayList[0]?.ToString() ?? "Unknown";
             // Kiểm tra xác thực email
             var emailVerified = db.get($"SELECT IsEmailVerified FROM NGUOIDUNG WHERE MaND = '{userInfo}'");
-            if (emailVerified != null && emailVerified.Count > 0 && ((ArrayList)emailVerified[0])[0].ToString() == "0")
+            if (emailVerified != null && emailVerified.Count > 0 && emailVerified[0] is ArrayList emailArray && emailArray.Count > 0 && emailArray[0].ToString() == "0")
             {
                 TempData["ErrorMessage"] = "Tài khoản chưa xác thực email. Vui lòng kiểm tra email để xác thực.";
                 return RedirectToAction("VerifyEmail", "Home");
@@ -249,10 +249,46 @@ public class HomeController : Controller
                                         string NamSinh, string GioiTinh,
                                         string DiaChi, IFormFile Hinhcanhan)
     {
+        // Log để debug
+        _logger.LogInformation($"UpdateUserInfo called with: MaND={MaND}, TenND={TenND}, Email={Email}, NamSinh='{NamSinh}', GioiTinh={GioiTinh}, DiaChi={DiaChi}");
+        
         DataModel db = new DataModel();
-        int manD = int.Parse(MaND);
-        DateTime parsedDate = DateTime.Parse(NamSinh);
-        string formattedDate = parsedDate.ToString("yyyy-MM-dd");
+        
+        // Xử lý an toàn cho MaND
+        if (string.IsNullOrEmpty(MaND))
+        {
+            TempData["ErrorMessage"] = "Mã người dùng không hợp lệ";
+            return RedirectToAction("PersonalPage", "Home");
+        }
+        
+        int manD;
+        if (!int.TryParse(MaND, out manD))
+        {
+            TempData["ErrorMessage"] = "Mã người dùng không hợp lệ";
+            return RedirectToAction("PersonalPage", "Home");
+        }
+        
+        // Xử lý an toàn cho các tham số
+        TenND = string.IsNullOrEmpty(TenND) ? "" : TenND.Trim();
+        Email = string.IsNullOrEmpty(Email) ? "" : Email.Trim();
+        GioiTinh = string.IsNullOrEmpty(GioiTinh) ? "" : GioiTinh.Trim();
+        DiaChi = string.IsNullOrEmpty(DiaChi) ? "" : DiaChi.Trim();
+        
+        // Xử lý trường hợp NamSinh null hoặc rỗng
+        string formattedDate = "NULL";
+        if (!string.IsNullOrEmpty(NamSinh) && NamSinh.Trim() != "")
+        {
+            DateTime parsedDate;
+            if (DateTime.TryParse(NamSinh, out parsedDate))
+            {
+                formattedDate = parsedDate.ToString("yyyy-MM-dd");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Định dạng ngày sinh không hợp lệ. Vui lòng nhập theo định dạng mm/dd/yyyy";
+                return RedirectToAction("PersonalPage", "Home");
+            }
+        }
 
         string nameFile = "NULL";
         if (Hinhcanhan != null)
@@ -271,7 +307,30 @@ public class HomeController : Controller
             }
         }
 
-        db.get($"EXEC UpdateUserInfo {manD}, N'{TenND}', '{Email}', '{formattedDate}', N'{GioiTinh}', N'{DiaChi}', '{nameFile}' ");
+        // Xử lý SQL query với trường hợp NamSinh null
+        string sqlQuery;
+        if (formattedDate == "NULL")
+        {
+            sqlQuery = $"EXEC UpdateUserInfo {manD}, N'{TenND.Replace("'", "''")}', '{Email.Replace("'", "''")}', NULL, N'{GioiTinh.Replace("'", "''")}', N'{DiaChi.Replace("'", "''")}', '{nameFile.Replace("'", "''")}'";
+        }
+        else
+        {
+            sqlQuery = $"EXEC UpdateUserInfo {manD}, N'{TenND.Replace("'", "''")}', '{Email.Replace("'", "''")}', '{formattedDate}', N'{GioiTinh.Replace("'", "''")}', N'{DiaChi.Replace("'", "''")}', '{nameFile.Replace("'", "''")}'";
+        }
+        
+        // Log SQL query để debug
+        _logger.LogInformation($"SQL Query: {sqlQuery}");
+        
+        try
+        {
+            db.get(sqlQuery);
+            TempData["SuccessMessage"] = "Cập nhật thông tin thành công!";
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error in UpdateUserInfo: {ex.Message}");
+            TempData["ErrorMessage"] = "Có lỗi xảy ra khi cập nhật thông tin: " + ex.Message;
+        }
 
         return RedirectToAction("PersonalPage", "Home");
     }
@@ -322,11 +381,15 @@ public class HomeController : Controller
         var MaND = taikhoan;
 
         var result = db.get($"DECLARE @MaHS INT; EXEC SAVEHOSO {MaND}, N'{MoTaBenh}', @MaHS = @MaHS OUTPUT; SELECT @MaHS;");
+        var MaHS = 0;
         if (result != null && result.Count > 0)
         {
             ViewBag.MaHS = result[0]; // Lấy dòng đầu tiên của kết quả
+            if (ViewBag.MaHS != null)
+            {
+                int.TryParse(ViewBag.MaHS.ToString(), out MaHS);
+            }
         }
-        var MaHS = int.Parse(ViewBag.MaHS[0].ToString());
 
         foreach (var file in HinhAnhBenhs)
         {
@@ -523,7 +586,11 @@ public class HomeController : Controller
             string resetToken = random.Next(100000, 999999).ToString();
             // Lưu token vào database
             var userInfo = user[0] as ArrayList;
-            int maND = Convert.ToInt32(userInfo[0]);
+            int maND = 0;
+            if (userInfo != null && userInfo.Count > 0 && int.TryParse(userInfo[0].ToString(), out int userId))
+            {
+                maND = userId;
+            }
             db.get($"DELETE FROM RESET_TOKENS WHERE MaND = {maND}");
             db.get($"INSERT INTO RESET_TOKENS (MaND, Token, CreatedAt, ExpiresAt, IsUsed) VALUES ({maND}, '{resetToken}', GETDATE(), DATEADD(MINUTE, 15, GETDATE()), 0)");
             // Gửi email OTP
@@ -581,7 +648,11 @@ public class HomeController : Controller
                 return RedirectToAction("ResetPassword", "Home");
             }
             var tokenInfo = tokenCheck[0] as ArrayList;
-            int maND = Convert.ToInt32(tokenInfo[0]);
+            int maND = 0;
+            if (tokenInfo != null && tokenInfo.Count > 0 && int.TryParse(tokenInfo[0].ToString(), out int userId))
+            {
+                maND = userId;
+            }
             // Cập nhật mật khẩu mới
             db.get($"UPDATE NGUOIDUNG SET Password = '{newPassword}' WHERE MaND = {maND}");
             // Đánh dấu token đã sử dụng

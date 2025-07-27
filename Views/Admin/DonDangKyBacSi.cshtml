@@ -1,62 +1,60 @@
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<div class="doctor-register-container">
-    <h2 class="title">Danh Sách Đơn Đăng Ký Bác Sĩ</h2>
-    <div class="table-responsive">
-        <table class="table table-hover doctor-table align-middle">
-            <thead>
-                <tr>
-                    <th>Mã Bác Sĩ</th>
-                    <th>Tên Bác Sĩ</th>
-                    <th>Chuyên Khoa</th>
-                    <th>Giới Tính</th>
-                    <th>Hành Động</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (ViewBag.listDDK != null && ViewBag.listDDK.Count > 0)
-                {
-                    foreach (var d in ViewBag.listDDK)
-                    {
-                        <tr>
-                            <td>@d[12]</td>
-                            <td>
-                                <a href="~/Admin/ChiTietDonDangKy?mabs=@d[12]" class="doctor-link">@d[1]</a>
-                            </td>
-                            <td>@d[18]</td>
-                            <td>@d[7]</td>
-                            <td>
-                                <div class="doctor-action-buttons">
-                                    <button class="btn btn-success btn-sm px-3" onclick="openModal('@d[12]')"><i class="fas fa-check me-1"></i> Duyệt</button>
-                                    <form action="~/Admin/HuyDonDangKy" method="post" style="display: inline;">
-                                        <input type="hidden" name="mabs" value="@d[12]" />
-                                        <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm px-3"><i class="fas fa-times me-1"></i> Từ Chối</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                }
-                else
+<div class="vov-admin-register-list">
+    <h1 class="vov-page-title">Danh Sách Đơn Đăng Ký Bác Sĩ</h1>
+    <table class="vov-table">
+        <thead>
+            <tr>
+                <th>Mã Bác Sĩ</th>
+                <th>Tên Bác Sĩ</th>
+                <th>Chuyên Khoa</th>
+                <th>Giới Tính</th>
+                <th class="vov-action-col">Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.listDDK != null && ViewBag.listDDK.Count > 0)
+            {
+                foreach (var d in ViewBag.listDDK)
                 {
                     <tr>
-                        <td colspan="5" style="text-align: center;">Không có đơn đăng ký bác sĩ nào</td>
+                        <td>@d[12]</td>
+                        <td>
+                            <a href="~/Admin/ChiTietDonDangKy?mabs=@d[12]" class="vov-link">@d[1]</a>
+                        </td>
+                        <td>@d[18]</td>
+                        <td>@d[7]</td>
+                        <td>
+                            <div class="vov-action-buttons">
+                                <button class="vov-btn vov-btn-approve" onclick="openModal('@d[12]')"><i class="fas fa-check"></i> Duyệt</button>
+                                <form action="~/Admin/HuyDonDangKy" method="post" style="display: inline;">
+                                    <input type="hidden" name="mabs" value="@d[12]" />
+                                    <button type="submit" name="action" value="reject" class="vov-btn vov-btn-reject"><i class="fas fa-times"></i> Từ Chối</button>
+                                </form>
+                            </div>
+                        </td>
                     </tr>
                 }
-            </tbody>
-        </table>
-    </div>
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" style="text-align: center;">Không có đơn đăng ký bác sĩ nào</td>
+                </tr>
+            }
+        </tbody>
+    </table>
     <!-- Modal -->
-    <div id="modal" class="doctor-modal">
-        <div class="doctor-modal-content">
-            <h4>Xác nhận duyệt bác sĩ</h4>
+    <div id="modal" class="vov-modal">
+        <div class="vov-modal-content">
+            <h2>Xác nhận duyệt bác sĩ</h2>
             <form id="approveForm" action="~/Admin/DuyetBacSi" method="post">
                 <input type="hidden" name="mabs" id="mabsInput" />
-                <div class="input-group mb-3" style="max-width: 350px; margin: 0 auto;">
-                    <input type="number" name="sotienkham" placeholder="Nhập số tiền khám" required class="form-control" />
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-check me-1"></i> Xác Nhận</button>
-                    <button type="button" class="btn btn-outline-secondary" onclick="closeModal()"><i class="fas fa-times me-1"></i> Hủy</button>
+                <input type="number" name="sotienkham" placeholder="Nhập số tiền khám" required class="vov-input" />
+                <div class="vov-modal-actions">
+                    <button type="submit" class="vov-btn vov-btn-approve"><i class="fas fa-check"></i> Xác Nhận</button>
+                    <button type="button" class="vov-btn vov-btn-reject" onclick="closeModal()"><i class="fas fa-times"></i> Hủy</button>
                 </div>
             </form>
         </div>

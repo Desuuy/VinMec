@@ -2,23 +2,203 @@
     ViewData["Title"] = "Chi tiết hồ sơ bệnh nhân";
     Layout = "~/Views/Shared/Bs_Layout.cshtml";
     var hoSo = ViewBag.HoSo != null && ViewBag.HoSo.Count > 0 ? ViewBag.HoSo[0] : null;
+    var hinhAnhBenh = ViewBag.HinhAnhBenh;
 }
-<div class="section-card" style="max-width:600px; margin:32px auto;">
-    <h2 style="text-align:left;">Chi tiết hồ sơ bệnh nhân</h2>
+
+<style>
+    .patient-detail-container {
+        max-width: 800px;
+        margin: 32px auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    .patient-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+    }
+    .patient-header h2 {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 600;
+    }
+    .patient-content {
+        padding: 2rem;
+    }
+    .info-section {
+        margin-bottom: 2rem;
+    }
+    .info-section h3 {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+    }
+    .info-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .info-table th {
+        background: #f8f9fa;
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+        color: #495057;
+        border: 1px solid #dee2e6;
+        width: 30%;
+    }
+    .info-table td {
+        padding: 12px;
+        border: 1px solid #dee2e6;
+        color: #212529;
+    }
+    .medical-images {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    .medical-image {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.2s;
+    }
+    .medical-image:hover {
+        transform: scale(1.05);
+        border-color: #3498db;
+    }
+    .medical-image img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+    }
+    .no-images {
+        text-align: center;
+        color: #6c757d;
+        font-style: italic;
+        padding: 2rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+    .back-button {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background 0.2s;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 1rem;
+    }
+    .back-button:hover {
+        background: #2980b9;
+        color: white;
+        text-decoration: none;
+    }
+    
+</style>
+
+<div class="patient-detail-container">
+    <div class="patient-header">
+        <h2><i class="fas fa-user-injured me-2"></i>Chi tiết hồ sơ bệnh nhân</h2>
+    </div>
+    
     @if (hoSo == null)
     {
-        <p>Không tìm thấy hồ sơ bệnh nhân.</p>
+        <div class="patient-content">
+            <div class="no-images">
+                <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
+                <p>Không tìm thấy hồ sơ bệnh nhân.</p>
+            </div>
+        </div>
     }
     else
     {
-        <table class="table">
-            <tr><th>Họ tên</th><td>@hoSo[1]</td></tr>
-            <tr><th>Ngày sinh</th><td>@hoSo[2]</td></tr>
-            <tr><th>Giới tính</th><td>@hoSo[3]</td></tr>
-            <tr><th>Số điện thoại</th><td>@hoSo[4]</td></tr>
-            <tr><th>Địa chỉ</th><td>@hoSo[5]</td></tr>
-            <tr><th>Mô tả bệnh</th><td>@hoSo[6]</td></tr>
-            <tr><th>Ghi chú</th><td>@hoSo[7]</td></tr>
-        </table>
+        <div class="patient-content">
+            <div class="info-section">
+                <h3><i class="fas fa-user me-2"></i>Thông tin cá nhân</h3>
+                <table class="info-table">
+                    <tr><th>Họ tên</th><td>@hoSo[1]</td></tr>
+                    <tr><th>Ngày sinh</th><td>@hoSo[2]</td></tr>
+                    <tr><th>Giới tính</th><td>@hoSo[3]</td></tr>
+                    <tr><th>Số điện thoại</th><td>@hoSo[4]</td></tr>
+                    <tr><th>Địa chỉ</th><td>@hoSo[5]</td></tr>
+                </table>
+            </div>
+
+            <div class="info-section">
+                <h3><i class="fas fa-notes-medical me-2"></i>Mô tả bệnh</h3>
+                <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px; border-left: 4px solid #3498db;">
+                    <p style="margin: 0; line-height: 1.6;">@hoSo[6]</p>
+                </div>
+            </div>
+
+            @if (hinhAnhBenh != null && hinhAnhBenh.Count > 0)
+            {
+                <div class="info-section">
+                    <h3><i class="fas fa-images me-2"></i>Hình ảnh bệnh</h3>
+                    <div class="medical-images">
+                        @foreach (var hinh in hinhAnhBenh)
+                        {
+                            <div class="medical-image">
+                                <img src="~/Uploads/@hinh[0]" alt="Hình ảnh bệnh" 
+                                     onclick="openImageModal('@Url.Content("~/Uploads/" + hinh[0])')" 
+                                     style="cursor: pointer;" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="info-section">
+                    <h3><i class="fas fa-images me-2"></i>Hình ảnh bệnh</h3>
+                    <div class="no-images">
+                        <i class="fas fa-image fa-2x mb-3"></i>
+                        <p>Chưa có hình ảnh bệnh được đăng tải.</p>
+                    </div>
+                </div>
+            }
+        </div>
     }
-</div> 
+    
+    <div style="text-align: center; padding: 1rem; background: #f8f9fa;">
+        <button onclick="history.back()" class="back-button">
+            <i class="fas fa-arrow-left me-2"></i>Quay về trang trước
+        </button>
+    </div>
+</div>
+
+<!-- Modal để xem hình ảnh lớn -->
+<div id="imageModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9);">
+    <span class="close" onclick="closeImageModal()" style="position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer;">&times;</span>
+    <img id="modalImage" style="margin: auto; display: block; max-width: 90%; max-height: 90%; margin-top: 5%;" />
+</div>
+
+<script>
+function openImageModal(imageSrc) {
+    document.getElementById('modalImage').src = imageSrc;
+    document.getElementById('imageModal').style.display = 'block';
+}
+
+function closeImageModal() {
+    document.getElementById('imageModal').style.display = 'none';
+}
+
+// Đóng modal khi click bên ngoài
+window.onclick = function(event) {
+    var modal = document.getElementById('imageModal');
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+}
+</script> 

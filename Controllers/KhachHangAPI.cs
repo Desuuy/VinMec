@@ -137,7 +137,11 @@ public class KhachHangAPI : Controller
                 });
             }
 
-            int MaHS = int.Parse(result[0].ToString());
+            int MaHS = 0;
+            if (result != null && result.Count > 0 && int.TryParse(result[0].ToString(), out int maHS))
+            {
+                MaHS = maHS;
+            }
 
             // Lưu hình ảnh bệnh
             var uploadedFiles = new List<string>();

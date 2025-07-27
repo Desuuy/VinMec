@@ -7,6 +7,23 @@
 }
 <link rel="stylesheet" href="~/css/Personal.css" asp-append-version="true">
 
+<!-- Thông báo lỗi và thành công -->
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+        <strong>Lỗi!</strong> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+        <strong>Thành công!</strong> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <div class="slide-img" >
     <div style="overflow: hidden;">
   <div style="overflow: hidden;">
@@ -281,10 +298,26 @@
         transform: scale(1.05);
         box-shadow: 0 0 30px rgba(0, 123, 255, 0.3);
     }
+    
+    /* Hiệu ứng fade out cho thông báo */
+    .alert {
+        transition: opacity 0.3s ease;
+    }
 </style>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        // Tự động ẩn thông báo sau 5 giây
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function(alert) {
+            setTimeout(function() {
+                alert.style.opacity = '0';
+                setTimeout(function() {
+                    alert.remove();
+                }, 300);
+            }, 5000);
+        });
+        
         // Validate file upload
         const fileInput = document.getElementById('avar');
         fileInput.addEventListener('change', function(e) {

@@ -37,7 +37,10 @@ namespace DAPMBSVOV.Controllers
         private IActionResult RedirectIfNotLoggedIn()
         {
             if (!IsAdminLoggedIn())
+            {
+                TempData["SessionTimeoutMessage"] = "Phiên làm việc đã hết hạn. Vui lòng đăng nhập lại.";
                 return RedirectToAction("AdminLogin");
+            }
             return null;
         }
 
@@ -45,6 +48,33 @@ namespace DAPMBSVOV.Controllers
         {
             var redirect = RedirectIfNotLoggedIn();
             if (redirect != null) return redirect;
+
+            // Kiểm tra session timeout
+            var sessionTimeout = _session.GetString("SessionTimeout");
+            if (string.IsNullOrEmpty(sessionTimeout))
+            {
+                // Session mới, set timeout
+                _session.SetString("SessionTimeout", DateTime.Now.AddMinutes(30).ToString());
+            }
+            else
+            {
+                // Kiểm tra xem session có hết hạn chưa
+                if (DateTime.TryParse(sessionTimeout, out DateTime timeout))
+                {
+                    if (DateTime.Now > timeout)
+                    {
+                        // Session hết hạn
+                        _session.Clear();
+                        TempData["SessionTimeoutMessage"] = "Phiên làm việc đã hết hạn. Vui lòng đăng nhập lại.";
+                        return RedirectToAction("AdminLogin");
+                    }
+                    else
+                    {
+                        // Cập nhật timeout
+                        _session.SetString("SessionTimeout", DateTime.Now.AddMinutes(30).ToString());
+                    }
+                }
+            }
             DataModel db = new DataModel();
             int selectedYear = year ?? DateTime.Now.Year;
 

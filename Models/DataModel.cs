@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using System.Net.Mail;
 using System.Net;
 using System.IO;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace DoAnCNPM.Models
@@ -147,5 +148,11 @@ namespace DoAnCNPM.Models
                 return false;
             }
         }
+    }
+
+    public class XoaHinhAnhModel
+    {
+        [Required]
+        public int maHinh { get; set; }
     }
 }

@@ -43,7 +43,18 @@ else
     <div class="sodu">
         <h3 class="">
             @{
-                var amount1 = Convert.ToInt32(bn[9]);
+                int amount1 = 0;
+                try
+                {
+                    if (bn[9] != null && !string.IsNullOrEmpty(bn[9].ToString()))
+                    {
+                        amount1 = Convert.ToInt32(bn[9]);
+                    }
+                }
+                catch
+                {
+                    amount1 = 0;
+                }
                 var SoTienUser = amount1.ToString("#,##0");  
             }
             Số dư:
@@ -110,15 +121,25 @@ else
                         <input type="email" class="form-control" id="email" placeholder="Nhập email" value="@bn[3]">
                     </div>
                 </div>
-                @if (bn[6] != null)
+                @if (bn[6] != null && !string.IsNullOrEmpty(bn[6].ToString()) && bn[6].ToString().Trim() != "")
                 {
-                    DateTime birthDate = DateTime.Parse(bn[6].ToString());
-                    var formattedDate = birthDate.ToString("yyyy-MM-dd");
+                    try
+                    {
+                        DateTime birthDate = DateTime.Parse(bn[6].ToString());
+                        var formattedDate = birthDate.ToString("yyyy-MM-dd");
 
-                    <div class="mb-3">
-                        <label for="dob" class="form-label required">Ngày tháng năm sinh</label>
-                        <input type="date" class="form-control" id="dob" value="@formattedDate" required>
-                    </div>
+                        <div class="mb-3">
+                            <label for="dob" class="form-label required">Ngày tháng năm sinh</label>
+                            <input type="date" class="form-control" id="dob" value="@formattedDate" required>
+                        </div>
+                    }
+                    catch
+                    {
+                        <div class="mb-3">
+                            <label for="dob" class="form-label required">Ngày tháng năm sinh</label>
+                            <input type="date" class="form-control" id="dob" required>
+                        </div>
+                    }
                 }
                 else
                 {
@@ -140,7 +161,18 @@ else
             </div>
             <div class="mb-3 fee" style="text-align: end;">
                 @{
-                    var amount = Convert.ToInt32(bs[5]);
+                    int amount = 0;
+                    try
+                    {
+                        if (bs[5] != null && !string.IsNullOrEmpty(bs[5].ToString()))
+                        {
+                            amount = Convert.ToInt32(bs[5]);
+                        }
+                    }
+                    catch
+                    {
+                        amount = 0;
+                    }
                     var SoTien = amount.ToString("#,##0");  
                 }
                     <label for="department" class="form-label">Phí khám:</label>
@@ -193,8 +225,8 @@ else
         const form = document.getElementById('bookingForm');
         if (form.checkValidity()) {
             // Lấy số tiền của người dùng và phí khám
-            const userBalance = @bn[9];
-            const examFee = @bs[5];
+            const userBalance = @(bn[9] != null ? Convert.ToInt32(bn[9]) : 0);
+            const examFee = @(bs[5] != null ? Convert.ToInt32(bs[5]) : 0);
             
             if (userBalance >= examFee) {
                 // Nếu đủ tiền thì hiện modal xác nhận và submit form

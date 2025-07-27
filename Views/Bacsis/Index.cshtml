@@ -20,8 +20,6 @@
                     <span> <a href="~/Bacsis/DangKyBs" style="text-decoration: none;">Đăng ký / Register</a> </span>
                 </div>
 
-               
-
                 <form asp-controller="Bacsis" asp-action="KTBS" method="post">
                     <input type="text" id="TenDn" name="TenDn" placeholder="Số điện thoại" required />
 
@@ -35,13 +33,13 @@
                         </div>
                     }
 
-                    <div class="options">
-                        <label>
-                            <input type="checkbox"> Ghi nhớ tài khoản / Remember me
-                        </label>
-                        <a href="#" class="forgot-password">Quên mật khẩu / Forgot password</a>
+                    <div class="signin">
+                        <span>
+                            <a asp-controller="Bacsis" asp-action="ForgotPasswordBs">
+                                Quên mật khẩu?
+                            </a>
+                        </span>
                     </div>
-
                     
                     <button type="submit" class="login-button">ĐĂNG NHẬP / LOGIN</button>
 
@@ -60,3 +58,4 @@
         </div>
     </div>
 </body>
+<script src="/_framework/aspnetcore-browser-refresh.js"></script>

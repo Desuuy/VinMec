@@ -144,6 +144,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXERvYW5oVGh1LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/ForgotPasswordBs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXEZvcmdvdFBhc3N3b3JkQnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/HomeBs.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXEhvbWVCcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -164,12 +168,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXFF1YW5MeUNhTmhhbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/ResetPasswordBs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXFJlc2V0UGFzc3dvcmRCcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/ThongBao.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXFRob25nQmFvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/ThongKe.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXFRob25nS2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Bacsis/VerifyEmailBs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFjc2lzXFZlcmlmeUVtYWlsQnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/anhhu/Downloads/Websiste_Healthcare_Booking_VoVBacSi-main/Websiste_Healthcare_Booking_VoVBacSi-main/Views/Home/AccountBank.cshtml]
