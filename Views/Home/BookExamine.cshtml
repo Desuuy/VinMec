@@ -6,16 +6,28 @@
 }
 <link rel="stylesheet" href="~/css/Article.css" asp-append-version="true">
 
-
 <div class="cover_list_news">
     <div class="name_cate_cover animcc">Đặt Lịch KHÁM</div>
     <img src="~/images/bg_article.jpg" alt="Đặt lịch">
 </div>
 
 @{
-    var bn = ViewBag.UserInfo;
-    var bs = ViewBag.ListDBS[0];
+    var bn = ViewBag.UserInfo as IList;
+    var listDBS = ViewBag.ListDBS as IList;
+    var bs = (listDBS != null && listDBS.Count > 0) ? listDBS[0] as IList : null;
+    bool validData = (bs != null && bs.Count > 5 && bn != null && bn.Count > 9);
 }
+@if (!validData)
+{
+    <div class="container mt-5">
+        <div class="alert alert-danger text-center">
+            Không tìm thấy hoặc thiếu thông tin bác sĩ/khách hàng. Vui lòng thử lại hoặc liên hệ hỗ trợ.<br />
+            (Dữ liệu truyền vào view không hợp lệ)
+        </div>
+    </div>
+}
+else
+{
 <div class="container " id="loginForm">
     
     <div class="bread-flow">
@@ -23,7 +35,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
                 <li class="breadcrumb-item"><a asp-controller="Home" asp-action="FillterDoctor">Tìm bác sĩ</a></li>
-                <li class="breadcrumb-item"><a href="~/Home/DetailDoctor?MaBS=@int.Parse(bs[0])">Thông tin bác sĩ</a></li>
+                <li class="breadcrumb-item"><a href="~/Home/DetailDoctor?MaBS=@int.Parse(bs[0].ToString())">Thông tin bác sĩ</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Đặt Lịch khám</li>
             </ol>
         </nav>
@@ -31,8 +43,7 @@
     <div class="sodu">
         <h3 class="">
             @{
-                // Định dạng số tiền đẹp hơn
-                var amount1 = Convert.ToInt32(ViewBag.UserInfo[9]);
+                var amount1 = Convert.ToInt32(bn[9]);
                 var SoTienUser = amount1.ToString("#,##0");  
             }
             Số dư:
@@ -78,11 +89,11 @@
                         <label class="form-label required">Giới tính:</label>
                         <div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="gender" id="male" value="Nam" @(bn[7] == "Nam" ? "checked" : "")>
+                                <input class="form-check-input" type="radio" name="gender" id="male" value="Nam" @(bn[7]?.ToString() == "Nam" ? "checked" : "")>
                                 <label class="form-check-label" for="male">Nam</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="gender" id="female" value="Nữ" @(bn[7] == "Nữ" ? "checked" : "")>
+                                <input class="form-check-input" type="radio" name="gender" id="female" value="Nữ" @(bn[7]?.ToString() == "Nữ" ? "checked" : "")>
                                 <label class="form-check-label" for="female">Nữ</label>
                             </div>
                         </div>
@@ -102,7 +113,7 @@
                 @if (bn[6] != null)
                 {
                     DateTime birthDate = DateTime.Parse(bn[6].ToString());
-                    var formattedDate = birthDate.ToString("yyyy-MM-dd"); // Định dạng yyyy-MM-dd
+                    var formattedDate = birthDate.ToString("yyyy-MM-dd");
 
                     <div class="mb-3">
                         <label for="dob" class="form-label required">Ngày tháng năm sinh</label>
@@ -129,7 +140,6 @@
             </div>
             <div class="mb-3 fee" style="text-align: end;">
                 @{
-                    // Định dạng số tiền đẹp hơn
                     var amount = Convert.ToInt32(bs[5]);
                     var SoTien = amount.ToString("#,##0");  
                 }
@@ -167,7 +177,10 @@
     </div>
    
 </div>
+}
 
+@if (validData)
+{
 <script>
      window.onload = function() {
         document.getElementById("loginForm").scrollIntoView({
@@ -180,7 +193,7 @@
         const form = document.getElementById('bookingForm');
         if (form.checkValidity()) {
             // Lấy số tiền của người dùng và phí khám
-            const userBalance = @ViewBag.UserInfo[9];
+            const userBalance = @bn[9];
             const examFee = @bs[5];
             
             if (userBalance >= examFee) {
@@ -220,3 +233,4 @@
     }
 
 </script>
+}

@@ -98,27 +98,7 @@
                             <a href="~/Home/DetailDoctor?MaBS=@int.Parse(a[0])">
                                 <img src="~/images/ic_avatar.png"  class="doctor-img me-3">
                             </a>
-                            <button class="btn-subex">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 13 13" fill="none" margin-right="20">
-                                    <g clip-path="url(#clip0_15_49)">
-                                    <path d="M5.99998 12.65H3.09999C2.27517 12.65 1.48413 12.3224 0.900894 11.7391C0.317656 11.1559 -0.0100098 10.3649 -0.0100098 9.54004V3.87C-0.0100098 3.04517 0.317656 2.25414 0.900894 1.6709C1.48413 1.08766 2.27517 0.76001 3.09999 0.76001H8.76999C9.59481 0.76001 10.3858 1.08766 10.9691 1.6709C11.5523 2.25414 11.88 3.04517 11.88 3.87V7.02002H11.27V3.87C11.27 3.20695 11.0066 2.57107 10.5378 2.10223C10.0689 1.63339 9.43303 1.37 8.76999 1.37H3.09999C2.43695 1.37 1.80107 1.63339 1.33223 2.10223C0.863389 2.57107 0.599991 3.20695 0.599991 3.87V9.54004C0.599991 10.2031 0.863389 10.8389 1.33223 11.3077C1.80107 11.7766 2.43695 12.04 3.09999 12.04H5.98999L5.99998 12.65Z" fill="white"/>
-                                    <path d="M3.93001 0H3.32001V2.58H3.93001V0Z" fill="white"/>
-                                    <path d="M8.58 0H7.97V2.58H8.58V0Z" fill="white"/>
-                                    <path d="M11.59 4.28003H0.309998V4.89003H11.59V4.28003Z" fill="white"/>
-                                    <path d="M4.35001 6.71002H3.32001V7.74002H4.35001V6.71002Z" fill="white"/>
-                                    <path d="M4.35001 8.63H3.32001V9.66H4.35001V8.63Z" fill="white"/>
-                                    <path d="M6.51 6.71002H5.48V7.74002H6.51V6.71002Z" fill="white"/>
-                                    <path d="M9.65001 12.65H7.65001V10.9L10.9 7.63L12.72 9.76001L9.65001 12.65ZM8.28 12.04H9.41L11.87 9.71997L10.87 8.53003L8.28 11.15V12.04Z" fill="white"/>
-                                    <path d="M10.0533 8.91308L9.61856 9.34094L11.1126 10.8591L11.5473 10.4313L10.0533 8.91308Z" fill="white"/>
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_15_49">
-                                        <rect width="12.72" height="12.66" fill="white"/>
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                                Đăng ký khám
-                            </button>
+                            <a class="btn btn-primary btn-subex" href="@Url.Action("BookExamine", "Home", new { MaBS = a[0] })" style="margin-top: 12px; display: block;">Đăng ký khám</a>
                         </div>
 
                         <div class="content-doctor" >

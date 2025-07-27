@@ -5,6 +5,15 @@
 
 <link rel="stylesheet" href="~/css/Article.css" asp-append-version="true">
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
 <div class="wrapper">
     <div id="loginForm" class="container main">
         <div class="form-login">
@@ -132,11 +141,10 @@
             
             const phoneInput = document.getElementById('sdt');
             const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
             const password = document.getElementById('pass').value;
             const repassword = document.getElementById('repass').value;
 
-            if (!phoneInput.value || !username || !email || !password || password !== repassword) {
+            if (!phoneInput.value || !username || !password || password !== repassword) {
                 alert('Vui lòng kiểm tra lại thông tin đăng ký.');
                 return;
             }

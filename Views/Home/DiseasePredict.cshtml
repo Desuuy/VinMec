@@ -1,0 +1,239 @@
+@{
+    ViewData["Title"] = "Dự đoán bệnh";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .predict-card {
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        background: #fff;
+        padding: 2.5rem 2rem 2rem 2rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        transition: box-shadow 0.2s;
+    }
+    .predict-card:hover {
+        box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    }
+    .predict-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1976d2;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.5px;
+    }
+    .predict-desc {
+        color: #555;
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+    }
+    .predict-form label {
+        font-weight: 600;
+        color: #1976d2;
+    }
+    .predict-form textarea {
+        font-size: 1.1rem;
+        border-radius: 10px;
+        border: 1.5px solid #bcdffb;
+        padding: 1rem;
+        min-height: 100px;
+        transition: border 0.2s;
+    }
+    .predict-form textarea:focus {
+        border: 2px solid #1976d2;
+        outline: none;
+    }
+    .predict-btn {
+        font-size: 1.15rem;
+        font-weight: 600;
+        padding: 0.7rem 2.2rem;
+        border-radius: 8px;
+        background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%);
+        color: #fff;
+        border: none;
+        box-shadow: 0 2px 8px rgba(25,118,210,0.08);
+        transition: background 0.2s, box-shadow 0.2s;
+    }
+    .predict-btn:active, .predict-btn:focus {
+        background: linear-gradient(90deg, #1565c0 60%, #1976d2 100%);
+        box-shadow: 0 4px 16px rgba(25,118,210,0.13);
+    }
+    .predict-alert {
+        margin-top: 1.5rem;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        padding: 1rem 1.5rem;
+    }
+    .predict-result-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #388e3c;
+        margin-bottom: 1rem;
+        letter-spacing: 0.2px;
+    }
+    .predict-disease-card {
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(56,142,60,0.07);
+        background: #f7fcf8;
+        padding: 1.2rem 1rem 1rem 1rem;
+        margin-bottom: 1.2rem;
+        border-left: 6px solid #388e3c;
+        position: relative;
+        transition: box-shadow 0.2s;
+    }
+    .predict-disease-card.top1 {
+        background: linear-gradient(90deg, #e3fceb 80%, #fff 100%);
+        border-left: 8px solid #1976d2;
+        box-shadow: 0 4px 16px rgba(25,118,210,0.10);
+    }
+    .predict-disease-name {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #1976d2;
+        margin-bottom: 0.3rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .predict-confidence {
+        font-size: 1.05rem;
+        color: #388e3c;
+        font-weight: 600;
+    }
+    .predict-progress {
+        height: 18px;
+        border-radius: 8px;
+        background: #e3f2fd;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+    }
+    .predict-progress-bar {
+        height: 100%;
+        border-radius: 8px;
+        background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%);
+        color: #fff;
+        font-weight: 600;
+        text-align: right;
+        padding-right: 0.7rem;
+        font-size: 1rem;
+        transition: width 0.7s cubic-bezier(.4,2.2,.2,1);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+   
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-10 col-12">
+            <div class="predict-card">
+                <div class="predict-title">
+                    <i class="fas fa-stethoscope me-2"></i> Dự đoán bệnh từ triệu chứng
+                </div>
+                <div class="predict-desc">
+                    Nhập mô tả triệu chứng bạn đang gặp phải để hệ thống AI gợi ý các bệnh lý có thể liên quan.<br/>
+                    <span style="color:#1976d2;font-weight:500;">Lưu ý:</span> Kết quả chỉ mang tính chất tham khảo.
+                </div>
+                <form asp-action="DiseasePredict" method="post" class="predict-form">
+                    <label for="description" class="form-label">
+                        <i class="fas fa-notes-medical me-1"></i> Mô tả triệu chứng của bạn:
+                    </label>
+                    <textarea id="description" name="description" class="form-control mb-3" rows="5" placeholder="Ví dụ: Tôi bị ho, sốt và khó thở..." required>@(ViewBag.Description ?? "")</textarea>
+                    <button type="submit" class="predict-btn w-100 mb-2">
+                        <i class="fas fa-search me-2"></i> Dự đoán bệnh
+                    </button>
+                </form>
+                @if (!string.IsNullOrEmpty(ViewBag.Error))
+                {
+                    <div class="alert alert-danger predict-alert" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i> @ViewBag.Error
+                    </div>
+                }
+                @if (ViewBag.PredictResult != null)
+                {
+                    var result = ViewBag.PredictResult as dynamic;
+                    if (result?.Predictions != null && result.Predictions.Count > 0)
+                    {
+                        double maxConfidence = 0;
+                        for (int i = 0; i < result.Predictions.Count; i++)
+                        {
+                            var conf = (double)result.Predictions[i].Confidence;
+                            if (conf > maxConfidence) maxConfidence = conf;
+                        }
+                        var maxPercent = maxConfidence * 100;
+                        string advice = "";
+                        if (maxPercent < 30)
+                        {
+                            advice = "Vui lòng nhập mô tả bệnh rõ hơn!";
+                        }
+                        else if (maxPercent < 50)
+                        {
+                            advice = "Triệu chứng của bạn có vẻ bình thường, không có dấu hiệu bệnh lý rõ ràng.";
+                        }
+                        else if (maxPercent < 70)
+                        {
+                            advice = "Bạn nên quan tâm đến sức khỏe hơn, theo dõi thêm các triệu chứng.";
+                        }
+                        else
+                        {
+                            advice = "Đi khám đi có muốn chết không hả!";
+                        }
+                        <div class="alert alert-warning predict-alert text-center fw-bold" role="alert">
+                            <i class="fas fa-info-circle me-2"></i> @advice
+                        </div>
+                        <div class="predict-result-title mt-4">
+                            <i class="fas fa-clipboard-list me-2"></i> Kết quả dự đoán
+                        </div>
+                        @for (int i = 0; i < result.Predictions.Count; i++)
+                        {
+                            var item = result.Predictions[i];
+                            var confidence = (double)item.Confidence;
+                            var confidencePercent = confidence * 100;
+                            var topClass = i == 0 ? "top1" : "";
+                            <div class="predict-disease-card @topClass">
+                                <div class="predict-disease-name">
+                                    @if (i == 0)
+                                    {
+                                        <span class="badge bg-primary ms-2">Khả năng cao</span>
+                                    }
+                                    else{
+                                        <span class="badge bg-secondary ms-2">Khả năng thấp</span>
+                                    }
+                                    <i class="fas fa-virus me-1"></i> @item.Disease
+                                </div>
+                                <div class="predict-progress mb-2">
+                                    <div class="predict-progress-bar" style="width:@confidencePercent.ToString("F1", System.Globalization.CultureInfo.InvariantCulture)%">
+                                        @confidencePercent.ToString("F1")%
+                                    </div>
+                                </div>
+                                <div class="predict-confidence">
+                                    <i class="fas fa-check-circle text-success me-1"></i> Độ tin cậy: @confidencePercent.ToString("F1")%
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Auto-resize textarea
+        const textarea = document.getElementById('description');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        // Loading state for submit button
+        document.querySelector('form').addEventListener('submit', function() {
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Đang xử lý...';
+            submitButton.disabled = true;
+        });
+    </script>
+}

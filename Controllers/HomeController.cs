@@ -13,21 +13,32 @@ using System.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using IOF = System.IO.File;
+using Newtonsoft.Json;
+using System.Text;
+using Websiste_Healthcare_Booking_VoVBacSi_main.Models;
+
+
 
 
 public class HomeController : Controller
 {
-    
+
     private readonly ILogger<HomeController> _logger;
     private readonly ISession _session;
+    private readonly HttpClient _httpClient;
+    private readonly string _apiUrl = "http://localhost:8000/predict";
 
-    public HomeController(ILogger<HomeController> logger, IHttpContextAccessor httpContextAccessor)
+
+    public HomeController(ILogger<HomeController> logger, IHttpContextAccessor httpContextAccessor, HttpClient httpClient)
     {
         _logger = logger;
         _session = httpContextAccessor.HttpContext.Session;
+        _httpClient = httpClient;
+        _httpClient.Timeout = TimeSpan.FromSeconds(30); // Set timeout
     }
 
-    public IActionResult LayoutShare(){
+    public IActionResult LayoutShare()
+    {
         var taikhoan = _session.GetString("taikhoan");
         ViewData["TaiKhoan"] = taikhoan;
 
@@ -45,10 +56,10 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         LayoutShare();
-        DataModel db =new DataModel();
+        DataModel db = new DataModel();
         ViewBag.ListBV = db.get("EXEC getAllBenhVien");
         ViewBag.ListBS5 = db.get("EXEC GetTop7Doctors");
-                
+
         return View();
     }
     public IActionResult Article(string MaBV)
@@ -85,7 +96,7 @@ public class HomeController : Controller
         return View();
     }
 
-    
+
     // ---------- ĐĂNG NHẬP ------------//
     public IActionResult Login()
     {
@@ -127,38 +138,39 @@ public class HomeController : Controller
     public IActionResult RegisterProcess(string TenND, string Password, string sdt, string Email)
     {
         DataModel db = new DataModel();
-        // Đăng ký user với IsEmailVerified = 0
-        var list = db.get($"EXEC REGISTER N'{TenND}', '{Password}', '{sdt}', '{Email}', 0");
-        // Lấy MaND mới nhất theo email và sdt
-        var user = db.get($"SELECT TOP 1 MaND FROM NGUOIDUNG WHERE Email = '{Email}' AND SDT = '{sdt}' ORDER BY MaND DESC");
-        if (user != null && user.Count > 0)
+        // Kiểm tra số điện thoại đã tồn tại chưa
+        var phoneExists = db.get($"SELECT 1 FROM NGUOIDUNG WHERE SDT = '{sdt}'");
+        if (phoneExists != null && phoneExists.Count > 0)
         {
-            int maND = int.Parse(((ArrayList)user[0])[0].ToString());
-            // Sinh OTP
-            Random random = new Random();
-            string otp = random.Next(100000, 999999).ToString();
-            // Xóa OTP cũ nếu có
-            db.get($"DELETE FROM RESET_TOKENS WHERE MaND = {maND}");
-            // Lưu OTP mới
-            db.get($"INSERT INTO RESET_TOKENS (MaND, Token, CreatedAt, ExpiresAt, IsUsed) VALUES ({maND}, '{otp}', GETDATE(), DATEADD(MINUTE, 15, GETDATE()), 0)");
-            // Gửi OTP qua email
-            string subject = "Mã xác thực đăng ký tài khoản";
-            string body = $"Mã xác thực đăng ký tài khoản của bạn là: {otp}. Mã có hiệu lực trong 15 phút.";
-            bool sent = DataModel.SendEmail(Email, subject, body);
-            if (!sent)
-            {
-                TempData["ErrorMessage"] = "Không gửi được email xác thực. Vui lòng thử lại sau.";
-                return RedirectToAction("Register", "Home");
-            }
-            TempData["SuccessMessage"] = $"Đã gửi mã xác thực đến email: {Email}. Vui lòng kiểm tra hộp thư.";
-            TempData["Email"] = Email;
-            return RedirectToAction("VerifyEmail", "Home", new { email = Email });
-        }
-        else
-        {
-            ViewBag.Error = "Đăng ký không thành công. Vui lòng thử lại.";
+            TempData["ErrorMessage"] = "Vui lòng nhập lại";
             return RedirectToAction("Register", "Home");
         }
+        // Kiểm tra email đã tồn tại chưa
+        var emailExists = db.get($"SELECT 1 FROM NGUOIDUNG WHERE Email = '{Email}'");
+        if (emailExists != null && emailExists.Count > 0)
+        {
+            TempData["ErrorMessage"] = "Vui lòng nhập lại";
+            return RedirectToAction("Register", "Home");
+        }
+        // Sinh OTP và lưu vào TempData
+        Random random = new Random();
+        string otp = random.Next(100000, 999999).ToString();
+        TempData["OTP"] = otp;
+        TempData["TenND"] = TenND;
+        TempData["Password"] = Password;
+        TempData["sdt"] = sdt;
+        TempData["Email"] = Email;
+        // Gửi OTP qua email
+        string subject = "Mã xác thực đăng ký tài khoản";
+        string body = $"Mã xác thực đăng ký tài khoản của bạn là: {otp}. Mã có hiệu lực trong 15 phút.";
+        bool sent = DataModel.SendEmail(Email, subject, body);
+        if (!sent)
+        {
+            TempData["ErrorMessage"] = "Không gửi được email xác thực. Vui lòng thử lại sau.";
+            return RedirectToAction("Register", "Home");
+        }
+        TempData["SuccessMessage"] = $"Đã gửi mã xác thực đến email: {Email}. Vui lòng kiểm tra hộp thư.";
+        return RedirectToAction("VerifyEmail", "Home", new { email = Email });
     }
     // ------- Action đăng xuất------- //
     public IActionResult Logout()
@@ -170,63 +182,27 @@ public class HomeController : Controller
     }
     public IActionResult FillterDoctor()
     {
-        try
-        {
-            LayoutShare();
-            DataModel db = new DataModel();
-            
-            // Test connection trước
-            try
-            {
-                var testResult = db.get("SELECT 1 as test");
-                if (testResult == null || testResult.Count == 0)
-                {
-                    throw new Exception("Không thể kết nối database");
-                }
-            }
-            catch (Exception connEx)
-            {
-                TempData["ErrorMessage"] = $"Lỗi kết nối database: {connEx.Message}";
-                return RedirectToAction("Index", "Home");
-            }
-            
-            // Thử query đơn giản trước
-            ViewBag.ListNameDoc = db.get("SELECT MaBS, nd.TenND FROM BACSI bs, NGUOIDUNG nd where bs.MaND = nd.MaND");
-            
-            // Thử stored procedure, nếu lỗi thì dùng query đơn giản
-            try
-            {
-                ViewBag.ListDoc = db.get("Exec getAllBacSi");
-            }
-            catch (Exception spEx)
-            {
-                _logger.LogWarning(spEx, "Stored procedure getAllBacSi không hoạt động, sử dụng fallback query");
-                // Fallback query nếu stored procedure không hoạt động
-                ViewBag.ListDoc = db.get("SELECT bs.MaBS, nd.TenND, bs.HinhAnh, bv.TenBV, kb.TenKB, bs.PhiKham FROM BACSI bs INNER JOIN NGUOIDUNG nd ON bs.MaND = nd.MaND INNER JOIN BENHVIEN bv ON bs.MaBV = bv.MaBV INNER JOIN KHOABENH kb ON bs.MaKB = kb.MaKB");
-            }
-            
-            return View();
-        }
-        catch (Exception ex)
-        {
-            // Log lỗi chi tiết
-            _logger.LogError(ex, "Lỗi trong FillterDoctor action: {Message}", ex.Message);
-            TempData["ErrorMessage"] = $"Lỗi database: {ex.Message}";
-            return RedirectToAction("Index", "Home");
-        }
+        LayoutShare();
+        DataModel db = new DataModel();
+        ViewBag.ListNameDoc = db.get("SELECT MaBS, nd.TenND FROM BACSI bs, NGUOIDUNG nd where bs.MaND = nd.MaND");
+        ViewBag.ListDoc = db.get("Exec getAllBacSi");
+
+        return View();
     }
     public IActionResult FillterDoctorList(string khuvuc, string phikham, string khoabenh, string hocham)
     {
         LayoutShare();
         DataModel db = new DataModel();
-        if(khuvuc != "Null"){
-            khuvuc = "N'"+ khuvuc +"'";
+        if (khuvuc != "Null")
+        {
+            khuvuc = "N'" + khuvuc + "'";
         }
-        if(hocham != "Null" ){
-            hocham = "N'"+ hocham +"'";
+        if (hocham != "Null")
+        {
+            hocham = "N'" + hocham + "'";
         }
         ViewBag.ListDocFill = db.get($"EXEC FILTER_BACSI {khuvuc}, {phikham}, {khoabenh},  {hocham};");
-        
+
         return View();
     }
     public IActionResult DetailDoctor(string MaBS)
@@ -235,7 +211,7 @@ public class HomeController : Controller
 
         DataModel db = new DataModel();
 
-   
+
         // Sử dụng tham số hóa để tránh lỗi
         ViewBag.ListDBS = db.get($"EXEC DetDETAILlBACSI {MaBS}");
 
@@ -245,172 +221,14 @@ public class HomeController : Controller
     public IActionResult ListDoctor()
     {
         LayoutShare();
-        
+
         return View();
     }
 
     // ----- PERSONAL PAGE ------//
-     public IActionResult PersonalPage()
+    public IActionResult PersonalPage()
     {
         LayoutShare();
-        DataModel db = new DataModel();
-        var taikhoan = HttpContext.Session.GetString("taikhoan");
-        ViewData["TaiKhoan"] = taikhoan;
-
-        if (!string.IsNullOrEmpty(taikhoan))
-        {
-            try
-            {
-                DataModel dbPersonal = new DataModel();
-                var parameters = new Dictionary<string, object>
-                {
-                    { "@MaND", taikhoan }
-                };
-                var result = dbPersonal.ExecuteStoredProcedure("GetUserInfo", parameters);
-                if (result != null && result.Count > 0)
-                {
-                    ViewBag.UserInfo = result[0];
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Lỗi khi lấy thông tin user: {Message}", ex.Message);
-                // Fallback query đơn giản - chỉ lấy các cột cơ bản
-                try
-                {
-                    DataModel dbFallback = new DataModel();
-                    var result = dbFallback.get("SELECT MaND, TenND, Password, Email, SDT, DiaChi, SoDuTK from NGUOIDUNG where MaND=" + taikhoan);
-                    if (result != null && result.Count > 0)
-                    {
-                        ViewBag.UserInfo = result[0];
-                    }
-                }
-                catch (Exception fallbackEx)
-                {
-                    _logger.LogError(fallbackEx, "Lỗi fallback khi lấy thông tin user: {Message}", fallbackEx.Message);
-                }
-            }
-        }
-        return View();
-    }
-
-    [HttpPost]
-    public IActionResult UpdateUserInfo(string MaND, string TenND, string Email, 
-                                        string NamSinh, string GioiTinh, 
-                                        string DiaChi, IFormFile Hinhcanhan) 
-    {
-        try
-        {
-            DataModel dbUpdate = new DataModel();
-            int manD = int.Parse(MaND);
-            DateTime parsedDate;
-            string formattedDate;
-            
-            if (DateTime.TryParse(NamSinh, out parsedDate))
-            {
-                formattedDate = parsedDate.ToString("yyyy-MM-dd");
-            }
-            else
-            {
-                formattedDate = "1900-01-01"; // Giá trị mặc định
-            }
-
-            // Lấy thông tin hình ảnh hiện tại
-            var currentUser = dbUpdate.get($"SELECT HinhAnh FROM NGUOIDUNG WHERE MaND = {manD}");
-            string currentImage = "NULL";
-            if (currentUser != null && currentUser.Count > 0)
-            {
-                currentImage = ((ArrayList)currentUser[0])[0]?.ToString() ?? "NULL";
-            }
-
-            string nameFile = currentImage; // Giữ nguyên hình cũ nếu không upload mới
-            
-            if (Hinhcanhan != null && Hinhcanhan.Length > 0)
-            {
-                // Validate file type
-                var allowedTypes = new[] { "image/jpeg", "image/png", "image/gif" };
-                if (!allowedTypes.Contains(Hinhcanhan.ContentType.ToLower()))
-                {
-                    TempData["ErrorMessage"] = "Chỉ chấp nhận file hình ảnh (JPG, PNG, GIF)!";
-                    return RedirectToAction("PersonalPage", "Home");
-                }
-
-                // Validate file size (max 5MB)
-                if (Hinhcanhan.Length > 5 * 1024 * 1024)
-                {
-                    TempData["ErrorMessage"] = "File quá lớn! Vui lòng chọn file nhỏ hơn 5MB.";
-                    return RedirectToAction("PersonalPage", "Home");
-                }
-
-                // Tạo tên file unique
-                string extension = Path.GetExtension(Hinhcanhan.FileName);
-                nameFile = $"avatar_{manD}_{DateTime.Now:yyyyMMddHHmmss}{extension}";
-
-                // Đường dẫn để lưu tệp
-                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads");
-                Directory.CreateDirectory(uploadsFolder); // Tạo thư mục nếu chưa tồn tại
-                string filePath = Path.Combine(uploadsFolder, nameFile);
-                
-                // Lưu tệp
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    Hinhcanhan.CopyTo(stream);
-                }
-
-                // Xóa file cũ nếu có và khác NULL
-                if (currentImage != "NULL" && !string.IsNullOrEmpty(currentImage))
-                {
-                    string oldFilePath = Path.Combine(uploadsFolder, currentImage);
-                    if (IOF.Exists(oldFilePath))
-                    {
-                        try
-                        {
-                            IOF.Delete(oldFilePath);
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogWarning(ex, "Không thể xóa file cũ: {FilePath}", oldFilePath);
-                        }
-                    }
-                }
-            }
- 
-            // Cập nhật thông tin user
-            var updateParameters = new Dictionary<string, object>
-            {
-                { "@MaND", manD },
-                { "@TenND", TenND },
-                { "@Email", Email },
-                { "@NgaySinh", formattedDate == "1900-01-01" ? DBNull.Value : (object)formattedDate },
-                { "@GioiTinh", GioiTinh },
-                { "@DiaChi", DiaChi },
-                { "@HinhAnh", nameFile }
-            };
-            
-            var result = dbUpdate.ExecuteStoredProcedure("UpdateUserInfo", updateParameters);
-            
-            if (result != null && result.Count > 0)
-            {
-                TempData["SuccessMessage"] = "Cập nhật thông tin thành công!";
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Có lỗi xảy ra khi cập nhật thông tin!";
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Lỗi khi cập nhật thông tin user: {Message}", ex.Message);
-            TempData["ErrorMessage"] = "Có lỗi xảy ra: " + ex.Message;
-        }
-
-        return RedirectToAction("PersonalPage", "Home");
-    }
-
-    public IActionResult BookExamine(string MaBS)
-    {
-        LayoutShare();
-
         DataModel db = new DataModel();
         var taikhoan = HttpContext.Session.GetString("taikhoan");
         ViewData["TaiKhoan"] = taikhoan;
@@ -423,81 +241,121 @@ public class HomeController : Controller
                 ViewBag.UserInfo = result[0]; // Lấy dòng đầu tiên của kết quả
             }
         }
+        return View();
+    }
 
-        ViewBag.ListDBS = db.get($"EXEC DetDETAILlBACSI1 {MaBS}");
+    [HttpPost]
+    public IActionResult UpdateUserInfo(string MaND, string TenND, string Email,
+                                        string NamSinh, string GioiTinh,
+                                        string DiaChi, IFormFile Hinhcanhan)
+    {
+        DataModel db = new DataModel();
+        int manD = int.Parse(MaND);
+        DateTime parsedDate = DateTime.Parse(NamSinh);
+        string formattedDate = parsedDate.ToString("yyyy-MM-dd");
+
+        string nameFile = "NULL";
+        if (Hinhcanhan != null)
+        {
+            // lấy tên tệp
+            nameFile = Path.GetFileName(Hinhcanhan.FileName);
+
+            // Đường dẫn để lưu tệp
+            string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads");
+            Directory.CreateDirectory(uploadsFolder); // Tạo thư mục nếu chưa tồn tại
+            string filePath = Path.Combine(uploadsFolder, nameFile);
+            // Lưu tệp
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                Hinhcanhan.CopyTo(stream);
+            }
+        }
+
+        db.get($"EXEC UpdateUserInfo {manD}, N'{TenND}', '{Email}', '{formattedDate}', N'{GioiTinh}', N'{DiaChi}', '{nameFile}' ");
+
+        return RedirectToAction("PersonalPage", "Home");
+    }
+
+    public IActionResult BookExamine(string MaBS)
+    {
+        LayoutShare();
+
+        DataModel db = new DataModel();
+        var taikhoan = HttpContext.Session.GetString("taikhoan");
+        ViewData["TaiKhoan"] = taikhoan;
+
+        // Nếu chưa đăng nhập thì chuyển hướng về trang Login
+        if (string.IsNullOrEmpty(taikhoan))
+        {
+            TempData["ErrorMessage"] = "Vui lòng đăng nhập để đặt lịch khám.";
+            return RedirectToAction("Login", "Home");
+        }
+
+        var result = db.get("SELECT * from NGUOIDUNG where manD=" + taikhoan);
+        if (result != null && result.Count > 0)
+        {
+            ViewBag.UserInfo = result[0]; // Lấy dòng đầu tiên của kết quả
+        }
+        else
+        {
+            TempData["ErrorMessage"] = "Không tìm thấy thông tin người dùng.";
+            return RedirectToAction("Login", "Home");
+        }
+
+        var listDBS = db.get($"EXEC DetDETAILlBACSI1 {MaBS}");
+        if (listDBS == null || listDBS.Count == 0)
+        {
+            TempData["ErrorMessage"] = "Không tìm thấy thông tin bác sĩ.";
+            return RedirectToAction("FillterDoctor", "Home");
+        }
+        ViewBag.ListDBS = listDBS;
 
         return View();
     }
-   [HttpPost]
+    [HttpPost]
     public IActionResult BookExamineProcess(string MaBS, string MoTaBenh, List<IFormFile> HinhAnhBenhs)
     {
-        try
+        DataModel db = new DataModel();
+
+        var taikhoan = HttpContext.Session.GetString("taikhoan");
+        ViewData["TaiKhoan"] = taikhoan;
+        var MaND = taikhoan;
+
+        var result = db.get($"DECLARE @MaHS INT; EXEC SAVEHOSO {MaND}, N'{MoTaBenh}', @MaHS = @MaHS OUTPUT; SELECT @MaHS;");
+        if (result != null && result.Count > 0)
         {
-            DataModel db = new DataModel();
-
-            var taikhoan = HttpContext.Session.GetString("taikhoan");
-            ViewData["TaiKhoan"] = taikhoan;
-            
-            if (string.IsNullOrEmpty(taikhoan))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            
-            var MaND = taikhoan;
-
-            // Lưu hồ sơ bệnh
-            var result = db.get($"DECLARE @MaHS INT; EXEC SAVEHOSO {MaND}, N'{MoTaBenh}', @MaHS = @MaHS OUTPUT; SELECT @MaHS;");
-            if (result == null || result.Count == 0)
-            {
-                TempData["ErrorMessage"] = "Có lỗi xảy ra khi lưu hồ sơ bệnh";
-                return RedirectToAction("BookExamine", "Home", new { MaBS = MaBS });
-            }
-            
-            var MaHS = int.Parse(((ArrayList)result[0])[0].ToString());
-            
-            // Lưu hình ảnh bệnh
-            if (HinhAnhBenhs != null && HinhAnhBenhs.Count > 0)
-            {
-                foreach (var file in HinhAnhBenhs)
-                {
-                    if (file.Length > 0)
-                    {
-                        // lấy tên tệp
-                        string nameFile = Path.GetFileName(file.FileName);
-
-                        // Đường dẫn để lưu tệp
-                        string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads");
-                        Directory.CreateDirectory(uploadsFolder); // Tạo thư mục nếu chưa tồn tại
-                        string filePath = Path.Combine(uploadsFolder, nameFile);
-                        // Lưu tệp
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            file.CopyTo(stream);
-                        }
-                        
-                        db.get($"EXEC SAVEHINHANHBENH {MaHS}, '{nameFile}'");
-                    }
-                }
-            }
-
-            // Lưu cuộc hẹn khám
-            db.get($"EXEC SAVECUOCHENKHAM {MaND}, {MaBS}, {MaHS}, null");
-
-            TempData["SuccessMessage"] = "Đặt lịch khám thành công! Vui lòng chờ bác sĩ xác nhận.";
-            return RedirectToAction("ExamineHistory", "Home");
+            ViewBag.MaHS = result[0]; // Lấy dòng đầu tiên của kết quả
         }
-        catch (Exception ex)
+        var MaHS = int.Parse(ViewBag.MaHS[0].ToString());
+
+        foreach (var file in HinhAnhBenhs)
         {
-            TempData["ErrorMessage"] = "Có lỗi xảy ra: " + ex.Message;
-            return RedirectToAction("BookExamine", "Home", new { MaBS = MaBS });
+            // lấy tên tệp
+            string nameFile = Path.GetFileName(file.FileName);
+
+            // Đường dẫn để lưu tệp
+            string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads");
+            Directory.CreateDirectory(uploadsFolder); // Tạo thư mục nếu chưa tồn tại
+            string filePath = Path.Combine(uploadsFolder, nameFile);
+            // Lưu tệp
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                file.CopyTo(stream);
+            }
+
+            db.get($"EXEC SAVEHINHANHBENH {MaHS}, '{nameFile}'");
         }
+
+        db.get($"EXEC SAVECUOCHENKHAM {MaND}, {MaBS}, {MaHS}, null");
+
+        return RedirectToAction("Index", "Home");
     }
 
 
     public IActionResult ExamineHistory()
     {
         LayoutShare();
-        
+
         var taikhoan = HttpContext.Session.GetString("taikhoan");
         ViewData["TaiKhoan"] = taikhoan;
         var MaND = taikhoan;
@@ -512,7 +370,7 @@ public class HomeController : Controller
     {
         DataModel db = new DataModel();
         ViewBag.List = db.get("EXEC DeleteCHKbyID " + maCHK);
-        
+
         return RedirectToAction("ExamineHistory", "Home");
     }
 
@@ -545,51 +403,57 @@ public class HomeController : Controller
 
         return RedirectToAction("AccountBank", "Home");
     }
-    
-    
+
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
     // ---------- CHỨC NĂNG ĐỔI MẬT KHẨU ------------//
     public IActionResult ChangePassword()
     {
         LayoutShare();
         var taikhoan = HttpContext.Session.GetString("taikhoan");
-        
+
         if (string.IsNullOrEmpty(taikhoan))
         {
             return RedirectToAction("Login", "Home");
         }
-        
+
         ViewData["TaiKhoan"] = taikhoan;
         return View();
     }
-    
+
     [HttpPost]
     public IActionResult ChangePasswordProcess(string currentPassword, string newPassword, string confirmPassword)
     {
         var taikhoan = HttpContext.Session.GetString("taikhoan");
-        
+
         if (string.IsNullOrEmpty(taikhoan))
         {
             TempData["ErrorMessage"] = "Vui lòng đăng nhập để thực hiện chức năng này.";
             return RedirectToAction("Login", "Home");
         }
-        
+
         // Kiểm tra mật khẩu mới và xác nhận mật khẩu
         if (string.IsNullOrEmpty(newPassword) || newPassword.Length < 6)
         {
             TempData["ErrorMessage"] = "Mật khẩu mới phải có ít nhất 6 ký tự.";
             return RedirectToAction("ChangePassword", "Home");
         }
-        
+
         if (newPassword != confirmPassword)
         {
             TempData["ErrorMessage"] = "Mật khẩu xác nhận không khớp.";
             return RedirectToAction("ChangePassword", "Home");
         }
-        
+
         try
         {
             DataModel db = new DataModel();
-            
+
             // Kiểm tra mật khẩu hiện tại
             var parameters = new Dictionary<string, object>
             {
@@ -597,13 +461,13 @@ public class HomeController : Controller
                 { "@CurrentPassword", currentPassword }
             };
             var checkCurrentPassword = db.ExecuteStoredProcedure("CheckCurrentPassword", parameters);
-            
+
             if (checkCurrentPassword == null || checkCurrentPassword.Count == 0)
             {
                 TempData["ErrorMessage"] = "Mật khẩu hiện tại không đúng.";
                 return RedirectToAction("ChangePassword", "Home");
             }
-            
+
             // Cập nhật mật khẩu mới
             var updateParameters = new Dictionary<string, object>
             {
@@ -611,7 +475,7 @@ public class HomeController : Controller
                 { "@NewPassword", newPassword }
             };
             int rowsAffected = db.ExecuteNonQuery("UpdatePassword", updateParameters);
-            
+
             if (rowsAffected > 0)
             {
                 TempData["SuccessMessage"] = "Đổi mật khẩu thành công!";
@@ -629,14 +493,13 @@ public class HomeController : Controller
             return RedirectToAction("ChangePassword", "Home");
         }
     }
-    
     // ---------- CHỨC NĂNG QUÊN MẬT KHẨU ------------//
     public IActionResult ForgotPassword()
     {
         LayoutShare();
         return View();
     }
-    
+
     [HttpPost]
     public IActionResult ForgotPasswordProcess(string email)
     {
@@ -682,13 +545,13 @@ public class HomeController : Controller
             return RedirectToAction("ForgotPassword", "Home");
         }
     }
-    
+
     public IActionResult ResetPassword()
     {
         LayoutShare();
         return View();
     }
-    
+
     [HttpPost]
     public IActionResult ResetPasswordProcess(string email, string token, string newPassword, string confirmPassword)
     {
@@ -732,7 +595,7 @@ public class HomeController : Controller
             return RedirectToAction("ResetPassword", "Home");
         }
     }
-    
+
     public IActionResult VerifyEmail(string email)
     {
         LayoutShare();
@@ -743,70 +606,75 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult VerifyEmailProcess(string email, string otp)
     {
-        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(otp))
-        {
-            TempData["ErrorMessage"] = "Vui lòng nhập đầy đủ thông tin.";
-            return RedirectToAction("VerifyEmail", new { email });
-        }
-        try
+        string sentOtp = TempData["OTP"] as string;
+        string TenND = TempData["TenND"] as string;
+        string Password = TempData["Password"] as string;
+        string sdt = TempData["sdt"] as string;
+        string Email = TempData["Email"] as string;
+        if (sentOtp == otp && email == Email)
         {
             DataModel db = new DataModel();
-            // Lấy MaND mới nhất theo email
-            var user = db.get($"SELECT TOP 1 MaND FROM NGUOIDUNG WHERE Email = '{email}' ORDER BY MaND DESC");
-            if (user == null || user.Count == 0)
-            {
-                TempData["ErrorMessage"] = "Email không tồn tại.";
-                return RedirectToAction("VerifyEmail", new { email });
-            }
-            int maND = int.Parse(((ArrayList)user[0])[0].ToString());
-            // Kiểm tra OTP đúng user, chưa dùng, chưa hết hạn
-            var tokenCheck = db.get($"SELECT 1 FROM RESET_TOKENS WHERE MaND = {maND} AND Token = '{otp}' AND IsUsed = 0 AND ExpiresAt > GETDATE()");
-            if (tokenCheck == null || tokenCheck.Count == 0)
-            {
-                TempData["ErrorMessage"] = "Mã xác thực không hợp lệ hoặc đã hết hạn.";
-                return RedirectToAction("VerifyEmail", new { email });
-            }
-            // Cập nhật xác thực email
-            db.get($"UPDATE NGUOIDUNG SET IsEmailVerified = 1 WHERE MaND = {maND}");
-            db.get($"UPDATE RESET_TOKENS SET IsUsed = 1 WHERE MaND = {maND} AND Token = '{otp}'");
-            TempData["SuccessMessage"] = "Xác thực email thành công! Bạn có thể đăng nhập.";
+            // Đăng ký user với IsEmailVerified = 1
+            var list = db.get($"EXEC REGISTER N'{TenND}', '{Password}', '{sdt}', '{Email}', 1");
+            TempData["SuccessMessage"] = "Đăng ký thành công. Bạn có thể đăng nhập.";
             return RedirectToAction("Login", "Home");
         }
-        catch (Exception ex)
+        else
         {
-            TempData["ErrorMessage"] = "Có lỗi xảy ra: " + ex.Message;
-            return RedirectToAction("VerifyEmail", new { email });
+            TempData["ErrorMessage"] = "Mã xác thực không đúng hoặc đã hết hạn. Vui lòng thử lại.";
+            return RedirectToAction("VerifyEmail", "Home", new { email = email });
         }
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult DiseasePredict()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        LayoutShare();
+        return View();
     }
 
-    // Thêm action để xem database
-    public IActionResult ViewDatabase()
+    [HttpPost]
+    public async Task<IActionResult> DiseasePredict(string description)
     {
-        try
+        LayoutShare();
+        ViewBag.Description = description;
+        if (string.IsNullOrWhiteSpace(description))
         {
-            DataModel db = new DataModel();
-            
-            // Lấy danh sách các bảng
-            ViewBag.Tables = db.get("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
-            
-            // Lấy dữ liệu từ một số bảng quan trọng
-            ViewBag.Users = db.get("SELECT TOP 10 * FROM NGUOIDUNG");
-            ViewBag.Doctors = db.get("SELECT TOP 10 * FROM BACSI");
-            ViewBag.Hospitals = db.get("SELECT TOP 10 * FROM BENHVIEN");
-            ViewBag.Articles = db.get("SELECT TOP 10 * FROM BAIVIET");
-            
+            ViewBag.Error = "Vui lòng nhập mô tả triệu chứng";
             return View();
         }
-        catch (Exception ex)
+
+        try
         {
-            TempData["ErrorMessage"] = "Lỗi kết nối database: " + ex.Message;
-            return RedirectToAction("Index", "Home");
+            var requestBody = new { text = description.Trim() };
+            var json = JsonConvert.SerializeObject(requestBody);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(_apiUrl, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var resultString = await response.Content.ReadAsStringAsync();
+                var predictResult = JsonConvert.DeserializeObject<PredictionResponse>(resultString);
+                ViewBag.PredictResult = predictResult;
+            }
+            else
+            {
+                ViewBag.Error = $"API trả về lỗi: {response.StatusCode}";
+            }
         }
+        catch (HttpRequestException)
+        {
+            ViewBag.Error = "Không thể kết nối đến API dự đoán. Vui lòng kiểm tra server Python có đang chạy không.";
+        }
+        catch (TaskCanceledException)
+        {
+            ViewBag.Error = "Yêu cầu bị timeout. Vui lòng thử lại.";
+        }
+        catch (Exception)
+        {
+            ViewBag.Error = "Có lỗi xảy ra khi xử lý yêu cầu.";
+        }
+        return View();
     }
 }
+

@@ -3,7 +3,6 @@
     Layout = null;
     <link rel="stylesheet" href="~/css/HenLichKham.css" asp-append-version="true" />
     var tennd = Context.Session.GetString("tennd");
-    
     // Lời chào theo thời gian
     var hour = DateTime.Now.Hour;
     string greeting;
@@ -30,7 +29,6 @@
         <a href="@Url.Action("Index", "Home")">
             <img src="/Hinh/logo_2bd10ad933.svg" asp-append-version="true" alt="Logo VinMec" style="width: 100px; height: auto;">
         </a>
-      
         <span>@greeting Bác Sĩ: @tennd</span>
     </div>
     <div class="time-display">
@@ -60,37 +58,20 @@
 </div>
 
 <script>
-    // Cập nhật thời gian real-time
+    // Cập nhật thời gian real-time cho header bác sĩ
     function updateTime() {
         const now = new Date();
-        
-        // Format thời gian
         const timeString = now.toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
         });
-        
-        // Format ngày tháng
         const dateString = now.toLocaleDateString('vi-VN', {
-            weekday: 'long',
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
+            weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric'
         });
-        
-        // Cập nhật DOM
         const timeElement = document.querySelector('.current-time');
         const dateElement = document.querySelector('.current-date');
-        
         if (timeElement) timeElement.textContent = timeString;
         if (dateElement) dateElement.textContent = dateString;
     }
-    
-    // Cập nhật mỗi giây
     setInterval(updateTime, 1000);
-    
-    // Cập nhật ngay khi trang load
     document.addEventListener('DOMContentLoaded', updateTime);
 </script>

@@ -1,268 +1,75 @@
 @{
-    Layout = "~/Views/Shared/_AdminLayout.cshtml"; // Use the common layout
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xác Nhận Đăng Ký Bác Sĩ</title>
-    <style>
-        /* General styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
-        }
-
-        .main-content {
-            width: 80%;
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: #fdfdfd;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-
-        th, td {
-            padding: 8px 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-        }
-
-        tr:nth-child(even) td {
-            background-color: #f7f7f7;
-        }
-
-        /* Action buttons */
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        button {
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-
-        button.reject {
-            background-color: #dc3545;
-        }
-
-        button.reject:hover {
-            background-color: #c82333;
-        }
-
-        /* Modal styling */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 15% auto;
-            padding: 20px;
-            border-radius: 8px;
-            width: 400px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .modal-content input {
-            width: 90%;
-            padding: 8px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .modal-content button {
-            margin: 5px;
-            padding: 8px 16px;
-        }
-
-        /* New styles for table container and title */
-        .table-container {
-            margin-top: 20px;
-        }
-
-        .table-title {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #4CAF50;
-        }
-
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: #fdfdfd;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-
-        .admin-table th {
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-        }
-
-        .admin-table tr:nth-child(even) td {
-            background-color: #f7f7f7;
-        }
-
-        .btn-approve {
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-approve:hover {
-            background-color: #218838;
-        }
-
-        .btn-reject {
-            background-color: #dc3545;
-            color: #fff;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-reject:hover {
-            background-color: #c82333;
-        }
-    </style>
-</head>
-<body>
-    <div class="main-content">
-        <div class="table-container">
-            <div class="table-title">Danh Sách Đơn Đăng Ký Bác Sĩ</div>
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Mã Bác Sĩ</th>
-                        <th>Tên Bác Sĩ</th>
-                        <th>Chuyên Khoa</th>
-                        <th>Chuyên Môn</th>
-                        <th>Giới Tính</th>
-                        <th>Quá Trình Công Tác</th>
-                        <th>Thao Tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (ViewBag.listDDK != null && ViewBag.listDDK.Count > 0)
-                    {
-                        foreach (var d in ViewBag.listDDK)
-                        {
-                            <tr>
-                                <td>@d[12]</td>
-                                <td>
-                                    <a href="~/Admin/ChiTietDonDangKy?mabs=@d[12]">@d[1]</a>
-                                </td>
-                                <td>@d[18]</td>
-                                <td>@d[28]</td>
-                                <td>@d[7]</td>
-                                <td>@d[33]</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button onclick="openModal('@d[12]')" class="btn-approve">Duyệt</button>
-                                        <form action="~/Admin/HuyDonDangKy" method="post" style="display: inline;">
-                                            <input type="hidden" name="mabs" value="@d[12]" />
-                                            <button type="submit" name="action" value="reject" class="btn-reject">Từ Chối</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
+<div class="doctor-register-container">
+    <h2 class="title">Danh Sách Đơn Đăng Ký Bác Sĩ</h2>
+    <div class="table-responsive">
+        <table class="table table-hover doctor-table align-middle">
+            <thead>
+                <tr>
+                    <th>Mã Bác Sĩ</th>
+                    <th>Tên Bác Sĩ</th>
+                    <th>Chuyên Khoa</th>
+                    <th>Giới Tính</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.listDDK != null && ViewBag.listDDK.Count > 0)
+                {
+                    foreach (var d in ViewBag.listDDK)
                     {
                         <tr>
-                            <td colspan="7" style="text-align: center;">Không có đơn đăng ký bác sĩ nào</td>
+                            <td>@d[12]</td>
+                            <td>
+                                <a href="~/Admin/ChiTietDonDangKy?mabs=@d[12]" class="doctor-link">@d[1]</a>
+                            </td>
+                            <td>@d[18]</td>
+                            <td>@d[7]</td>
+                            <td>
+                                <div class="doctor-action-buttons">
+                                    <button class="btn btn-success btn-sm px-3" onclick="openModal('@d[12]')"><i class="fas fa-check me-1"></i> Duyệt</button>
+                                    <form action="~/Admin/HuyDonDangKy" method="post" style="display: inline;">
+                                        <input type="hidden" name="mabs" value="@d[12]" />
+                                        <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm px-3"><i class="fas fa-times me-1"></i> Từ Chối</button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                     }
-                </tbody>
-            </table>
-        </div>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" style="text-align: center;">Không có đơn đăng ký bác sĩ nào</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-
     <!-- Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <h2>Nhập Số Tiền Khám</h2>
+    <div id="modal" class="doctor-modal">
+        <div class="doctor-modal-content">
+            <h4>Xác nhận duyệt bác sĩ</h4>
             <form id="approveForm" action="~/Admin/DuyetBacSi" method="post">
                 <input type="hidden" name="mabs" id="mabsInput" />
-                <input type="number" name="sotienkham" placeholder="Nhập số tiền khám" required />
-                <button type="submit">Xác Nhận</button>
-                <button type="button" onclick="closeModal()">Hủy</button>
+                <div class="input-group mb-3" style="max-width: 350px; margin: 0 auto;">
+                    <input type="number" name="sotienkham" placeholder="Nhập số tiền khám" required class="form-control" />
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-check me-1"></i> Xác Nhận</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="closeModal()"><i class="fas fa-times me-1"></i> Hủy</button>
+                </div>
             </form>
         </div>
     </div>
-
-    <script>
-        function openModal(mabs) {
-            document.getElementById('mabsInput').value = mabs;
-            document.getElementById('modal').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
-    </script>
-</body>
-</html>
+</div>
+@section Scripts {
+<script>
+    function openModal(mabs) {
+        document.getElementById('mabsInput').value = mabs;
+        document.getElementById('modal').style.display = 'flex';
+    }
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+</script>
+}

@@ -327,6 +327,18 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        // Modern header clock
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('vi-VN', { hour12: true });
+            const date = now.toLocaleDateString('vi-VN', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
+            document.getElementById('clock-time').textContent = time;
+            document.getElementById('clock-date').textContent = date;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

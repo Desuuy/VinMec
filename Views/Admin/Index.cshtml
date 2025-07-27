@@ -1,3 +1,190 @@
 @{
-    Layout ="~/Views/Shared/_AdminLayout.cshtml"; ; // This disables the layout for this specific view
+    Layout ="~/Views/Shared/_AdminLayout.cshtml";
+    var totalUsers = ViewBag.TotalUsers ?? "0";
+    var totalDoctors = ViewBag.TotalDoctors ?? "0";
+    var totalRevenue = ViewBag.TotalRevenue ?? "0";
+    var totalCompleted = ViewBag.TotalCompleted ?? "0";
+    var totalIncome = ViewBag.TotalIncome ?? "0";
+    var chartData = ViewBag.ChartData ?? "[]";
+    var selectedYear = ViewBag.SelectedYear ?? DateTime.Now.Year;
+    var years = ViewBag.Years as System.Collections.IEnumerable;
+    var topDoctors = ViewBag.TopDoctors as System.Collections.IEnumerable;
+    var chartType = Context.Request.Query["chartType"].ToString();
+    if (string.IsNullOrEmpty(chartType)) chartType = "line";
+    
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+    .dashboard-cards { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 32px; }
+    .dashboard-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(2,136,209,0.10);
+        padding: 32px 24px;
+        min-width: 220px;
+        flex: 1;
+        text-align: left;
+        margin-bottom: 16px;
+    }
+    .dashboard-card .label { font-size: 1.1rem; color: #0288d1; font-weight: 600; }
+    .dashboard-card .value { font-size: 2.1rem; color: #01579b; font-weight: 700; }
+    .dashboard-card .unit { font-size: 1.1rem; color: #0288d1; }
+    .dashboard-card.bg-revenue { background: #fffde7; }
+    .dashboard-card.bg-users { background:#f8b500; }
+    .dashboard-card.bg-doctors { background: linear-gradient(90deg,#e0f7fa 60%,#b2ebf2 100%); }
+    .dashboard-card.bg-completed { background: linear-gradient(90deg,#ffeaea 60%,#fff 100%); }
+    .dashboard-card.bg-income { background: #e3fcec; border: 2px solid #43a047; }
+    .dashboard-card.bg-income .label { color: #43a047; }
+    .dashboard-card.bg-income .value { color: #1b5e20; }
+    .dashboard-section { background: #fff; border-radius: 18px; box-shadow: 0 4px 24px rgba(2,136,209,0.10); padding: 36px 32px 28px 32px; margin-bottom: 32px; }
+    .dashboard-section h2 { color: #0288d1; font-size: 1.5rem; font-weight: 700; margin-bottom: 24px; text-align: left; }
+    .table-top-doctors th, .table-top-doctors td { vertical-align: middle; }
+
+</style>
+<div class="dashboard-cards">
+    <div class="dashboard-card bg-users">
+        <div class="label"><i class="fas fa-users me-2"></i>Tổng người dùng</div>
+        <div class="value">@totalUsers</div>
+    </div>
+    <div class="dashboard-card bg-doctors">
+        <div class="label"><i class="fas fa-user-md me-2"></i>Tổng bác sĩ</div>
+        <div class="value">@totalDoctors</div>
+    </div>
+    <div class="dashboard-card bg-revenue">
+        <div class="label"><i class="fas fa-money-bill me-2"></i>Tổng doanh thu</div>
+        <div class="value">@String.Format("{0:#,##0}", totalRevenue) <span class="unit">VNĐ</span></div>
+    </div>
+    
+    <div class="dashboard-card bg-completed">
+        <div class="label"><i class="fas fa-calendar-check me-2"></i>Tổng lịch hẹn hoàn thành</div>
+        <div class="value">@totalCompleted</div>
+    </div>
+    <div class="dashboard-card bg-income">
+        <div class="label"><i class="fas fa-piggy-bank me-2"></i>Tổng thu nhập (30%)</div>
+        <div class="value">@String.Format("{0:#,##0}", totalIncome) <span class="unit">VNĐ</span></div>
+    </div>
+</div>
+<div class="dashboard-section">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+        <h2 class="mb-0">Biểu đồ doanh thu & lịch hẹn hoàn thành theo tháng</h2>
+        <form method="get" class="d-flex align-items-center" style="gap:8px;">
+            <label for="year" class="form-label mb-0 me-2">Năm:</label>
+            <select name="year" id="year" class="form-select" style="width:auto;" onchange="this.form.submit()">
+                @if (years != null)
+                {
+                    foreach (System.Collections.ArrayList row in years)
+                    {
+                        var y = row[0];
+                        <option value="@y" selected="@(y.ToString() == selectedYear.ToString() ? "selected" : null)">@y</option>
+                    }
+                }
+            </select>
+            <label for="chartType" class="form-label mb-0 ms-3 me-2">Biểu đồ:</label>
+            <select name="chartType" id="chartType" class="form-select" style="width:auto;" onchange="this.form.submit()">
+                <option value="line" selected="@(chartType=="line" ? "selected" : null)">Đường (Line)</option>
+                <option value="bar" selected="@(chartType=="bar" ? "selected" : null)">Cột (Bar)</option>
+            </select>
+        </form>
+    </div>
+    <canvas id="chart-stat" height="80"></canvas>
+</div>
+<div class="dashboard-section">
+    <h2>Bác sĩ có số lịch hẹn hoàn thành nhiều nhất</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-top-doctors">
+            <thead>
+                <tr>
+                    <th>Hạng</th>
+                    <th>Tên bác sĩ</th>
+                    <th>Số lịch hoàn thành</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (topDoctors != null)
+                {
+                    int rank = 1;
+                    foreach (System.Collections.ArrayList row in topDoctors)
+                    {
+                        <tr>
+                            <td>@rank</td>
+                            <td>@row[1]</td>
+                            <td>@row[2]</td>
+                        </tr>
+                        rank++;
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="3">Không có dữ liệu</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const chartData = @Html.Raw(chartData);
+    const months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+    let dataLich = Array(12).fill(0);
+    let dataDoanhThu = Array(12).fill(0);
+    chartData.forEach(row => {
+        const thang = parseInt(row[0]) - 1;
+        dataLich[thang] = parseInt(row[1]);
+        dataDoanhThu[thang] = parseInt(row[2]);
+    });
+    const chartType = '@chartType';
+    const ctx = document.getElementById('chart-stat').getContext('2d');
+    new Chart(ctx, {
+        type: chartType,
+        data: {
+            labels: months,
+            datasets: [
+                {
+                    label: 'Lịch hoàn thành',
+                    data: dataLich,
+                    backgroundColor: chartType === 'bar' ? 'rgba(2,136,209,0.7)' : 'rgba(2,136,209,0.2)',
+                    borderColor: 'rgba(2,136,209,1)',
+                    borderWidth: 2,
+                    borderRadius: chartType === 'bar' ? 8 : 0,
+                    fill: chartType === 'line',
+                    tension: 0.3
+                },
+                {
+                    label: 'Doanh thu (VNĐ)',
+                    data: dataDoanhThu,
+                    backgroundColor: chartType === 'bar' ? 'rgba(255,193,7,0.7)' : 'rgba(255,193,7,0.2)',
+                    borderColor: 'rgba(255,193,7,1)',
+                    borderWidth: 2,
+                    borderRadius: chartType === 'bar' ? 8 : 0,
+                    fill: chartType === 'line',
+                    tension: 0.3,
+                    yAxisID: 'y1',
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Lịch hoàn thành' }
+                },
+                y1: {
+                    beginAtZero: true,
+                    position: 'right',
+                    grid: { drawOnChartArea: false },
+                    title: { display: true, text: 'Doanh thu (VNĐ)' }
+                }
+            }
+        }
+    });
+</script>
 }

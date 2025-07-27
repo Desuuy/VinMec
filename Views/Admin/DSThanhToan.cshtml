@@ -1,5 +1,12 @@
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml"; // Sử dụng layout chung
+    int total = 0;
+    foreach (var tt in ViewBag.litsTT)
+    {
+        int soTien = 0;
+        int.TryParse(tt[2]?.ToString().Replace(" VND", "").Replace(",", ""), out soTien);
+        total += soTien;
+    }
 }
 <!DOCTYPE html>
 <html lang="vi">
@@ -16,6 +23,32 @@
             padding: 0;
         }
 
+        .statistic-box {
+            background: #f5faff;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            padding: 24px 32px;
+            margin: 30px auto 10px auto;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .statistic-box h2 {
+            color: #007bff;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .statistic-box .stat-value {
+            color: #d90707;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .statistic-box .stat-label {
+            color: #333;
+            font-size: 1.1rem;
+        }
+        /* Table styling */
         .content-container {
             margin: 0 auto;
             max-width: 1200px; /* Tăng chiều rộng container */
@@ -32,7 +65,6 @@
             margin-bottom: 20px;
         }
 
-        /* Table styling */
         table {
             width: 100%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng container */
             border-collapse: collapse;
@@ -117,6 +149,11 @@
     </style>
 </head>
 <body>
+    <div class="statistic-box">
+        <h2>Tổng số tiền thanh toán</h2>
+        <div class="stat-value">@total.ToString("N0") VND</div>
+        <div class="stat-label">Tổng cộng tất cả giao dịch trong danh sách</div>
+    </div>
     <div class="content-container">
         <h1>Danh Sách Thanh Toán</h1>
 
@@ -128,7 +165,6 @@
                     <th>Người Thanh Toán</th>
                     <th>Số Tiền</th>
                     <th>Thời Gian Thanh Toán</th>
-                    <th>Chi Trả Hẹn Khám</th>
                     <th>Lý Do Hoàn Phí</th>
                     <th>Ngày Hoàn Phí</th>
                     <th>Thao Tác</th>
@@ -142,14 +178,12 @@
                         <td>@tt[3]</td> 
                         <td>@tt[2] VND</td> 
                         <td>@tt[1]</td> 
-                        <td>@tt[4]</td> 
                         <td>@tt[5]</td>
                         <td>@tt[6]</td>
                         <td>
                             <div class="action-buttons">
-                                <form action="~/Admin/HoanPhiKham" method="post" style="display:inline;" onsubmit="return checkAmount('@tt[2]', '@tt[0]')">
-                                    <input type="hidden" name="mathanhtoan" value="@tt[0]" />
-                                    <button type="submit" class="edit" id="submitButton_@tt[0]">Hoàn phí khám</button>
+                                <form>
+                                    <button type="button" class="edit" onclick="alertRefundNotAvailable()" title="Chức năng chưa phát triển">Hoàn phí khám</button>
                                 </form>
                             </div>
                         </td>
@@ -158,6 +192,12 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Modal nhập lý do hoàn phí (đã ẩn vì chức năng chưa phát triển) -->
+    <!--
+    <div id="refundModal" style="display:none;"></div>
+    <div id="modalOverlayRefund" style="display:none;"></div>
+    -->
 
     <script>
         // Kiểm tra và hiển thị thông báo nếu có từ TempData
@@ -184,6 +224,36 @@
                 return false; // Prevent form submission
             }
             return true; // Proceed with form submission
+        }
+
+        let currentRefundId = null;
+        function openRefundModal(id) {
+            currentRefundId = id;
+            document.getElementById('refundReasonInput').value = '';
+            document.getElementById('refundModal').style.display = 'block';
+            document.getElementById('modalOverlayRefund').style.display = 'block';
+            document.getElementById('currentRefundId').value = id;
+            return false;
+        }
+        function closeRefundModal() {
+            document.getElementById('refundModal').style.display = 'none';
+            document.getElementById('modalOverlayRefund').style.display = 'none';
+        }
+        function submitRefund() {
+            const reason = document.getElementById('refundReasonInput').value.trim();
+            if (!reason) {
+                alert('Vui lòng nhập lý do hoàn phí!');
+                return;
+            }
+            const id = document.getElementById('currentRefundId').value;
+            document.getElementById('refundReason_' + id).value = reason;
+            // Submit form
+            document.querySelector(`#paymentRow_${id} form`).submit();
+            closeRefundModal();
+        }
+
+        function alertRefundNotAvailable() {
+            alert('Chức năng hoàn phí khám hiện chưa phát triển. Vui lòng quay lại sau.');
         }
     </script>
 </body>

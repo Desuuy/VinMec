@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.SignalR.Protocol;
 using System.Collections;
 using Newtonsoft.Json;
 using System.Globalization;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Web;
 
 namespace DAPMBSVOV.Controllers
 {
@@ -17,60 +20,131 @@ namespace DAPMBSVOV.Controllers
     public class AdminController : Controller
     {
         private readonly ILogger<AdminController> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private ISession _session => _httpContextAccessor.HttpContext.Session;
 
-        public AdminController(ILogger<AdminController> logger)
+        public AdminController(ILogger<AdminController> logger, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public IActionResult Index()
+        private bool IsAdminLoggedIn()
         {
-            if (TempData["AdminLoggedIn"] is not bool isLoggedIn || !isLoggedIn)
-            {
-                return RedirectToAction("AdminLogin");
-            }
+            return _session.GetString("AdminLoggedIn") == "true";
+        }
 
+        private IActionResult RedirectIfNotLoggedIn()
+        {
+            if (!IsAdminLoggedIn())
+                return RedirectToAction("AdminLogin");
+            return null;
+        }
+
+        public IActionResult Index(int? year)
+        {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
+            int selectedYear = year ?? DateTime.Now.Year;
+
+            // Tổng số người dùng
+            ArrayList slnd_sql = db.get($"SELECT COUNT(*) FROM NGUOIDUNG where MaPQ = 2");
+            ArrayList row = (ArrayList)slnd_sql[0];
+            var users = int.Parse(row[0].ToString());
+            ViewBag.TotalUsers = users;
+
+            // Tổng số bác sĩ
+            ArrayList slbs_sql = db.get($"SELECT COUNT(*) FROM BACSI");
+            ArrayList rowbs = (ArrayList)slbs_sql[0];
+            var doctors = int.Parse(rowbs[0].ToString());
+            ViewBag.TotalDoctors = doctors;
+
+            // Tổng doanh thu
+            ArrayList sldt_sql = db.get($"SELECT ISNULL(SUM(SoTienTT),0) FROM CUOCHENKHAM WHERE MaTTCH = 4");
+            ArrayList rowdt = (ArrayList)sldt_sql[0];
+            var totalRevenue = int.Parse(rowdt[0].ToString());
+            ViewBag.TotalRevenue = totalRevenue;
+
+            // Tổng thu nhập (30% của tổng doanh thu)
+            var totalIncome = (int)(totalRevenue * 0.3);
+            ViewBag.TotalIncome = totalIncome;
+
+            // Tổng lịch hẹn đã hoàn thành
+            ArrayList slht_sql = db.get($"SELECT COUNT(*) FROM CUOCHENKHAM WHERE MaTTCH = 4");
+            ArrayList rowht = (ArrayList)slht_sql[0];
+            var totalCompleted = int.Parse(rowht[0].ToString());
+            ViewBag.TotalCompleted = totalCompleted;
+
+            // Biểu đồ doanh thu và lịch hẹn hoàn thành theo tháng trong năm
+            var chartData = db.get($@"
+                SELECT MONTH(ThoiGianHen) as Thang, 
+                       COUNT(*) as SoLichHoanThanh, 
+                       ISNULL(SUM(SoTienTT),0) as DoanhThu 
+                FROM CUOCHENKHAM 
+                WHERE MaTTCH = 4 AND YEAR(ThoiGianHen) = {selectedYear}
+                GROUP BY MONTH(ThoiGianHen)
+                ORDER BY Thang");
+            ViewBag.ChartData = Newtonsoft.Json.JsonConvert.SerializeObject(chartData);
+            ViewBag.SelectedYear = selectedYear;
+
+            // Danh sách năm có dữ liệu
+            var years = db.get("SELECT DISTINCT YEAR(ThoiGianHen) FROM CUOCHENKHAM WHERE MaTTCH = 4 ORDER BY YEAR(ThoiGianHen) DESC");
+            ViewBag.Years = years;
+
+            // Top bác sĩ có số lịch hoàn thành nhiều nhất
+            var topDoctors = db.get($@"
+                SELECT TOP 10 bs.MaBS, nd.TenND, COUNT(*) as SoLichHoanThanh
+                FROM CUOCHENKHAM ck
+                JOIN BACSI bs ON ck.MaBS = bs.MaBS
+                JOIN NGUOIDUNG nd ON bs.MaND = nd.MaND
+                WHERE ck.MaTTCH = 4
+                GROUP BY bs.MaBS, nd.TenND
+                ORDER BY SoLichHoanThanh DESC");
+            ViewBag.TopDoctors = topDoctors;
+
             return View();
         }
 
-        public IActionResult AdminLogin() 
+        public IActionResult AdminLogin()
         {
-            DataModel db = new DataModel();
-            return View(); 
+            return View();
         }
-
 
         [HttpPost]
         public IActionResult XuLyAdminLogin(string sdt, string password)
         {
             DataModel db = new DataModel();
             ViewBag.list = db.get("EXEC CheckAdminLogin '" + sdt + "', '" + password + "';");
-            
             if (ViewBag.list != null && ViewBag.list.Count > 0)
             {
                 // Đăng nhập thành công
-                TempData["AdminLoggedIn"] = true; // Lưu trạng thái đăng nhập
-                TempData["Success"] = "Đăng nhập thành công!";
+                _session.SetString("AdminLoggedIn", "true");
                 return RedirectToAction("Index", "Admin");
             }
             else
             {
-                // Đăng nhập thất bại
                 TempData["Error"] = "Số điện thoại hoặc mật khẩu không chính xác!";
                 return RedirectToAction("AdminLogin", "Admin");
             }
         }
 
+        public IActionResult Logout()
+        {
+            _session.Remove("AdminLoggedIn");
+            return RedirectToAction("AdminLogin", "Admin");
+        }
 
         // Bài viết
         public IActionResult DMBaiViet()
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.listLBV = db.get("SELECT * from LOAIBAIVIET");
             ViewBag.listBV = db.get("SELECT * from BAIVIET");
             ViewBag.listKB = db.get("SELECT * from KHOABENH");
-            return View(); 
+            return View();
         }
         [HttpPost]
     public IActionResult ThemBaiViet(string tieudebv, string noidungbv, string makb, 
@@ -203,6 +277,8 @@ namespace DAPMBSVOV.Controllers
         // Chuyên ngành
         public IActionResult DMChuyenNganh()
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.listCN = db.get("SELECT * from CHUYENNGANH");
             return View(); 
@@ -247,6 +323,8 @@ namespace DAPMBSVOV.Controllers
 
         public IActionResult TimChuyenNganh(string macn) 
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.list = db.get("EXEC sp_TimChuyenNganhTheoMa " + macn + ";");
             return View();
@@ -292,6 +370,8 @@ namespace DAPMBSVOV.Controllers
         [HttpPost]
         public IActionResult XoaChuyenNganh(string macn) 
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             try
             {
@@ -311,6 +391,8 @@ namespace DAPMBSVOV.Controllers
         // Khoa bệnh
         public IActionResult DMKhoaBenh()
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.listKB = db.get("SELECT * from KHOABENH");
             return View(); 
@@ -319,6 +401,8 @@ namespace DAPMBSVOV.Controllers
         [HttpPost]
         public IActionResult ThemKhoaBenh(string tenkb, string mota)
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.list = db.get("EXEC sp_ThemKhoaBenh N'" + tenkb + "', N'" + mota + "';");
             return RedirectToAction("DMKhoaBenh", "Admin");
@@ -327,6 +411,8 @@ namespace DAPMBSVOV.Controllers
         [HttpPost]
         public IActionResult XoaKhoaBenh(string id)
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             try
             {
@@ -344,6 +430,8 @@ namespace DAPMBSVOV.Controllers
 
         public IActionResult TimKhoaBenh(string makb) 
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.list = db.get("EXEC sp_TimKhoaBenhTheoMa " + makb + ";");
             return View();
@@ -352,6 +440,8 @@ namespace DAPMBSVOV.Controllers
         [HttpPost]
         public IActionResult SuaKhoaBenh(string makb, string tenkb, string mota)
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.list = db.get("EXEC sp_SuaKhoaBenh " + makb + ",N'" + tenkb + "', N'" + mota + "';");
             return RedirectToAction("DMKhoaBenh", "Admin");
@@ -361,6 +451,8 @@ namespace DAPMBSVOV.Controllers
         // Bệnh viện
         public IActionResult DMBenhVien()
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.list = db.get("SELECT * from BENHVIEN");
             return View();
@@ -404,6 +496,8 @@ namespace DAPMBSVOV.Controllers
 
         public IActionResult TimBenhVien(string mabv) 
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.list = db.get("EXEC sp_TimBenhVienTheoMa " + mabv + ";");
             return View();
@@ -449,6 +543,8 @@ namespace DAPMBSVOV.Controllers
         [HttpPost]
         public IActionResult XoaBenhVien(string mabv) 
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             try
             {
@@ -466,22 +562,40 @@ namespace DAPMBSVOV.Controllers
         // End Bệnh viện
 
         // Bệnh nhân
-        public IActionResult HoSoBenhNhan()
+        public IActionResult HoSoBenhNhan(string q = null)
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
-            ViewBag.list = db.get("EXEC GetPatientsWithoutDoctor");
+            ArrayList list;
+            if (!string.IsNullOrEmpty(q))
+            {
+                // Tìm kiếm tên gần đúng, không phân biệt hoa thường
+                list = db.get($"SELECT * FROM NGUOIDUNG WHERE MaPQ = 2 AND TenND LIKE N'%{q.Replace("'", "''")}%'");
+            }
+            else
+            {
+                list = db.get("SELECT * FROM NGUOIDUNG WHERE MaPQ = 2");
+            }
+            ViewBag.list = list;
+            ViewBag.TotalPatients = list.Count;
+            ViewBag.SearchQuery = q;
             return View();
         }
 
         public IActionResult ChiTietBenhNhan(string id)
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
-            ViewBag.list = db.get("EXEC GetPatientDetailsByUser_Id " +id+ ";" );
+            ViewBag.list = db.get($"SELECT * FROM NGUOIDUNG WHERE MaND = {id}");
             return View();
         }
 
         public IActionResult SreachBenhNhan(string tenbn)
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.list = db.get("EXEC SearchPatient N'" +tenbn+ "';" );
             return View();
@@ -491,6 +605,8 @@ namespace DAPMBSVOV.Controllers
         [HttpPost]
         public IActionResult XoaBenhNhan(string mabn) 
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             try
             {
@@ -510,15 +626,31 @@ namespace DAPMBSVOV.Controllers
 
 
         // Bác sĩ
-        public IActionResult HoSoBacSi(string mapq)
+        public IActionResult HoSoBacSi(string q = null)
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
-            ViewBag.list = db.get("EXEC GetDoctorDetailsByRoleId " +3+ ";");
+            ArrayList list;
+            if (!string.IsNullOrEmpty(q))
+            {
+                // Tìm kiếm tên gần đúng, không phân biệt hoa thường
+                list = db.get($@"SELECT bs.MaBS, nd.TenND, bs.ChuyenKhoa, bs.ChuyenMon, nd.GioiTinh, bs.QuaTrinhCongTac, bs.MaND FROM BACSI bs JOIN NGUOIDUNG nd ON bs.MaND = nd.MaND WHERE nd.TenND LIKE N'%{q.Replace("'", "''")}%'");
+            }
+            else
+            {
+                list = db.get("SELECT bs.MaBS, nd.TenND, bs.ChuyenKhoa, bs.ChuyenMon, nd.GioiTinh, bs.QuaTrinhCongTac, bs.MaND FROM BACSI bs JOIN NGUOIDUNG nd ON bs.MaND = nd.MaND");
+            }
+            ViewBag.list = list;
+            ViewBag.TotalDoctors = list.Count;
+            ViewBag.SearchQuery = q;
             return View();
         }
 
         public IActionResult ChiTietBacSi(string id)
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.list = db.get("EXEC GetDoctorDetailsByUser_Id " +id+ ";" );
             return View();
@@ -526,6 +658,8 @@ namespace DAPMBSVOV.Controllers
 
         public IActionResult SreachBacSi(string tenbs)
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.list = db.get("EXEC SearchDoctorByName N'" +tenbs+ "';" );
             return View();
@@ -534,6 +668,8 @@ namespace DAPMBSVOV.Controllers
         [HttpPost]
         public IActionResult XoaBacSi(string mabs) 
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             try
             {
@@ -551,6 +687,8 @@ namespace DAPMBSVOV.Controllers
 
         public IActionResult DonDangKyBacSi()
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.listDDK = db.get("EXEC GetPatientsByDoctor");
             return View();
@@ -558,6 +696,8 @@ namespace DAPMBSVOV.Controllers
 
         public IActionResult ChiTietDonDangKy(string mabs) 
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.list = db.get("EXEC GetDoctorDetails " + mabs + ";");
             return View();
@@ -565,6 +705,8 @@ namespace DAPMBSVOV.Controllers
 
         [HttpPost]
         public IActionResult DuyetBacSi(string mabs, string sotienkham) {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.list = db.get("EXEC ConfirmDoctor " + mabs + "," + sotienkham + ";");
             return RedirectToAction("DonDangKyBacSi", "Admin");
@@ -573,6 +715,8 @@ namespace DAPMBSVOV.Controllers
         [HttpPost]
         public IActionResult HuyDonDangKy(string mabs)
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.list = db.get("EXEC DeleteDoctorRegistration " + mabs + ";");
             return RedirectToAction("DonDangKyBacSi", "Admin");
@@ -583,6 +727,8 @@ namespace DAPMBSVOV.Controllers
         //Lịch khám
         public IActionResult LichKhamBenh()
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.listLH = db.get("EXEC GetAppointmentDetails");
             return View();
@@ -593,6 +739,8 @@ namespace DAPMBSVOV.Controllers
         //Đánh giá
         public IActionResult DanhGiaPhanHoi() 
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.listDG = db.get("EXEC GetAllRatings ");
             return View();
@@ -603,6 +751,8 @@ namespace DAPMBSVOV.Controllers
         //Thống kê
         public IActionResult ThongKe() 
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
 
             ViewBag.listTKLK = JsonConvert.SerializeObject(db.get("EXEC ThongKeLuotKhamTheoThang"));
@@ -616,6 +766,8 @@ namespace DAPMBSVOV.Controllers
         //Thông báo
         public IActionResult ThongBaoBV()
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.listTB = db.get("EXEC LayDanhSachThongBao ");
             ViewBag.listND = db.get("SELECT * from NGUOIDUNG ");
@@ -648,6 +800,8 @@ namespace DAPMBSVOV.Controllers
         [HttpPost]
         public IActionResult XoaThongBao(string matb)
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             try
             {
@@ -669,16 +823,34 @@ namespace DAPMBSVOV.Controllers
         //Thanh toán
         public IActionResult DSThanhToan()
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
             ViewBag.litsTT = db.get("EXEC LayDanhSachThanhToan");
             return View();
         }
 
         [HttpPost]       
-        public IActionResult HoanPhiKham(string matt)
+        public IActionResult HoanPhiKham(string mathanhtoan, string refundReason)
         {
+            var redirect = RedirectIfNotLoggedIn();
+            if (redirect != null) return redirect;
             DataModel db = new DataModel();
-            ViewBag.list = db.get("EXEC HoanPhiKham " +matt);
+            try
+            {
+                // Gọi stored procedure mới với lý do hoàn phí
+                var parameters = new Dictionary<string, object>
+                {
+                    { "@MaTT", mathanhtoan },
+                    { "@RefundReason", refundReason ?? "" }
+                };
+                db.ExecuteStoredProcedure("HoanPhiKham", parameters);
+                TempData["Message"] = "Hoàn phí thành công!";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Lỗi hoàn phí: " + ex.Message;
+            }
             return RedirectToAction("DSThanhToan", "Admin");
         }
 

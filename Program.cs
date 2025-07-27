@@ -10,6 +10,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true; // Đảm bảo cookie cần thiết cho ứng dụng
 });
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient();
 
 // Thêm SignalR vào container
 builder.Services.AddSignalR();
@@ -45,4 +46,5 @@ app.MapControllerRoute(
 // Định tuyến SignalR Hub
 
 
+app.Run(); // Khởi chạy ứng dụng
 app.Run(); // Khởi chạy ứng dụng
