@@ -168,7 +168,6 @@ Dự án này được phân phối dưới giấy phép MIT. Xem file `LICENSE`
 
 ## 📞 Liên hệ
 
-- Email: [your-email@example.com]
 - GitHub: [https://github.com/Desuuy]
 - Project Link: [https://github.com/Desuuy/VinMec]
 
